@@ -26,11 +26,13 @@
 
 #define READ 0
 #define WRITE 1
+#define CHILD 0
 
 typedef enum e_node_type
 {
 	PIPE,
-	CMD,
+	EXT_CMD,
+	BUILTIN,
 	AND,
 	OR
 } t_node_type;
