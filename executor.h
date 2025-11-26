@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <fcntl.h>
 #include <dirent.h>
 #include <stdlib.h>
@@ -43,6 +44,7 @@ typedef struct s_node
 	struct s_node	*left;
 	struct s_node	*right;
 	char			**cmds;
+	bool			is_pipeline;
 	char			redirections;
 	
 } t_node;
