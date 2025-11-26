@@ -11,38 +11,58 @@
 /* ************************************************************************** */
 
 #include "executor.h"
-/* 
-**	agora o que falta é:
-**	entender a questão dos exits() e dos waits() na arvore de processos, como evitar zombie processes
-**	entender se o pipe precisa ser fechado e como fazer isso
-**	handle redirections(): logica para configurar as redirs a partir das infos que temos no node
-**	o que é envp?
- */
-static void	pipe_logic(t_node *node, char **envp);
-static void	exec_left(int pip[2], t_node *node, char **envp);
-static void	exec_right(int pip[2], t_node *node, char **envp);
 
-void    execute_tree(t_node *node, char **envp)
+static void	pipe_logic(t_node *node);
+static void	exec_left(int pip[2], t_node *node);
+static void	exec_right(int pip[2], t_node *node);
+
+void    execute_tree(t_node *node)
 {
 	pid_t	exec_pid;
 
     if (!node)
         return;
     if (node->type == PIPE)
-		pipe_logic(node, envp);
+		pipe_logic(node);
 	else
 	{
 		handle_redirections(node->redirections);
 		if (node->type == EXT_CMD)
-			exec_cmd(node, envp);
+			exec_cmd(node);
 		else if (node->is_pipeline && node->type == BUILTIN)
-			exec_forked_builtin(node, envp);
+			exec_forked_builtin(node);
 		else if (node->type == BUILTIN)
-			exec_builtin(node, envp);
+			exec_builtin(node);
 	}
 }
+int	exec_forked_builtin(node)
+{
+	pid_t	pid;
 
-static void	pipe_logic(t_node *node, char **envp)
+	pid = fork();
+	if (pid == CHILD)
+		exec_builtin(node);
+	wait(NULL);
+	return (1);
+}
+
+int	exec_builtin(t_node *node)
+{
+	t_builtin	builtin_table[N_BUILTINS];
+	int			i;
+
+	init_builtin_table(builtin_table);
+	i = 0;
+    while (i < N_BUILTINS)
+    {
+        if (strcmp(node->cmds[0], builtin_table[i].name) == 0)
+			return (builtin_table[i].func(node->cmds, get_envs(node)));
+        i++;
+    }
+    return -1;
+}
+
+static void	pipe_logic(t_node *node)
 {
     pid_t	left_pid;
     pid_t	right_pid;
@@ -55,38 +75,47 @@ static void	pipe_logic(t_node *node, char **envp)
 	}
 	left_pid = fork();
 	if (left_pid == CHILD)
-		exec_left(pip, node, envp);
+		exec_left(pip, node);
 	close(pip[WRITE]);
 	right_pid = fork();
 	if (right_pid == CHILD)
-		exec_right(pip, node, envp);
+		exec_right(pip, node);
 	close(pip[READ]);
 	wait(NULL);
 	wait(NULL);
 }
 
-static void	exec_left(int pip[2], t_node *node, char **envp)
+static void	exec_left(int pip[2], t_node *node)
 {
 	close(pip[READ]);
 	dup2(pip[WRITE], STDOUT_FILENO);
 	close(pip[WRITE]);
-	execute_tree(node->left, envp);
+	execute_tree(node->left);
 	exit(0);
 }
 
-static void	exec_right(int pip[2], t_node *node, char **envp)
+static void	exec_right(int pip[2], t_node *node)
 {
 	dup2(pip[READ], STDIN_FILENO);
 	close(pip[READ]);
-	execute_tree(node->right, envp);
+	execute_tree(node->right);
 	exit(0);
 }
 
-void	exec_cmd(t_node *node, char **envp)
+void	exec_cmd(t_node *node)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == CHILD)
-		execve(get_path(node->cmds), node->argv, envp);
+	{
+		if (execve(get_path(node->cmds), node->cmds, get_envs(node)) == -1)
+		{
+			free_stuff(node);
+			perror("Execve");
+			exit(1);
+		}
+	}
+	wait(NULL);
+	free_stuff(node);
 }

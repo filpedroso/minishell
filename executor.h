@@ -25,11 +25,18 @@
 #include <sys/errno.h>
 #include <sys/ioctl.h>
 
-#define READ 0
-#define WRITE 1
-#define CHILD 0
+#define READ	0
+#define WRITE	1
+#define CHILD		0
+#define N_BUILTINS	7
 
-typedef enum e_node_type
+typedef struct	s_builtin
+{
+    char	*name;
+    int		(*func)(char **args, char **envp);
+} t_builtin;
+
+typedef enum	e_node_type
 {
 	PIPE,
 	EXT_CMD,
@@ -38,15 +45,24 @@ typedef enum e_node_type
 	OR
 } t_node_type;
 
-typedef struct s_node
+typedef struct	s_list
+{
+	char			*var_name;
+	char			*value;
+	struct s_list	*next;
+	struct s_list	*previous;
+} t_list;
+
+typedef struct	s_node
 {
 	t_node_type		type;
 	struct s_node	*left;
 	struct s_node	*right;
 	char			**cmds;
+	t_list			*env_list;
+	t_list			*inline_env_list;
 	bool			is_pipeline;
 	char			redirections;
-	
 } t_node;
 
 #endif
