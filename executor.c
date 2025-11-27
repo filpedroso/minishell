@@ -62,6 +62,30 @@ int	exec_builtin(t_node *node)
     return -1;
 }
 
+void    init_buitin_table(t_builtin table[N_BUILTINS])
+{
+    table[0].name = "echo";
+    table[0].func = &ft_echo;
+
+    table[1].name = "cd";
+    table[1].func = &ft_cd;
+
+    table[2].name = "pwd";
+    table[2].func = &ft_pwd;
+
+    table[3].name = "export";
+    table[3].func = &ft_export;
+
+    table[4].name = "unset";
+    table[4].func = &ft_unset;
+
+    table[5].name = "env";
+    table[5].func = &ft_env;
+
+    table[6].name = "exit";
+    table[6].func = &ft_exit;
+}
+
 static void	pipe_logic(t_node *node)
 {
     pid_t	left_pid;
