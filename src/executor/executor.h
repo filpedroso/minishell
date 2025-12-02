@@ -1,0 +1,74 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/22 16:52:35 by fpedroso          #+#    #+#             */
+/*   Updated: 2025/11/22 16:52:35 by fpedroso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
+
+#include <unistd.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/errno.h>
+#include <sys/ioctl.h>
+
+#include "test_tree.h"
+
+#define READ		0
+#define WRITE		1
+#define CHILD		0
+#define N_BUILTINS	7
+
+typedef enum	e_node_type
+{
+	PIPE,
+	EXT_CMD,
+	BUILTIN,
+	AND,
+	OR
+} t_node_type;
+
+typedef struct	s_builtin
+{
+    char	*name;
+    int		(*func)(char **args, char **envp);
+} t_builtin;
+
+typedef struct	s_list
+{
+	char			*var_name;
+	char			*value;
+	struct s_list	*next;
+	struct s_list	*previous;
+} t_list;
+
+typedef struct	s_node
+{
+	t_node_type		type;
+	struct s_node	*left;
+	struct s_node	*right;
+	char			**cmds;
+	char			**envs;
+	t_list			*env_list;
+	t_list			*inline_env_list;
+	bool			is_pipeline;
+	char			*redirections;
+} t_node;
+
+char	*get_path(char **cmds, char **envp);
+
+#endif

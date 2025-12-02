@@ -1,0 +1,38 @@
+>>> readline:
+reads a line from the CLI that the user typed
+
+>>> rl_clear_history:
+clears command history
+
+>>> rl_on_new_line:
+often used together, the first tells Readline to place the prompt here (after printing some output)
+the second redraws the line buffer on terminal (the prompt)
+
+>>> rl_redisplay:
+Change what's displayed on the screen to reflect the current contents of 'rl_line_buffer'
+
+>>> rl_replace_line:
+Replaces the current contents of the editing buffer with the given string.
+Useful if your program wants to programmatically change what the user is typing.
+rl_replace_line(const char *text, int clear_undo)
+clear_undo = 1 → undo history for the line is cleared.
+clear_undo = 0 → undo history is preserved.
+
+
+>>> add_history:
+
+>>> printf, malloc, free, write
+
+>>> access:
+
+>>> open, read, close, fork, wait, waitpid
+
+>>> wait3, wait4:
+
+signal,
+sigaction, sigemptyset, sigaddset, kill, exit,
+getcwd, chdir, stat, lstat, fstat, unlink, execve,
+dup, dup2, pipe, opendir, readdir, closedir,
+strerror, perror, isatty, ttyname, ttyslot, ioctl,
+getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
+tgetnum, tgetstr, tgoto, tputs

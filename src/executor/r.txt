@@ -1,0 +1,12 @@
+.
+├── builtins.c
+├── executor.c
+├── executor.h
+├── get_path.c
+├── r.txt
+└── tests
+    ├── test_tree.c
+    └── test_tree.h
+
+2 directories, 7 files
+jacare
