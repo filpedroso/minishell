@@ -37,10 +37,15 @@ typedef enum	e_node_type
 {
 	PIPE,
 	EXT_CMD,
-	BUILTIN,
-	AND,
-	OR
+	BUILTIN
 } t_node_type;
+
+typedef enum	e_target_type
+{
+	FD,
+	FILENAME,
+	HEREDOC_DELIMITER
+} t_target_type;
 
 typedef struct	s_builtin
 {
@@ -48,25 +53,43 @@ typedef struct	s_builtin
     int		(*func)(char **args, char **envp);
 } t_builtin;
 
-typedef struct	s_list
+typedef struct	s_var_list
 {
-	char			*var_name;
+	char			*env_var;
 	char			*value;
 	struct s_list	*next;
 	struct s_list	*previous;
-} t_list;
+} t_var_list;
+
+typedef struct	s_env_vars
+{
+	t_var_list	persistent_envs;
+	t_var_list	inline_envs;
+} t_env_vars;
+
+typedef struct	s_redirection
+{
+	int				source_fd;
+	char			*type;
+	char			*target;
+	t_target_type	target_type;
+} t_redirection;
+
+typedef struct	s_command
+{
+	char			**args;
+	t_redirection	*redirections;
+	int				redirections_count;
+	t_env_vars		env_vars;
+} t_command;
 
 typedef struct	s_node
 {
 	t_node_type		type;
 	struct s_node	*left;
 	struct s_node	*right;
-	char			**cmds;
-	char			**envs;
-	t_list			*env_list;
-	t_list			*inline_env_list;
+	t_command		cmd;
 	bool			is_pipeline;
-	char			*redirections;
 } t_node;
 
 char	*get_path(char **cmds, char **envp);

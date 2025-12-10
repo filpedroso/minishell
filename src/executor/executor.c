@@ -12,7 +12,7 @@
 
 #include "executor.h"
 
-static void	pipe_logic(t_node *node);
+static void	recursive_pipe_logic(t_node *node);
 static void	exec_left(int pip[2], t_node *node);
 static void	exec_right(int pip[2], t_node *node);
 static void init_builtin_table(t_builtin table[N_BUILTINS]);
@@ -23,20 +23,34 @@ static int	exec_builtin(t_node *node);
 void    execute_tree(t_node *node)
 {
     if (!node)
-        return;
+		return;
+	expand_wildcards(node->cmd.args);
     if (node->type == PIPE)
-		pipe_logic(node);
+	{
+		recursive_pipe_logic(node);
+	}
 	else
 	{
-		handle_redirections(node->redirections);
-		if (node->type == EXT_CMD)
-			exec_cmd(node);
-		else if (node->is_pipeline && node->type == BUILTIN)
-			exec_forked_builtin(node);
-		else if (node->type == BUILTIN)
-			exec_builtin(node);
+		command_logic(node);
 	}
 }
+
+void	command_logic(t_node *node)
+{
+	handle_redirections(node->cmd);
+	if (node->type == EXT_CMD)
+		exec_cmd(node);
+	else if (node->is_pipeline && node->type == BUILTIN)
+		exec_forked_builtin(node);
+	else if (node->type == BUILTIN)
+		exec_builtin(node);
+}
+
+void	handle_redirections(t_node *node)
+{
+	
+}
+
 static int	exec_forked_builtin(t_node *node)
 {
 	pid_t	pid;
@@ -88,7 +102,7 @@ void    init_builtin_table(t_builtin table[N_BUILTINS])
     table[6].func = &ft_exit;
 }
 
-static void	pipe_logic(t_node *node)
+static void	recursive_pipe_logic(t_node *node)
 {
     pid_t	left_pid;
     pid_t	right_pid;
