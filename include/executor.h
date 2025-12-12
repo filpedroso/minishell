@@ -25,63 +25,15 @@
 #include <sys/types.h>
 #include <sys/errno.h>
 #include <sys/ioctl.h>
+#include "libft.h"
 
-#include "test_tree.h"
 
-#define READ		0
-#define WRITE		1
-#define CHILD		0
-#define N_BUILTINS	7
+#define READ			0
+#define WRITE			1
+#define CHILD			0
+#define N_BUILTINS		7
+#define N_REDIR_CASES	6
 
-typedef enum	e_node_type
-{
-	PIPE,
-	EXT_CMD,
-	BUILTIN
-} t_node_type;
-
-typedef enum	e_target_type
-{
-	FD,
-	FILENAME,
-	HEREDOC_DELIMITER
-} t_target_type;
-
-typedef struct	s_builtin
-{
-    char	*name;
-    int		(*func)(char **args, char **envp);
-} t_builtin;
-
-typedef struct	s_var_list
-{
-	char			*env_var;
-	char			*value;
-	struct s_list	*next;
-	struct s_list	*previous;
-} t_var_list;
-
-typedef struct	s_env_vars
-{
-	t_var_list	persistent_envs;
-	t_var_list	inline_envs;
-} t_env_vars;
-
-typedef struct	s_redirection
-{
-	int				source_fd;
-	char			*type;
-	char			*target;
-	t_target_type	target_type;
-} t_redirection;
-
-typedef struct	s_command
-{
-	char			**args;
-	t_redirection	*redirections;
-	int				redirections_count;
-	t_env_vars		env_vars;
-} t_command;
 
 typedef struct	s_node
 {
@@ -92,6 +44,57 @@ typedef struct	s_node
 	bool			is_pipeline;
 } t_node;
 
+typedef enum	e_node_type
+{
+	PIPE,
+	EXT_CMD,
+	BUILTIN
+} t_node_type;
+
+typedef struct	s_command
+{
+	char			**args;
+	t_redirection	*redirections;
+	int				redirections_count;
+	t_env_vars		env_vars;
+} t_command;
+
+typedef struct	s_redirection
+{
+	t_redirection_type	type;
+	char				*arg;
+	char				*target;
+} t_redirection;
+
+typedef enum	e_redirection_type
+{
+	IN,
+	OUT,
+	APPEND,
+	HEREDOC
+} t_redirection_type;
+
+typedef struct	s_env_vars
+{
+	t_var_list	persistent_envs;
+	t_var_list	inline_envs;
+} t_env_vars;
+
+typedef struct	s_var_list
+{
+	char			*env_var;
+	char			*value;
+	struct s_list	*next;
+	struct s_list	*previous;
+} t_var_list;
+
+typedef struct	s_builtin
+{
+    char	*name;
+    int		(*func)(char **args, char **envp);
+} t_builtin;
+
 char	*get_path(char **cmds, char **envp);
+void	handle_redirections(t_command cmd);
 
 #endif

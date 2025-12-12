@@ -6,13 +6,13 @@
 /*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 16:51:07 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/01 18:16:21 by fpedroso         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:41:11 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-static void	recursive_pipe_logic(t_node *node);
+static void	pipe_logic(t_node *node);
 static void	exec_left(int pip[2], t_node *node);
 static void	exec_right(int pip[2], t_node *node);
 static void init_builtin_table(t_builtin table[N_BUILTINS]);
@@ -23,32 +23,20 @@ static int	exec_builtin(t_node *node);
 void    execute_tree(t_node *node)
 {
     if (!node)
-		return;
-	expand_wildcards(node->cmd.args);
+        return;
     if (node->type == PIPE)
-	{
-		recursive_pipe_logic(node);
-	}
+		pipe_logic(node);
 	else
 	{
-		command_logic(node);
+		handle_redirections(node->cmd);
+		if (node->type == EXT_CMD)
+			exec_cmd(node);
+		else if (node->is_pipeline && node->type == BUILTIN)
+			exec_forked_builtin(node);
+		else if (node->type == BUILTIN)
+			exec_builtin(node);
 	}
-}
-
-void	command_logic(t_node *node)
-{
-	handle_redirections(node->cmd);
-	if (node->type == EXT_CMD)
-		exec_cmd(node);
-	else if (node->is_pipeline && node->type == BUILTIN)
-		exec_forked_builtin(node);
-	else if (node->type == BUILTIN)
-		exec_builtin(node);
-}
-
-void	handle_redirections(t_node *node)
-{
-	
+	clean_temp_files();
 }
 
 static int	exec_forked_builtin(t_node *node)
@@ -71,7 +59,7 @@ static int	exec_builtin(t_node *node)
 	i = 0;
     while (i < N_BUILTINS)
     {
-        if (strcmp(node->cmds[0], builtin_table[i].name) == 0)
+        if (ft_strcmp(node->cmds[0], builtin_table[i].name) == 0)
 			return (builtin_table[i].func(node->cmds, node->envs));
         i++;
     }
@@ -102,7 +90,7 @@ void    init_builtin_table(t_builtin table[N_BUILTINS])
     table[6].func = &ft_exit;
 }
 
-static void	recursive_pipe_logic(t_node *node)
+static void	pipe_logic(t_node *node)
 {
     pid_t	left_pid;
     pid_t	right_pid;
