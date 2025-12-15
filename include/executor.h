@@ -41,22 +41,28 @@ typedef struct	s_node
 	struct s_node	*left;
 	struct s_node	*right;
 	t_command		cmd;
-	bool			is_pipeline;
 } t_node;
 
 typedef enum	e_node_type
 {
 	PIPE,
-	EXT_CMD,
-	BUILTIN
+	CMD
 } t_node_type;
+
+typedef enum	e_cmd_type
+{
+	EXT,
+	BUILTIN
+} t_cmd_type;
 
 typedef struct	s_command
 {
+	t_cmd_type		type;
 	char			**args;
+	bool			is_pipeline;
+	t_env_vars		env_vars;
 	t_redirection	*redirections;
 	int				redirections_count;
-	t_env_vars		env_vars;
 } t_command;
 
 typedef struct	s_redirection
@@ -80,12 +86,17 @@ typedef struct	s_env_vars
 	t_var_list	inline_envs;
 } t_env_vars;
 
+typedef struct	s_temp_files
+{
+	char				*path;
+	struct s_temp_files	*next;
+} t_temp_files;
+
 typedef struct	s_var_list
 {
-	char			*env_var;
-	char			*value;
-	struct s_list	*next;
-	struct s_list	*previous;
+	char				*env_var;
+	char				*value;
+	struct s_var_list	*next;
 } t_var_list;
 
 typedef struct	s_builtin

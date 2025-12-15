@@ -36,7 +36,6 @@ void	handle_redirections(t_command cmd)
 	}
 }
 
-// needs to signal that the temp file must be deleted
 void	set_heredoc_redir(t_command cmd, char *heredoc_delim)
 {
 	char	*heredoc_filepath;

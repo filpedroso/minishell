@@ -29,14 +29,20 @@ void    execute_tree(t_node *node)
 	else
 	{
 		handle_redirections(node->cmd);
-		if (node->type == EXT_CMD)
+		if (node->cmd.type == EXT)
 			exec_cmd(node);
-		else if (node->is_pipeline && node->type == BUILTIN)
+		else if (node->cmd.is_pipeline && node->cmd.type == BUILTIN)
 			exec_forked_builtin(node);
-		else if (node->type == BUILTIN)
+		else if (node->cmd.type == BUILTIN)
 			exec_builtin(node);
 	}
-	clean_temp_files();
+	cleanup_node(node); 
+}
+
+void	cleanup_node(t_node *node)
+{
+	clean_temp_files(); // checks if there are created files to delete
+	clean_allocations();
 }
 
 static int	exec_forked_builtin(t_node *node)
@@ -138,10 +144,10 @@ static void	exec_cmd(t_node *node)
 	pid = fork();
 	if (pid == CHILD)
 	{
-		path = get_path(node->cmds, node->envs);
+		path = get_path(node->cmd);
 		if (!path || execve(path, node->cmds, node->envs) == -1)
 		{
-			// free_stuff(node);
+			free_stuff(node);
 			perror("Execve");
 			exit(1);
 		}

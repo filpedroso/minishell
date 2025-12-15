@@ -22,7 +22,7 @@ static char	*ft_strdup(const char *s);
  * If the command contains a '/' it's treated as an absolute/relative path.
  * Returns the full path to the executable or NULL if not found.
  */
-char	*get_path(char **cmds, char **envp)
+char	*get_path(t_command cmd)
 {
 	char	*path_env;
 	char	*result;
