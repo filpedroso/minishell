@@ -82,8 +82,8 @@ typedef enum	e_redirection_type
 
 typedef struct	s_env_vars
 {
-	t_var_list	persistent_envs;
-	t_var_list	inline_envs;
+	t_var_list	*persistent_envs;
+	t_var_list	*inline_envs;
 } t_env_vars;
 
 typedef struct	s_temp_files
@@ -105,7 +105,7 @@ typedef struct	s_builtin
     int		(*func)(char **args, char **envp);
 } t_builtin;
 
-char	*get_path(char **cmds, char **envp);
+char	*get_path(t_command cmd);
 void	handle_redirections(t_command cmd);
 
 #endif

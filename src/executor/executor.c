@@ -12,31 +12,37 @@
 
 #include "executor.h"
 
-static void	pipe_logic(t_node *node);
-static void	exec_left(int pip[2], t_node *node);
-static void	exec_right(int pip[2], t_node *node);
+static void	recursive_pipe_logic(t_node *node);
+static void	exec_piped_left_node(int pip[2], t_node *node);
+static void	exec_piped_right_node(int pip[2], t_node *node);
 static void init_builtin_table(t_builtin table[N_BUILTINS]);
-static void	exec_cmd(t_node *node);
+static void	exec_ext_cmd(t_node *node);
 static int	exec_forked_builtin(t_node *node);
 static int	exec_builtin(t_node *node);
 
-void    execute_tree(t_node *node)
+void	execute_tree(t_node *node)
 {
     if (!node)
         return;
     if (node->type == PIPE)
-		pipe_logic(node);
+		recursive_pipe_logic(node);
 	else
+		command_logic(node);
+	cleanup_node(node); 
+}
+
+void	command_logic(t_node *node)
+{
+	handle_redirections(node->cmd);
+	if (node->cmd.type == EXT)
+		exec_ext_cmd(node);
+	else if (node->cmd.type == BUILTIN)
 	{
-		handle_redirections(node->cmd);
-		if (node->cmd.type == EXT)
-			exec_cmd(node);
-		else if (node->cmd.is_pipeline && node->cmd.type == BUILTIN)
+		if (node->cmd.is_pipeline)
 			exec_forked_builtin(node);
-		else if (node->cmd.type == BUILTIN)
+		else
 			exec_builtin(node);
 	}
-	cleanup_node(node); 
 }
 
 void	cleanup_node(t_node *node)
@@ -96,10 +102,8 @@ void    init_builtin_table(t_builtin table[N_BUILTINS])
     table[6].func = &ft_exit;
 }
 
-static void	pipe_logic(t_node *node)
+static void	recursive_pipe_logic(t_node *node)
 {
-    pid_t	left_pid;
-    pid_t	right_pid;
     int		pip[2];
 
 	if (pipe(pip) != 0)
@@ -107,51 +111,137 @@ static void	pipe_logic(t_node *node)
 		perror("Pipe");
 		exit(1);
 	}
+	node->left->cmd.is_pipeline = true;
+	node->right->cmd.is_pipeline = true;
+	exec_piped_left_node(pip, node->left);
+	exec_piped_right_node(pip, node->right);
+}
+
+static void	exec_piped_left_node(int pip[2], t_node *node)
+{
+    pid_t	left_pid;
+
 	left_pid = fork();
 	if (left_pid == CHILD)
-		exec_left(pip, node);
+	{
+		close(pip[READ]);
+		dup2(pip[WRITE], STDOUT_FILENO);
+		close(pip[WRITE]);
+		execute_tree(node);
+		exit(0);
+	}
+	wait(NULL);
 	close(pip[WRITE]);
+}
+
+static void	exec_piped_right_node_node(int pip[2], t_node *node)
+{
+    pid_t	right_pid;
+
 	right_pid = fork();
 	if (right_pid == CHILD)
-		exec_right(pip, node);
-	close(pip[READ]);
+	{
+		dup2(pip[READ], STDIN_FILENO);
+		close(pip[READ]);
+		execute_tree(node->right);
+		exit(0);
+	}
 	wait(NULL);
-	wait(NULL);
-}
-
-static void	exec_left(int pip[2], t_node *node)
-{
 	close(pip[READ]);
-	dup2(pip[WRITE], STDOUT_FILENO);
-	close(pip[WRITE]);
-	execute_tree(node->left);
-	exit(0);
 }
 
-static void	exec_right(int pip[2], t_node *node)
-{
-	dup2(pip[READ], STDIN_FILENO);
-	close(pip[READ]);
-	execute_tree(node->right);
-	exit(0);
-}
-
-static void	exec_cmd(t_node *node)
+static void	exec_ext_cmd(t_node *node)
 {
 	pid_t	pid;
-	char	*path;
+	int		exit_code;
 
 	pid = fork();
 	if (pid == CHILD)
 	{
-		path = get_path(node->cmd);
-		if (!path || execve(path, node->cmds, node->envs) == -1)
-		{
-			free_stuff(node);
-			perror("Execve");
-			exit(1);
-		}
+		exit_code = get_args_and_execute(node);
+		exit(exit_code);
 	}
 	wait(NULL);
-	// free_stuff(node);
+	free_stuff(node);
+}
+
+int	get_args_and_execute(t_node *node)
+{
+	char	*path;
+	char	**current_envs;
+
+	path = get_cmd_path(node->cmd);
+	if (!path)
+	{
+		free_stuff(node);
+		perror("Get path");
+		return (1);
+	}
+	current_envs = get_current_envs(node->cmd.env_vars);
+	if (!current_envs)
+	{
+		free_stuff(node);
+		perror("Get current envs");
+		return (1);
+	}
+	if (execve(path, node->cmd.args, current_envs) == -1)
+	{
+		perror("Execve");
+		return(1);
+	}
+}
+
+char	**get_current_envs(t_env_vars env_lists)
+{
+	char	**current_envs;
+
+	current_envs = merge_env_lists(env_lists.inline_envs, env_lists.persistent_envs);
+	if (!current_envs)
+	{
+		perror("get envs failed");
+		return (NULL);
+	}
+	return (current_envs);
+}
+
+char	**merge_env_lists(t_var_list *inline_list, t_var_list *persistent_list)
+{
+	char	**vars_array;
+	int		inline_amount;
+	int		persistent_amount;
+
+	inline_amount = ft_lstsize(inline_list);
+	persistent_amount = ft_lstsize(persistent_list);
+	vars_array = (char **)malloc(
+		(inline_amount + persistent_amount + 1) * sizeof(char *));
+	if (!vars_array)
+		return (NULL);
+	vars_array[inline_amount + persistent_amount] = NULL;
+	if (!fill_arr_from_lists(vars_array, inline_list, persistent_list))
+	{
+		free_str_arr(vars_array);
+		return (NULL);
+	}
+	return (vars_array);
+}
+
+int	fill_arr_from_lists(char **arr, t_var_list *lst_1, t_var_list *lst_2)
+{
+	int	i;
+
+	i = 0;
+	while (lst_1)
+	{
+		arr[i] = ft_strdup(lst_1->var_name);
+		if (!arr[i])
+			return (NULL);
+		arr[i] = ft_strjoin(arr[i], "=");
+		if (!arr[i])
+			return (NULL);
+		arr[i] = ft_strjoin(arr[i], lst_1->value);
+		if (!arr[i])
+			return (NULL);
+		i++;
+		lst_1 = lst_1->next;
+	}
 }
