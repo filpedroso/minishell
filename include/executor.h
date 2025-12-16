@@ -63,6 +63,7 @@ typedef struct	s_command
 	t_env_vars		env_vars;
 	t_redirection	*redirections;
 	int				redirections_count;
+	t_temp_files	*temp_files_list;
 } t_command;
 
 typedef struct	s_redirection
@@ -94,7 +95,7 @@ typedef struct	s_temp_files
 
 typedef struct	s_var_list
 {
-	char				*env_var;
+	char				*var_name;
 	char				*value;
 	struct s_var_list	*next;
 } t_var_list;
@@ -105,7 +106,31 @@ typedef struct	s_builtin
     int		(*func)(char **args, char **envp);
 } t_builtin;
 
-char	*get_path(t_command cmd);
+// MAIN EXECUTION
+void	execute_tree(t_node *node);
+void	command_logic(t_node *node);
 void	handle_redirections(t_command cmd);
+void	set_heredoc_redir(t_command *cmd, char *heredoc_delim);
+void	exec_ext_cmd(t_node *node);
+char	*get_cmd_path(t_command cmd);
+char	*find_in_path(char *cmd_str, char *path_env);
+int		exec_forked_builtin(t_node *node);
+int		exec_builtin(t_node *node);
+void    init_builtin_table(t_builtin table[N_BUILTINS]);
+
+// BUILTINS
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+
+// CLEANUP
+// TODO
+// TODO
+// TODO
+// TODO
 
 #endif

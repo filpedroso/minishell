@@ -12,6 +12,11 @@
 
 #include "executor.h"
 
+static void	set_stdin_redir(t_redirection redirection);
+static void	set_stdout_redir(t_redirection redirection);
+static void	set_append_redir(t_redirection redirection);
+static void	redir_error_message(void);
+
 void	handle_redirections(t_command cmd)
 {
 	t_redirection_type	redir_type;
@@ -36,39 +41,7 @@ void	handle_redirections(t_command cmd)
 	}
 }
 
-void	set_heredoc_redir(t_command cmd, char *heredoc_delim)
-{
-	char	*heredoc_filepath;
-	int		heredoc_fd;
-
-	heredoc_filepath = create_temp_file(redirection.target);
-	if (!heredoc_filepath)
-	{
-		perror("heredoc reader");
-		return ;
-	}
-	dup_file_into_stdin(heredoc_filepath);
-	append_filepath(heredoc_filepath, cmd);
-}
-void	dup_file_into_stdin(char *heredoc_filepath)
-{
-	int	heredoc_fd;
-	
-	heredoc_fd = open(heredoc_filepath, O_RDONLY);
-	if (heredoc_fd < 0)
-	{
-		perror("heredoc temp file");
-		return ;
-	}
-	dup2(heredoc_fd, STDIN_FILENO);
-	if (close(heredoc_fd) < 0)
-	{
-		perror("heredoc temp file close");
-		return ;
-	}
-}
-
-void	set_append_redir(t_redirection redirection)
+static void	set_append_redir(t_redirection redirection)
 {
 	int	fd;
 
@@ -86,7 +59,7 @@ void	set_append_redir(t_redirection redirection)
 	}
 }
 
-void	set_stdout_redir(t_redirection redirection)
+static void	set_stdout_redir(t_redirection redirection)
 {
 	int	fd;
 
@@ -120,4 +93,11 @@ static void	set_stdin_redir(t_redirection redirection)
 		perror(redirection.target);
 		return ;
 	}
+}
+
+static void	redir_error_message(void)
+{
+	// incomplete!
+	printf("Code redir_error_message() function!\n");
+	return;
 }
