@@ -17,18 +17,10 @@
 #include <stdbool.h>
 #include <sys/types.h>
 
-typedef struct	s_node
-{
-	t_node_type		type;
-	struct s_node	*left;
-	struct s_node	*right;
-	t_command		cmd;
-} t_node;
-
 typedef enum	e_node_type
 {
-	PIPE,
-	CMD
+	NODE_PIPE,
+	NODE_CMD
 } t_node_type;
 
 typedef enum	e_cmd_type
@@ -37,16 +29,26 @@ typedef enum	e_cmd_type
 	BUILTIN
 } t_cmd_type;
 
-typedef struct	s_command
+typedef struct	s_var_list
 {
-	t_cmd_type		type;
-	char			**args;
-	bool			is_pipeline;
-	t_env_vars		env_vars;
-	t_redirection	*redirections;
-	int				redirections_count;
-	t_temp_files	*temp_files_list;
-} t_command;
+	char				*var_name;
+	char				*value;
+	struct s_var_list	*next;
+} t_var_list;
+
+typedef struct	s_env_vars
+{
+	t_var_list	*persistent_envs;
+	t_var_list	*inline_envs;
+} t_env_vars;
+
+typedef enum	e_redirection_type
+{
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
+} t_redirection_type;
 
 typedef struct	s_redirection
 {
@@ -55,32 +57,30 @@ typedef struct	s_redirection
 	char				*target;
 } t_redirection;
 
-typedef enum	e_redirection_type
-{
-	IN,
-	OUT,
-	APPEND,
-	HEREDOC
-} t_redirection_type;
-
-typedef struct	s_env_vars
-{
-	t_var_list	*persistent_envs;
-	t_var_list	*inline_envs;
-} t_env_vars;
-
 typedef struct	s_temp_files
 {
 	char				*path;
 	struct s_temp_files	*next;
 } t_temp_files;
 
-typedef struct	s_var_list
+typedef struct	s_command
 {
-	char				*var_name;
-	char				*value;
-	struct s_var_list	*next;
-} t_var_list;
+	t_cmd_type		type;
+	char			**args;
+	bool			is_pipeline;
+	t_env_vars		env_vars; // quem deve inicializar isto? A main()?
+	t_redirection	*redirections;
+	int				redirections_count;
+	t_temp_files	*temp_files_list;
+} t_command;
+
+typedef struct	s_node
+{
+	t_node_type		type;
+	struct s_node	*left;
+	struct s_node	*right;
+	t_command		*cmd;
+} t_node;
 
 typedef struct	s_builtin
 {

@@ -20,11 +20,15 @@ void	execute_tree(t_node *node)
 {
     if (!node)
         return;
-    if (node->type == PIPE)
+    if (node->type == NODE_PIPE)
 		recursive_pipe_logic(node);
 	else
+	{
 		command_logic(node);
-	cleanup_node(node); 
+		execute_tree(node->left);
+		execute_tree(node->right);
+	}
+	cleanup_node(node);
 }
 
 static void	recursive_pipe_logic(t_node *node)

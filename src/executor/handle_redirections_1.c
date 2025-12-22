@@ -26,13 +26,13 @@ void	handle_redirections(t_command cmd)
 	while (++i < cmd.redirections_count)
 	{
 		redir_type = cmd.redirections[i].type;
-		if (redir_type == IN)
+		if (redir_type == REDIR_IN)
 			set_stdin_redir(cmd.redirections[i]);
-		else if (redir_type == OUT)
+		else if (redir_type == REDIR_OUT)
 			set_stdout_redir(cmd.redirections[i]);
-		else if (redir_type == APPEND)
+		else if (redir_type == REDIR_APPEND)
 			set_append_redir(cmd.redirections[i]);
-		else if (redir_type == HEREDOC)
+		else if (redir_type == REDIR_HEREDOC)
 			set_heredoc_redir(cmd, cmd.redirections[i].target);
 		else
 		{
