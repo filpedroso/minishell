@@ -17,27 +17,27 @@ static void	set_stdout_redir(t_redirection redirection);
 static void	set_append_redir(t_redirection redirection);
 static void	redir_error_message(void);
 
-void	handle_redirections(t_command cmd)
+int	handle_redirections(t_command *cmd)
 {
 	t_redirection_type	redir_type;
 	int					i;
 
 	i = -1;
-	while (++i < cmd.redirections_count)
+	while (++i < cmd->redirections_count)
 	{
-		redir_type = cmd.redirections[i].type;
+		redir_type = cmd->redirections[i].type;
 		if (redir_type == REDIR_IN)
-			set_stdin_redir(cmd.redirections[i]);
+			set_stdin_redir(cmd->redirections[i]);
 		else if (redir_type == REDIR_OUT)
-			set_stdout_redir(cmd.redirections[i]);
+			set_stdout_redir(cmd->redirections[i]);
 		else if (redir_type == REDIR_APPEND)
-			set_append_redir(cmd.redirections[i]);
+			set_append_redir(cmd->redirections[i]);
 		else if (redir_type == REDIR_HEREDOC)
-			set_heredoc_redir(cmd, cmd.redirections[i].target);
-		else
 		{
-			return (redir_error_message());
+			if (set_heredoc_redir(cmd, cmd->redirections[i].target) < 0)
+				return (-1);
 		}
+		return (0);
 	}
 }
 

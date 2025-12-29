@@ -14,12 +14,16 @@
 
 void	command_logic(t_node *node)
 {
-	handle_redirections(node->cmd);
-	if (node->cmd.type == EXT)
-		exec_ext_cmd(node);
-	else if (node->cmd.type == BUILTIN)
+	if (handle_redirections(node->cmd) < 0)
 	{
-		if (node->cmd.is_pipeline)
+		cleanup_node(node);
+		return ;
+	}
+	if (node->cmd->type == EXT)
+		exec_ext_cmd(node);
+	else if (node->cmd->type == BUILTIN)
+	{
+		if (node->cmd->is_pipeline)
 			exec_forked_builtin(node);
 		else
 			exec_builtin(node);

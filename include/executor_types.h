@@ -29,17 +29,23 @@ typedef enum	e_cmd_type
 	BUILTIN
 } t_cmd_type;
 
-typedef struct	s_var_list
+typedef struct	s_intr_list
 {
-	char				*var_name;
-	char				*value;
-	struct s_var_list	*next;
-} t_var_list;
+	struct s_intr_list	*previous;
+	struct s_intr_list	*next;
+} t_intr_list;
+
+typedef struct	s_var_lst_node
+{
+	char		*var_name;
+	char		*value;
+	t_intr_list	node;
+} t_var_lst_node;
 
 typedef struct	s_env_vars
 {
-	t_var_list	*persistent_envs;
-	t_var_list	*inline_envs;
+	t_intr_list	*persistent_envs;
+	t_intr_list	*inline_envs;
 } t_env_vars;
 
 typedef enum	e_redirection_type
@@ -57,11 +63,11 @@ typedef struct	s_redirection
 	char				*target;
 } t_redirection;
 
-typedef struct	s_temp_files
+typedef struct	s_file_lst_node
 {
-	char				*path;
-	struct s_temp_files	*next;
-} t_temp_files;
+	char		*path;
+	t_intr_list	node;
+} t_file_lst_node;
 
 typedef struct	s_command
 {
@@ -71,7 +77,7 @@ typedef struct	s_command
 	t_env_vars		env_vars; // quem deve inicializar isto? A main()?
 	t_redirection	*redirections;
 	int				redirections_count;
-	t_temp_files	*temp_files_list;
+	t_intr_list		*temp_files_list;
 } t_command;
 
 typedef struct	s_node

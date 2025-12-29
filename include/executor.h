@@ -14,6 +14,7 @@
 # define EXECUTOR_H
 
 #include <limits.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
@@ -35,8 +36,8 @@
 // MAIN EXECUTION
 void	execute_tree(t_node *node);
 void	command_logic(t_node *node);
-void	handle_redirections(t_command cmd);
-void	set_heredoc_redir(t_command *cmd, char *heredoc_delim);
+int		handle_redirections(t_command *cmd);
+int		set_heredoc_redir(t_command *cmd, char *heredoc_delim);
 void	exec_ext_cmd(t_node *node);
 char	*get_cmd_path(t_command cmd);
 char	*find_in_path(char *cmd_str, char *path_env);
