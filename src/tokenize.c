@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 03:09:12 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/01/10 13:43:39 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/01/10 15:29:53 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,36 @@ static t_token	*get_next_token(char **input)
 
 static t_token	*create_operator_token(t_token **tokens, char **input)
 {
-	t_token_type	type;
+	t_token	*	new_tok;
 
-	if (is_double_operator(*input))
+	new_tok = create_token(NULL, 0, 0);
+	if (!new_tok)
 	{
-		if ((*input)[0] == '>' && (*input)[1] == '>')
-			type = TOK_APPEND;
-		else
-			type = TOK_HEREDOC;
+		// WHAT TO DO??
+	}
+	new_tok->value = get_operator_tok_type(*input);
+	if (new_tok->type == TOK_APPEND || new_tok->type == TOK_HEREDOC)
 		*input += 2;
-	}
 	else
-	{
-		if (**input == '|')
-			type = TOK_PIPE;
-		else if (**input == '>')
-			type = TOK_OUT;
-		else if (**input == '<')
-			type = TOK_IN;
 		(*input)++;
+	return (create_token(NULL, 0, type));
+}
+
+t_token_type	get_operator_tok_type(char *str_input)
+{
+	if (is_double_operator(str_input))
+	{
+		if ((str_input)[0] == '>' && (str_input)[1] == '>')
+			return (TOK_APPEND);
+		else
+			return (TOK_HEREDOC);
 	}
-	add_token(tokens, create_token(NULL, 0, type));
+	if (*str_input == '|')
+		return (TOK_PIPE);
+	else if (*str_input == '>')
+		return (TOK_OUT);
+	else if (*str_input == '<')
+		return (TOK_IN);
 }
 
 static t_token	*create_word_token(t_token **tokens, char **input)
