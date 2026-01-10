@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 10:47:45 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/10 11:01:02 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:54:36 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	minishell_routine(t_env_vars env_vars)
 	{
 		// in case of error, each function exits internally with the appropiate code
 		input = get_input_line();
-		tokens = tokenize(input);
+		input_expander(&input, env_vars);
+		tokens = tokenize(input); // a NULL tokens means empty input. how to handle?
 		ast = create_ast_from_tokens(tokens, env_vars);
 		execute_tree(ast);
 		terminal_cleanup(); // rl_replace_line("", 0) rl_on_new_line() rl_redisplay()

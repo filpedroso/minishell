@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 00:41:05 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/01/10 10:44:17 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/01/10 13:44:08 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,14 @@ typedef struct	s_ast_node
 
 typedef enum	e_token_type
 {
-	WORD,
-	PIPE,
+	TOK_WORD,
+	TOK_PIPE,
 	TOK_IN,
 	TOK_OUT,
-	APPEND,
-	HEREDOC,
-	QUOTE_S,
-	QUOTE_D,
+	TOK_APPEND,
+	TOK_HEREDOC,
+	TOK_QUOTE_S,
+	TOK_QUOTE_D,
 
 	TOKEN_EOF
 } t_token_type;
