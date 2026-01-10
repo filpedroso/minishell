@@ -17,7 +17,7 @@
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iinclude -Ilibft/include
+CFLAGS = -Wall -Wextra -Werror -Iinclude
 
 # Diretórios
 SRC_DIR = src

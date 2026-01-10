@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_current_envs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 19:14:13 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/16 19:14:13 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/01/10 10:24:14 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#include "minishell.h"
 
 static char	**merge_env_lists(t_var_list *inline_lst, t_var_list *persist_lst);
 static int	fill_arr_from_lists(char **arr, t_var_list *lst_1, t_var_list *lst_2);

@@ -3,58 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcosta-a <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:31:27 by lcosta-a          #+#    #+#             */
-/*   Updated: 2025/12/10 19:32:12 by lcosta-a         ###   ########.fr       */
+/*   Updated: 2026/01/10 10:57:47 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "builtins.h"
-#include "executor.h"
-#include "ast_utils.h"
-#include "ast_converter.h"
-#include <unistd.h>
 
-extern char **environ;
+static t_env_vars	init_env_list_struct(char **envp);
 
-int	main(void)
+int	main(char **envp)
 {
-	char	*input;
-	char	**my_envp;
-	int		exit_status;
-	t_node	*ast;
-	t_token	*tokens;
+	t_env_vars	env_vars;
 
-	exit_status = 0;
-	my_envp = copy_envp(environ);
-	if (!my_envp)
-		return (1);
-	while (1)
-	{
-		input = readline("miniconcha> ");
-		if (!input)
-			break ;
-		if (input[0])
-			add_history(input);
-		tokens = tokenize(input);
-		ast = create_ast_from_tokens(tokens);
-		if (ast)
-		{
-			if (ast->type == BUILTIN)
-			{
-				execute_builtin(tokens, &my_envp, &exit_status);
-				if (ast->cmd && ft_strcmp(ast->cmd.args[0], "exit") == 0)
-					break;
-			}
-			else
-				execute_tree(ast);
-			free_ast(ast);
-		}
-		free_tokens(tokens);
-		free(input);
-	}
-	free_envp(my_envp);
-	return exit_status;
+	env_vars = init_env_list_struct(envp);
+	minishell_routine(env_vars);
+	return (0);
+}
+
+static t_env_vars	init_env_list_struct(char **envp)
+{
+	t_env_vars	env_vars;
+
+	env_vars.persistent_envs = convert_envp_to_env_list(envp);
+	if (!env_vars.persistent_envs)
+		exit(1);
+	env_vars.inline_envs = NULL;
+	return (env_vars);
 }
