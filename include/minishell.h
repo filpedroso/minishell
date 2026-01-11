@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 00:41:05 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/01/10 13:44:08 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/01/11 15:05:20 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,12 +147,12 @@ typedef enum	e_token_type
 	TOKEN_EOF
 } t_token_type;
 
-typedef struct	s_token
+typedef struct	s_token_lst
 {
 	char			*value;
 	t_token_type	type;
 	struct s_token	*next;
-} t_token;
+} t_token_lst;
 
 
 /* ************************************************************************** */

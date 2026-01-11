@@ -6,9 +6,19 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:31:27 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/01/10 10:57:47 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/01/11 15:32:24 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+
+** ERROR HANDLING PROPOSITION:
+
+**	Malloc/open/close error = FATAL!	>>> handling: perror() + exit(1);
+**	NULL ptr = invalid or empty data	>>> handling: if NULL return NULL,
+**		until caller does: if NULL continue; (for next iteration)
+
+*/
 
 #include "minishell.h"
 

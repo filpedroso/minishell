@@ -6,22 +6,22 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 03:09:12 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/01/10 15:29:53 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:32:35 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void		create_word_token(t_token **tokens, char **input);
-static void		create_operator_token(t_token **tokens, char **input);
-static t_token	*get_next_token(char **input);
+static t_token_lst	*create_word_token(t_token_lst **tokens, char **input);
+static t_token_lst	*create_operator_token(char **input);
+static t_token_lst	*get_next_token(char **input);
 
 
-t_token *tokenize(char *input)
+t_token_lst *tokenize(char *input)
 {
-    t_token	*tokens_lst;
-    t_token	*new_token;
-    t_token	*tail;
+    t_token_lst	*tokens_lst;
+    t_token_lst	*new_token;
+    t_token_lst	*tail;
 
     tokens_lst = NULL;
 	tail = NULL;
@@ -42,7 +42,7 @@ t_token *tokenize(char *input)
     return (tokens_lst);
 }
 
-static t_token	*get_next_token(char **input)
+static t_token_lst	*get_next_token(char **input)
 {
 	if (is_operator(*input))
 		return (create_operator_token(input));
@@ -50,21 +50,47 @@ static t_token	*get_next_token(char **input)
 		return (create_word_token(input));
 }
 
-static t_token	*create_operator_token(t_token **tokens, char **input)
+//	How to deal with things like ">>>"???
+//	We need more input checking and throw "parse errors"
+static t_token_lst	*create_operator_token(char **input)
 {
-	t_token	*	new_tok;
+	t_token_lst	*	new_tok;
+	t_token_type	type;
 
-	new_tok = create_token(NULL, 0, 0);
+	type = get_operator_tok_type(*input);
+	new_tok = create_token(NULL, 0, type);
 	if (!new_tok)
-	{
-		// WHAT TO DO??
-	}
-	new_tok->value = get_operator_tok_type(*input);
-	if (new_tok->type == TOK_APPEND || new_tok->type == TOK_HEREDOC)
+		return (NULL);
+	if (type == TOK_APPEND || type == TOK_HEREDOC)
 		*input += 2;
 	else
 		(*input)++;
-	return (create_token(NULL, 0, type));
+	return (new_tok);
+}
+
+t_token_lst	*create_token(char *value, int len, t_token_type type)
+{
+	t_token_lst	*token;
+
+	token = malloc(sizeof(t_token_lst));
+	if (!token)
+		return (NULL);
+	if (value && len > 0)
+	{
+		token->value = malloc(len + 1);
+		if (!token->value)
+		{
+			free(token);
+			return (NULL);
+		}
+		ft_strncpy(token->value, value, len);
+		token->value[len] = '\0';
+	}
+	else
+		token->value = NULL;
+	token->type = type;
+	token->next = NULL;
+	return (token);
 }
 
 t_token_type	get_operator_tok_type(char *str_input)
@@ -84,14 +110,14 @@ t_token_type	get_operator_tok_type(char *str_input)
 		return (TOK_IN);
 }
 
-static t_token	*create_word_token(t_token **tokens, char **input)
+static t_token_lst	*create_word_token(t_token_lst **tokens, char **input)
 {
 	char	*start;
 	int		len;
 	char	*word;
-	char	original_char;
+	char	debug_orig_char;
 
-	original_char = **input;
+	debug_orig_char = **input;
 	start = *input;
 	if (**input == '"') 
 	{
@@ -122,10 +148,10 @@ static t_token	*create_word_token(t_token **tokens, char **input)
 			(*input)++;
 		len = *input - start;
 	}
-	printf("DEBUG: Token criado: '%.*s' (tipo %c)\n", len, start, original_char);
+	printf("DEBUG: Token criado: '%.*s' (tipo %c)\n", len, start, debug_orig_char);
 	if (len > 0)
 	{
 		word = ft_substr(start, 0, len);
-		add_token(tokens, create_token(word, len, WORD));
+		return (create_token(word, len, TOK_WORD));
 	}
 }

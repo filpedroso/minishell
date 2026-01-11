@@ -6,24 +6,35 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 10:47:45 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/10 12:54:36 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/01/11 15:36:55 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+
+** ERROR HANDLING PROPOSITION:
+
+**	Malloc/open/close error = FATAL!	>>> handling: perror() + exit(1) immediately;
+**	NULL ptr = invalid or empty data	>>> handling: if NULL return NULL,
+**		until caller does: if NULL continue; (for next iteration)
+
+*/
 
 #include "minishell.h"
 
 void	minishell_routine(t_env_vars env_vars)
 {
-	char		*input;
-	t_token		*tokens;
-	t_ast_node	*ast;
+	char			*input;
+	t_token_lst		*tokens;
+	t_ast_node		*ast;
 
 	while(1)
 	{
-		// in case of error, each function exits internally with the appropiate code
 		input = get_input_line();
-		input_expander(&input, env_vars);
-		tokens = tokenize(input); // a NULL tokens means empty input. how to handle?
+		input_expander(&input, env_vars);	// has to perform a NULL check in the beggining
+		tokens = tokenize(input);			// NULL tokens means empty input!
+		if (!tokens)
+			continue ;
 		ast = create_ast_from_tokens(tokens, env_vars);
 		execute_tree(ast);
 		terminal_cleanup(); // rl_replace_line("", 0) rl_on_new_line() rl_redisplay()
