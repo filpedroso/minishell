@@ -152,6 +152,7 @@ typedef enum	e_token_type
 	TOK_HEREDOC,
 	TOK_QUOTE_S,
 	TOK_QUOTE_D,
+	NOT_A_TOK,
 
 	TOKEN_EOF
 } t_token_type;
@@ -167,6 +168,8 @@ typedef struct	s_token_lst
 /* ************************************************************************** */
 /* ***************************   functions   ******************************** */
 /* ************************************************************************** */
+
+void	minishell_routine(t_env_vars env_vars);
 
 t_token 	*tokenize(char *input);
 void		skip_spaces(char **input);

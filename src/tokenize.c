@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_token_lst	*create_word_token(t_token_lst **tokens, char **input);
+static t_token_lst	*create_word_token(char **input);
 static t_token_lst	*create_operator_token(char **input);
 static t_token_lst	*get_next_token(char **input);
 
@@ -68,47 +68,50 @@ static t_token_lst	*create_operator_token(char **input)
 	return (new_tok);
 }
 
-// REVER ESTA FUNCAO SOB O PRINCIPIO DO ERROR HANDLING!!!
 t_token_lst	*create_token(char *value, int len, t_token_type type)
 {
 	t_token_lst	*token;
 
 	token = malloc(sizeof(t_token_lst));
 	if (!token)
-		return (NULL);
-	if (value && len > 0)
 	{
-		token->value = malloc(len + 1);
-		if (!token->value)
-		{
-			free(token);
-			return (NULL);
-		}
-		ft_strncpy(token->value, value, len);
-		token->value[len] = '\0';
+		perror("create_token()");
+		exit(1);
 	}
-	else
-		token->value = NULL;
 	token->type = type;
+	token->value = NULL;
 	token->next = NULL;
+	if (value && len > 0)
+		fill_token(token, value, len);
 	return (token);
+}
+
+void	fill_token(t_token_lst	*token, char *value, int len)
+{
+	token->value = (char *)malloc((len + 1) * sizeof(char));
+	if (!token->value)
+	{
+		perror("fill_token()");
+		exit(1);
+	}
+	ft_strncpy(token->value, value, len);
+	token->value[len] = '\0';
 }
 
 t_token_type	get_operator_tok_type(char *str_input)
 {
-	if (is_double_operator(str_input))
-	{
-		if ((str_input)[0] == '>' && (str_input)[1] == '>')
-			return (TOK_APPEND);
-		else
-			return (TOK_HEREDOC);
-	}
-	if (*str_input == '|')
+	if (str_input[0] == '>' && str_input[1] == '>')
+		return (TOK_APPEND);
+	else if (str_input[0] == '<' && str_input[1] == '<')
+		return (TOK_HEREDOC);
+	else if (*str_input == '|')
 		return (TOK_PIPE);
 	else if (*str_input == '>')
 		return (TOK_OUT);
 	else if (*str_input == '<')
 		return (TOK_IN);
+	else
+		return (NOT_A_TOK);
 }
 
 // throws parsing error and returns NULL for next iteration
@@ -116,6 +119,8 @@ static t_token_lst	*create_word_token(char **input)
 {
 	t_word_ref	word_ref;
 
+	if (!**input)
+		return (NULL);
 	word_ref = get_word_references(input);
 	if (word_ref.parseable == false)
 	{
@@ -124,6 +129,27 @@ static t_token_lst	*create_word_token(char **input)
 		return (NULL);
 	}
 	return (word_token_from_ref(word_ref));
+}
+
+/*
+typedef struct	s_word_ref
+{
+		char	**input_ptr;
+		bool	parseable;
+		char	encloser;
+		int		first_idx;
+		int		last_idx;
+} t_word_ref;
+*/
+t_token_lst	*word_token_from_ref(t_word_ref ref)
+{
+	t_token_lst	*new_token;
+	ref.
+
+	if (!ref.parseable)
+		return (NULL);
+	new_token = create_token();
+	//incomplete, ongoing writing
 }
 
 t_word_ref	get_word_references(char **input)
@@ -148,6 +174,11 @@ t_word_ref	get_word_references(char **input)
 	if (encloser == NO_ENCL)
 		return (generate_word_ref(input, 0, i - 1, 0));
 	return (generate_word_ref(input, 0, -1, 0));
+}
+
+bool	is_encloser(char c)
+{
+	return (c == '"' || c == '\'');
 }
 
 t_word_ref	generate_word_ref(char **input, int start, int end, char encloser)
