@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}",
                 "${workspaceFolder}/libft",
+                "${workspaceFolder}/libft/include",
                 "${workspaceFolder}/include",
                 "/usr/include"
             ],

@@ -64,10 +64,11 @@ static t_token_lst	*create_operator_token(char **input)
 	if (type == TOK_APPEND || type == TOK_HEREDOC)
 		*input += 2;
 	else
-		(*input)++;
+		(*input) += 1;
 	return (new_tok);
 }
 
+// REVER ESTA FUNCAO SOB O PRINCIPIO DO ERROR HANDLING!!!
 t_token_lst	*create_token(char *value, int len, t_token_type type)
 {
 	t_token_lst	*token;
@@ -110,6 +111,62 @@ t_token_type	get_operator_tok_type(char *str_input)
 		return (TOK_IN);
 }
 
+// throws parsing error and returns NULL for next iteration
+static t_token_lst	*create_word_token(char **input)
+{
+	t_word_ref	word_ref;
+
+	word_ref = get_word_references(input);
+	if (word_ref.parseable == false)
+	{
+		ft_putstr_fd("Parsing error near ", 2);
+		ft_putchar_fd(**input, 2);
+		return (NULL);
+	}
+	return (word_token_from_ref(word_ref));
+}
+
+t_word_ref	get_word_references(char **input)
+{
+	char		*input_str;
+	t_word_ref	word_ref;
+	char		encloser;
+	int			i;
+
+	input_str = *input;
+	if (is_encloser(*input_str))
+		encloser = *input_str;
+	else
+		encloser = NO_ENCL;
+	i = 0;
+	while(input_str[i])
+	{
+		i++;
+		if (input_str[i] = encloser)
+			return (generate_word_ref(input, 1, i - 1, encloser));
+	}
+	if (encloser == NO_ENCL)
+		return (generate_word_ref(input, 0, i - 1, 0));
+	return (generate_word_ref(input, 0, -1, 0));
+}
+
+t_word_ref	generate_word_ref(char **input, int start, int end, char encloser)
+{
+	t_word_ref	word_ref;
+
+	if (start > end)
+	{
+		word_ref.parseable = false;
+		return (word_ref);
+	}
+	word_ref.input_ptr = input;
+	word_ref.first_idx = start;
+	word_ref.last_idx = end;
+	word_ref.encloser = encloser;
+	word_ref.parseable = true;
+	return (word_ref);
+}
+
 static t_token_lst	*create_word_token(t_token_lst **tokens, char **input)
 {
 	char	*start;
@@ -119,7 +176,7 @@ static t_token_lst	*create_word_token(t_token_lst **tokens, char **input)
 
 	debug_orig_char = **input;
 	start = *input;
-	if (**input == '"') 
+	if (**input == '"')
 	{
 		printf("DEBUG: Processando aspas duplas\n");
 		(*input)++;
@@ -127,7 +184,7 @@ static t_token_lst	*create_word_token(t_token_lst **tokens, char **input)
 		while (**input && **input != '"')
 			(*input)++;
 		len = *input - start;
-		if (**input == '"') 
+		if (**input == '"')
 			(*input)++;
 	}
 	else if (**input == '\'')

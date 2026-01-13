@@ -39,6 +39,7 @@
 /* ************************************************************************** */
 
 #define READ			0
+#define NO_ENCL			6
 #define WRITE			1
 #define CHILD			0
 #define N_BUILTINS		7
@@ -132,6 +133,14 @@ typedef struct	s_ast_node
 	t_command		*cmd;
 } t_ast_node;
 
+typedef struct	s_word_ref
+{
+	char	**input_ptr;
+	bool	parseable;
+	char	encloser;
+	int		first_idx;
+	int		last_idx;
+} t_word_ref;
 
 typedef enum	e_token_type
 {

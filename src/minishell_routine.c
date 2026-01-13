@@ -34,7 +34,11 @@ void	minishell_routine(t_env_vars env_vars)
 		input_expander(&input, env_vars);	// has to perform a NULL check in the beggining
 		tokens = tokenize(input);			// NULL tokens means empty input!
 		if (!tokens)
+		{
+			cleanup(input, tokens, ast);
+			terminal_cleanup(); // rl_replace_line("", 0) rl_on_new_line() rl_redisplay()
 			continue ;
+		}
 		ast = create_ast_from_tokens(tokens, env_vars);
 		execute_tree(ast);
 		terminal_cleanup(); // rl_replace_line("", 0) rl_on_new_line() rl_redisplay()
