@@ -31,7 +31,7 @@ void	minishell_routine(t_env_vars env_vars)
 	while(1)
 	{
 		input = get_input_line();
-		tokens = tokenize(input);	// NULL tokens means empty input!
+		tokens = lexer(input);	// NULL tokens means empty input!
 		if (!tokens)
 		{
 			cleanup(input, tokens, ast);

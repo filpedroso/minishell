@@ -133,6 +133,14 @@ typedef struct	s_ast_node
 	t_command		*cmd;
 } t_ast_node;
 
+typedef struct	s_word_ref
+{
+	char	**input_ptr;
+	bool	parseable;
+	char	encloser;
+	int		first_idx;
+	int		last_idx;
+} t_word_ref;
 
 typedef enum	e_token_type
 {
@@ -152,10 +160,8 @@ typedef enum	e_token_type
 typedef struct	s_token_lst
 {
 	char			*value;
-	char			*value_context;
 	t_token_type	type;
 	struct s_token	*next;
-	struct s_token	*previous;
 } t_token_lst;
 
 
@@ -163,18 +169,9 @@ typedef struct	s_token_lst
 /* ***************************   functions   ******************************** */
 /* ************************************************************************** */
 
-
-
-/* **************************    REFACTORED    ****************************** */
-
 void	minishell_routine(t_env_vars env_vars);
-char	*get_input_line(void);
 
-
-
-
-/* ************************    NOT REFACTORED    **************************** */
-
+t_token 	*tokenize(char *input);
 void		skip_spaces(char **input);
 int			is_operator(char c);
 int			is_redirection(t_token_type type);
