@@ -10,53 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-
-** ERROR HANDLING PROPOSITION:
-
-**	Malloc/open/close error = FATAL!	>>> handling: perror() + exit(1) immediately;
-**	NULL ptr = invalid or empty data	>>> handling: if NULL return NULL,
-**		until caller does: if NULL continue; (for next iteration)
-
-*/
-
 #include "minishell.h"
 
-void	minishell_routine(t_env_vars env_vars)
+static char				*get_input_line(void);
+static t_cycle_result	one_shell_cycle(t_env_vars env_vars);
+
+int	minishell_routine(t_env_vars env_vars)
 {
-	char			*input;
-	t_token_lst		*tokens;
-	t_ast_node		*ast;
+	t_cycle_result	result;
 
 	while(1)
 	{
-		input = get_input_line();
-		tokens = lexer(input);	// NULL tokens means empty input!
-		if (!tokens)
-		{
-			cleanup(input, tokens, ast);
-			terminal_cleanup(); // rl_replace_line("", 0) rl_on_new_line() rl_redisplay()
-			continue ;
-		}
-		ast = create_ast_from_tokens(tokens, env_vars);
-		expand(ast);
-		execute_tree(ast);
-		terminal_cleanup(); // rl_replace_line("", 0) rl_on_new_line() rl_redisplay()
-		cleanup(input, tokens, ast);
+		result = one_shell_cycle(env_vars);
+		if (result == CYCLE_CONTINUE)
+			continue;
+		if (result == CYCLE_EXIT)
+			return (SUCCESS);
+		return (ERROR); // fatal
 	}
 }
 
-char	*get_input_line(void)
+static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
+{
+	char		*input;
+	t_token_lst	*tokens;
+	t_ast_node	*ast;
+
+	input = get_input_line();
+	if (!input)
+		return (CYCLE_EXIT); // ctrl-D
+	tokens = lexer(input);
+	if (!tokens) // NULL tokens means fatal, empty tokens will be passed on
+	{
+		free(input);
+		return (CYCLE_FATAL);
+	}
+	ast = build_expanded_ast(tokens, env_vars);
+	if (!ast)
+	{
+		cleanup(input, tokens, NULL);
+		return (CYCLE_FATAL);
+	}
+	execute_tree(ast);
+	cycle_cleanup(input, tokens, ast); //terminal cleanup + data cleanup
+	return (CYCLE_CONTINUE);
+}
+
+static char	*get_input_line(void)
 {
 	char	*input;
 
 	input = readline("> ");
 	if (!input)
-	{
-		ft_putchar('\n');
-		exit(1);
-	}
-	if (input[0])
+		return (NULL);
+	if (*input)
 		add_history(input);
 	return (input);
 }

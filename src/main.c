@@ -11,35 +11,36 @@
 /* ************************************************************************** */
 
 /*
-
-** ERROR HANDLING PROPOSITION:
-
-**	Malloc/open/close error = FATAL!	>>> handling: perror() + exit(1);
-**	NULL ptr = invalid or empty data	>>> handling: if NULL return NULL,
-**		until caller does: if NULL continue; (for next iteration)
-
+**	ERROR HANDLING PROPOSITION:
+**		I clean the data I own
+**		NULL is always fatal
 */
 
 #include "minishell.h"
 
-static t_env_vars	init_env_list_struct(char **envp);
+static bool	init_env_list_struct(char **envp, t_env_vars *env_vars);
 
-int	main(char **envp)
+int main(char **envp)
 {
-	t_env_vars	env_vars;
+    t_env_vars	env_vars;
 
-	env_vars = init_env_list_struct(envp);
-	minishell_routine(env_vars);
-	return (0);
+    if (init_env_list_struct(envp, &env_vars) == ERROR)
+        return (1);
+    if (minishell_routine(env_vars) == ERROR)
+    {
+        cleanup_env(env_vars);
+        return (1);
+    }
+    cleanup_env(env_vars);
+    return (SUCCESS);
 }
 
-static t_env_vars	init_env_list_struct(char **envp)
-{
-	t_env_vars	env_vars;
 
-	env_vars.persistent_envs = convert_envp_to_env_list(envp);
-	if (!env_vars.persistent_envs)
-		exit(1);
-	env_vars.inline_envs = NULL;
-	return (env_vars);
+static int	init_env_list_struct(char **envp, t_env_vars *env_vars)
+{
+    env_vars->persistent_envs = convert_envp_to_env_list(envp);
+    if (!env_vars->persistent_envs)
+        return (ERROR);
+    env_vars->inline_envs = NULL;
+    return (SUCCESS);
 }

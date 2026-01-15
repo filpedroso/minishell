@@ -26,18 +26,20 @@
 #include <sys/errno.h>
 #include <sys/ioctl.h>
 #include "libft.h"
-# include <stdbool.h>
-# include <sys/types.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+#include <stdbool.h>
+#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 /* ************************************************************************** */
 /* ***************************    macros    ********************************* */
 /* ************************************************************************** */
 
+#define SUCCESS			0
+#define ERROR			-1
 #define READ			0
 #define NO_ENCL			6
 #define WRITE			1
@@ -48,6 +50,13 @@
 /* ************************************************************************** */
 /* ***************************    types     ********************************* */
 /* ************************************************************************** */
+
+typedef enum e_cycle_result
+{
+	CYCLE_CONTINUE,
+	CYCLE_EXIT,
+	CYCLE_FATAL
+}	t_cycle_result;
 
 typedef enum e_builtin_type
 {
