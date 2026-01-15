@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+// check if that "continue" will really work for empty tokens
+// start coding get_next_token with the state machine
 t_token_lst	*lexer(char **input)
 {
 	t_token_lst	*tokens_lst;
