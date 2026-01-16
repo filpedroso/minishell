@@ -58,6 +58,14 @@ typedef enum e_cycle_result
 	CYCLE_FATAL
 }	t_cycle_result;
 
+typedef enum	e_lexer_state
+{
+	STATE_DEFAULT,
+	STATE_SING_QUOTE,
+	STATE_DOUB_QUOTE,
+	STATE_TOK_END
+} t_lexer_state;
+
 typedef enum e_builtin_type
 {
 	ECHO,
@@ -161,7 +169,7 @@ typedef enum	e_token_type
 typedef struct	s_token_lst
 {
 	char			*value;
-	char			*value_context;
+	char			*context_mask;
 	t_token_type	type;
 	struct s_token	*next;
 	struct s_token	*previous;

@@ -20,20 +20,35 @@ t_token_lst	*lexer(char **input)
     t_token_lst	*new_token;
 
     tokens_lst = NULL;
-    while (*input)
+    while (**input)
     {
         new_token = get_next_token(input);
         if (!new_token)
-			continue ;
-		tok_lst_add_back(tokens_lst, new_token);
+		{
+			free_tok_lst(tokens_lst);
+			return (NULL);
+		}
+		tok_lst_add_back(&tokens_lst, new_token);
     }
     return (tokens_lst);
 }
 
+t_token_lst	*get_next_token(char **input)
+{
+	t_token_lst		*new_token;
+	t_lexer_state	state;
 
-
-/* if (!tokens_lst)
-	tokens_lst = new_token;
-else
-	tail->next = new_token;
-tail = new_token; */
+	new_token = (t_token_lst*)malloc(sizeof(t_token_lst));
+	if (!new_token)
+		return (NULL);
+	state = STATE_DEFAULT;
+	while(**input && state != STATE_TOK_END)
+	{
+		state_machine(&state, new_token, **input);
+		(*input)++;
+	}
+	new_token->next = NULL;
+	new_token->previous = NULL;
+	new_token->type = get_token_type(new_token->value);
+	return (new_token);
+}

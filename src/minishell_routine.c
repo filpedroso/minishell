@@ -26,7 +26,8 @@ int	minishell_routine(t_env_vars env_vars)
 			continue;
 		if (result == CYCLE_EXIT)
 			return (SUCCESS);
-		return (ERROR); // fatal
+		else
+			return (ERROR);
 	}
 }
 
@@ -40,9 +41,9 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 	if (!input)
 		return (CYCLE_EXIT); // ctrl-D
 	tokens = lexer(input);
-	if (!tokens) // NULL tokens means fatal, empty tokens will be passed on
+	if (!tokens) // NULL tokens means fatal; Empty tokens will be passed on, normally
 	{
-		free(input);
+		cleanup(input, NULL, NULL);
 		return (CYCLE_FATAL);
 	}
 	ast = build_expanded_ast(tokens, env_vars);
@@ -52,7 +53,7 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 		return (CYCLE_FATAL);
 	}
 	execute_tree(ast);
-	cycle_cleanup(input, tokens, ast); //terminal cleanup + data cleanup
+	cycle_cleanup(input, tokens, ast);	//terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);
 }
 
