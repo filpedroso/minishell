@@ -41,14 +41,82 @@ t_token_lst	*get_next_token(char **input)
 	new_token = (t_token_lst*)malloc(sizeof(t_token_lst));
 	if (!new_token)
 		return (NULL);
-	state = STATE_DEFAULT;
+	state = STATE_NORMAL;
 	while(**input && state != STATE_TOK_END)
 	{
-		state_machine(&state, new_token, **input);
+		state_machine_tokenizer(&state, new_token, **input);
+		if (state == STATE_ERROR)
+		{
+			free_token(new_token);
+			return (NULL);
+		}
 		(*input)++;
 	}
 	new_token->next = NULL;
 	new_token->previous = NULL;
-	new_token->type = get_token_type(new_token->value);
 	return (new_token);
+}
+
+void	state_machine_tokenizer(t_lexer_state *st, t_token_lst *tok, char c)
+{
+	if (state == STATE_NORMAL)
+		return (default_state_op(st, tok, c));
+	if (state == STATE_DOUB_QUOTE)
+		return (double_qt_state_op(st, tok, c));
+	if (state == STATE_SING_QUOTE)
+		return (single_qt_state_op(st, tok, c));
+}
+
+static void	default_state_op(t_lexer_state *state, t_token_lst *token, char c)
+{
+	if (c == ' ')
+	{
+		*state = STATE_TOK_END;
+		return ;
+	}
+	if (c == '"')
+	{
+		*state = STATE_DOUB_QUOTE;
+		return ;
+	}
+	if (c == '\'')
+	{
+		*state = STATE_SING_QUOTE;
+		return ;
+	}
+	return (push_char(token, c, 'n', state));
+}
+
+static void	double_qt_state_op(t_lexer_state *state, t_token_lst *token, char c)
+{
+	if (c == '"')
+	{
+		*state = STATE_NORMAL;
+		return ;
+	}
+	return (push_char(token, c, 'd', state));
+}
+
+static void	single_qt_state_op(t_lexer_state *state, t_token_lst *token, char c)
+{
+	if (c == '\'')
+	{
+		*state = STATE_NORMAL;
+		return ;
+	}
+	return (push_char(token, c, 's', state));
+}
+
+void	push_char(t_token_lst *token, char c, char mask, t_lexer_state *state)
+{
+	token->value = ft_realloc(1);
+	token->context_mask = ft_realloc(1);
+	if (!token->value || !token->context_mask)
+	{
+		*state = STATE_ERROR;
+		return ;
+	}
+	token->value[ft_strlen(token->value) - 1] = c;
+	token->context_mask[ft_strlen(token->context_mask) - 1] = mask;
+	return ;
 }

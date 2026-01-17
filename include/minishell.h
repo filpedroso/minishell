@@ -60,9 +60,10 @@ typedef enum e_cycle_result
 
 typedef enum	e_lexer_state
 {
-	STATE_DEFAULT,
+	STATE_NORMAL,
 	STATE_SING_QUOTE,
 	STATE_DOUB_QUOTE,
+    STATE_ERROR,
 	STATE_TOK_END
 } t_lexer_state;
 
