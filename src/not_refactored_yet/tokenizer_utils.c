@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcosta-a <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 03:13:12 by lcosta-a          #+#    #+#             */
-/*   Updated: 2025/12/06 03:18:09 by lcosta-a         ###   ########.fr       */
+/*   Updated: 2026/01/19 12:13:37 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_parser.h"
+#include "minishell.h"
 
 void	skip_spaces(char **input)
 {

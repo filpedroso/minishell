@@ -4,9 +4,12 @@
 
 void	print_tok_list(t_token_lst *lst);
 
-int main ()
+int main (int argc, char **argv)
 {
-	char	*input = "echo hello world";
+	if (!argc)
+		return (0);
+
+	char	*input = argv[1];
 	t_token_lst	*tok_lst = lexer(&input);
 
 	print_tok_list(tok_lst);
@@ -24,8 +27,8 @@ void	print_tok_list(t_token_lst *lst)
 	while (current)
 	{
 		printf("Token %d:\n", i++);
-		printf("  Segment: '%s'\n", current->segment ? current->segment : "(null)");
-		printf("  Mask:    '%s'\n", current->seg_mask ? current->seg_mask : "(null)");
+		printf("  Segment: %s\n", current->segment ? current->segment : "(null)");
+		printf("  Mask:    %s\n", current->seg_mask ? current->seg_mask : "(null)");
 		printf("  Type:    %d\n", current->type);
 		printf("\n");
 		current = current->next;

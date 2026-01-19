@@ -43,7 +43,7 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) $(LDFLAGS) -o $(NAME)
+	$(CC) $(OBJ) $(LIBFT) -o $(NAME)
 	@echo "✅ $(NAME) compiled successfully!"
 
 %.o: %.c

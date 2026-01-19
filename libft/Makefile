@@ -49,7 +49,7 @@ MANDATORY = \
 	ft_lstclear.c \
 	ft_lstiter.c \
 	ft_lstmap.c \
-	ft_realloc	\
+	ft_realloc.c \
 
 
 ###	Rules	#################################

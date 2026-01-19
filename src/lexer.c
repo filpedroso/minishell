@@ -67,8 +67,8 @@ t_token_lst	*get_next_token(char **input)
 	state = STATE_NORMAL;
 	while(**input && state != STATE_TOK_END)
 	{
-		if (state == STATE_NORMAL)
-			skip_spaces(input);
+		// if (state == STATE_NORMAL)
+		// 	skip_spaces(input);
 		if (!**input)
 			break ;
 		state_machine_tokenizer(&state, new_token, **input);
