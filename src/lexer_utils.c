@@ -27,15 +27,13 @@ t_token_type	get_token_type(t_token_lst *token)
 {
 	size_t	len;
 
-	if (!token || !token->segment)
-		return (NOT_A_TOK);
 	len = ft_strlen(token->segment);
 	if (len == 1 && token->segment[0] == '|')
 		return (TOK_PIPE);
 	if (len == 1 && token->segment[0] == '<')
-		return (TOK_IN);
+		return (TOK_REDIR_IN);
 	if (len == 1 && token->segment[0] == '>')
-		return (TOK_OUT);
+		return (TOK_REDIR_OUT);
 	if (len == 2 && ft_strncmp(token->segment, "<<", 2) == 0)
 		return (TOK_HEREDOC);
 	if (len == 2 && ft_strncmp(token->segment, ">>", 2) == 0)

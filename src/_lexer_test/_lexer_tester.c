@@ -1,7 +1,6 @@
 #include "../../include/minishell.h"
 
 
-
 void	print_tok_list(t_token_lst *lst);
 
 int main (int argc, char **argv)

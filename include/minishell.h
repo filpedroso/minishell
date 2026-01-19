@@ -150,15 +150,11 @@ typedef enum	e_token_type
 {
 	TOK_WORD,
 	TOK_PIPE,
-	TOK_IN,
-	TOK_OUT,
+	TOK_REDIR_IN,
+	TOK_REDIR_OUT,
 	TOK_APPEND,
 	TOK_HEREDOC,
-	TOK_QUOTE_S,
-	TOK_QUOTE_D,
-	NOT_A_TOK,
-
-	TOKEN_EOF
+	TOK_EOF
 } t_token_type;
 
 typedef struct	s_token_lst

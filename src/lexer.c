@@ -65,10 +65,9 @@ t_token_lst	*get_next_token(char **input)
 	if (!new_token)
 		return (NULL);
 	state = STATE_NORMAL;
+	skip_spaces(input);
 	while(**input && state != STATE_TOK_END)
 	{
-		// if (state == STATE_NORMAL)
-		// 	skip_spaces(input);
 		if (!**input)
 			break ;
 		state_machine_tokenizer(&state, new_token, **input);
@@ -79,6 +78,8 @@ t_token_lst	*get_next_token(char **input)
 		}
 		if (state == STATE_TOK_END_NO_EAT)
 			break ;
+		if (state == STATE_NORMAL)
+			skip_spaces(input);
 		(*input)++;
 	}
 	new_token->type = get_token_type(new_token);
@@ -101,7 +102,7 @@ t_token_lst		*alloc_null_tok(void)
 
 static void	state_machine_tokenizer(t_lexer_state *st, t_token_lst *tok, char c)
 {
-	if (*st == STATE_OPERATOR || is_operator(c))
+	if (*st == STATE_OPERATOR || ( is_operator(c) && *st == STATE_NORMAL ))
 		return (operator_state_op(st, tok, c));
 	if (*st == STATE_NORMAL)
 		return (default_state_op(st, tok, c));
