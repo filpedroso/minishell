@@ -96,19 +96,6 @@ typedef struct s_redirection
 	char				*target;
 } t_redirection;
 
-typedef struct s_command
-{
-	char			**args;
-	t_redirection	*redirections;
-	int				redirections_count;
-} t_command;
-
-typedef enum	e_node_type
-{
-	NODE_PIPE,
-	NODE_CMD
-} t_node_type;
-
 typedef enum	e_cmd_type
 {
 	EXT,
@@ -134,6 +121,12 @@ typedef struct	s_file_lst
 	struct s_file_lst	*next;
 } t_file_lst;
 
+typedef enum	e_node_type
+{
+	NODE_PIPE,
+	NODE_CMD
+} t_node_type;
+
 typedef struct	s_command
 {
 	t_cmd_type		type;
@@ -148,11 +141,10 @@ typedef struct	s_command
 typedef struct	s_ast_node
 {
 	t_node_type		type;
-	struct s_node	*left;
-	struct s_node	*right;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
 	t_command		*cmd;
 } t_ast_node;
-
 
 typedef enum	e_token_type
 {
@@ -174,8 +166,8 @@ typedef struct	s_token_lst
 	char			*segment;
 	char			*seg_mask;
 	t_token_type	type;
-	struct s_token	*next;
-	struct s_token	*previous;
+	struct s_token_lst	*next;
+	struct s_token_lst	*previous;
 } t_token_lst;
 
 
@@ -195,6 +187,20 @@ char	*get_input_line(void);
 
 /* ************************    NOT REFACTORED    **************************** */
 
+void		skip_spaces(char **input);
+int			is_operator(char c);
+
+/* Lexer functions */
+t_token_lst	*lexer(char **input);
+void		tok_lst_add_back(t_token_lst **lst, t_token_lst *new);
+void		print_tok_list(t_token_lst *lst);
+void		free_tok_lst(t_token_lst *lst);
+void		free_token(t_token_lst *token);
+t_token_type	get_token_type(t_token_lst *token);
+
+#endif
+
+/* 
 void		skip_spaces(char **input);
 int			is_operator(char c);
 int			is_redirection(t_token_type type);
@@ -253,6 +259,5 @@ t_token	*create_token_from_args(char **args);
 void	free_ast(t_node *ast);
 
 t_node	*create_ast_from_tokens(t_token *tokens);
-t_token	*create_token_from_args(char **args);
-
-#endif
+t_token	*create_token_from_args(char **args); 
+*/
