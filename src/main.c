@@ -18,7 +18,7 @@
 
 #include "minishell.h"
 
-static bool	init_env_list_struct(char **envp, t_env_vars *env_vars);
+static int	init_env_list_struct(char **envp, t_env_vars *env_vars);
 
 int main(char **envp)
 {
@@ -34,7 +34,6 @@ int main(char **envp)
     cleanup_env(env_vars);
     return (SUCCESS);
 }
-
 
 static int	init_env_list_struct(char **envp, t_env_vars *env_vars)
 {

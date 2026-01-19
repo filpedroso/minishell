@@ -12,6 +12,51 @@
 
 #include "minishell.h"
 
+t_token_lst		*alloc_null_tok(void)
+{
+	t_token_lst		*token;
+
+	token = malloc(sizeof(t_token_lst));
+	if (!token)
+		return (NULL);
+	token->segment = NULL;
+	token->seg_mask = NULL;
+	token->next = NULL;
+	token->previous = NULL;
+	return (token);
+}
+
+void	tok_lst_add_back(t_token_lst **lst, t_token_lst *new)
+{
+	t_token_lst	*last;
+
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	last = *lst;
+	while(last->next)
+	{
+		last = last->next;
+	}
+	last->next = new;
+}
+
+void	free_tok_lst(t_token_lst *lst)
+{
+	t_token_lst	*current;
+	t_token_lst	*next;
+
+	current = lst;
+	while (current)
+	{
+		next = current->next;
+		free_token(current);
+		current = next;
+	}
+}
+
 void	free_token(t_token_lst *token)
 {
 	if (!token)

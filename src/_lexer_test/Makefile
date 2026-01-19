@@ -26,8 +26,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 # Arquivos fonte organizados por diretório
 SRC = _lexer_tester.c \
       ../lexer.c \
+      ../lexer_2.c \
       ../lexer_utils.c \
-      ../tok_lst_add_back.c \
       ../not_refactored_yet/tokenizer_utils.c
 
 # Objetos

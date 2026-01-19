@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-static char				*get_input_line(void);
 static t_cycle_result	one_shell_cycle(t_env_vars env_vars);
+static char				*get_input_line(void);
 
 int	minishell_routine(t_env_vars env_vars)
 {

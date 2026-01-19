@@ -175,28 +175,38 @@ typedef struct	s_token_lst
 
 /* **************************    REFACTORED    ****************************** */
 
-void	minishell_routine(t_env_vars env_vars);
+//	main minishell
+int		minishell_routine(t_env_vars env_vars);
 char	*get_input_line(void);
 
 
 
+//	Lexer
+t_token_lst	*lexer(char **input);
+void	push_char(t_token_lst *token, char c, char mask, t_lexer_state *state);
 
-/* ************************    NOT REFACTORED    **************************** */
+// lexer_2.c
+void	state_machine_tokenizer(t_lexer_state *st, t_token_lst *tok, char c);
+
+//	lexer_utils.c
+void			tok_lst_add_back(t_token_lst **lst, t_token_lst *new);
+t_token_lst		*alloc_null_tok(void);
+void			free_tok_lst(t_token_lst *lst);
+void			free_token(t_token_lst *token);
+t_token_type	get_token_type(t_token_lst *token);
+
+
+
 
 void		skip_spaces(char **input);
 int			is_operator(char c);
 
-/* Lexer functions */
-t_token_lst	*lexer(char **input);
-void		tok_lst_add_back(t_token_lst **lst, t_token_lst *new);
-void		print_tok_list(t_token_lst *lst);
-void		free_tok_lst(t_token_lst *lst);
-void		free_token(t_token_lst *token);
-t_token_type	get_token_type(t_token_lst *token);
 
 #endif
 
-/* 
+/* ************************    NOT REFACTORED    **************************** */
+
+/*
 void		skip_spaces(char **input);
 int			is_operator(char c);
 int			is_redirection(t_token_type type);
