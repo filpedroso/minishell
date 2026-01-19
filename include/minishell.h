@@ -63,8 +63,10 @@ typedef enum	e_lexer_state
 	STATE_NORMAL,
 	STATE_SING_QUOTE,
 	STATE_DOUB_QUOTE,
+	STATE_OPERATOR,
     STATE_ERROR,
-	STATE_TOK_END
+	STATE_TOK_END,
+	STATE_TOK_END_NO_EAT
 } t_lexer_state;
 
 typedef enum e_builtin_type
@@ -169,8 +171,8 @@ typedef enum	e_token_type
 
 typedef struct	s_token_lst
 {
-	char			*value;
-	char			*context_mask;
+	char			*segment;
+	char			*seg_mask;
 	t_token_type	type;
 	struct s_token	*next;
 	struct s_token	*previous;
