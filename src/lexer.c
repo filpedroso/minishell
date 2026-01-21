@@ -13,7 +13,9 @@
 #include "minishell.h"
 
 
-static t_token_lst		*get_next_token(char **input);
+static t_token_lst	*get_next_token(char **input);
+static void			init_get_next_token(char **input,
+	t_token_lst **new_token, t_lexer_state *state);
 
 t_token_lst	*lexer(char **input)
 {
@@ -39,11 +41,9 @@ static t_token_lst	*get_next_token(char **input)
 	t_token_lst		*new_token;
 	t_lexer_state	state;
 
-	new_token = alloc_null_tok();
+	init_get_next_token(input, &new_token, &state);
 	if (!new_token)
 		return (NULL);
-	state = STATE_NORMAL;
-	skip_spaces(input);
 	while(**input && state != STATE_TOK_END)
 	{
 		if (!**input)
@@ -62,6 +62,15 @@ static t_token_lst	*get_next_token(char **input)
 	}
 	new_token->type = get_token_type(new_token);
 	return (new_token);
+}
+
+static void	init_get_next_token(char **input, t_token_lst **new_token, t_lexer_state *state)
+{
+	*new_token = alloc_null_tok();
+	if (!new_token)
+		return ;
+	*state = STATE_NORMAL;
+	skip_spaces(input);
 }
 
 void	push_char(t_token_lst *token, char c, char mask, t_lexer_state *state)
