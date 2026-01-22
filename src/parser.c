@@ -16,27 +16,83 @@
 // tem que ter um loop pra evitar um early return,
 // onde se emite um node de comando e pronto
 // pensar melhor
-t_ast_node	*build_expanded_ast(t_token_lst *tok_lst, t_env_vars env_vars)
+t_ast_node	*build_ast(t_token_lst *tok_lst)
 {
+	t_token_lst	*last_tok;
+	t_status	status;
 	t_ast_node	*ast;
 
 	if (!tok_lst)
 		return (NULL);
-	if (tok_lst->type == TOK_PIPE)
+	last_tok = tok_lstlast(tok_lst);
+	if (tok_lst->type == TOK_PIPE || last_tok->type == TOK_PIPE)
 	{
-		ast = create_pipe_ast_node();
-		if (!ast)
+		ft_putstr_fd("Parse error near '|'\n", 2);
+		return (NULL);
+	}
+	status = STATUS_OK;
+	ast = parse_tokens_into_ast(tok_lst, last_tok, &status);
+	if (status != STATUS_OK)
+	{
+		cleanup_ast(ast);
+		return (NULL);
+	}
+	return (ast);
+}
+
+t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_status *status)
+{
+    t_token_lst *pipe;
+    t_ast_node  *ast_node;
+
+    if (!start || !end)
+    {
+        *status = STATUS_ERR;
+        return (NULL);
+    }
+    pipe = get_first_pipe(start, end);
+    if (pipe)
+    {
+        ast_node = create_pipe_ast_node(status);
+        if (*status != STATUS_OK)
+            return (NULL);
+        ast_node->left = parse_tokens_into_ast(start, pipe->previous, status);
+        if (*status != STATUS_OK)
+            return (ast_node);
+        ast_node->right = parse_tokens_into_ast(pipe->next, end, status);
+        return (ast_node);
+    }
+    return (new_command_node(start, end, status));
+}
+
+
+t_ast_node	*parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_status *status)
+{
+	t_token_lst	*pipe;
+	t_ast_node	*ast_node;
+
+	if (!start || !end)
+		return (NULL);
+	pipe = get_first_pipe(start, end);
+	if (pipe)
+	{
+		ast_node = create_pipe_ast_node();
+		if (!ast_node)
+		{
+			*status = STATUS_ERR;
 			return (NULL);
-		ast->left = build_expanded_ast(tok_lst->previous, env_vars);
-		ast->right = build_expanded_ast(tok_lst->next, env_vars);
+		}
+		ast_node->left = parse_tokens_into_ast(start, pipe->previous, status);
+		ast_node->right = parse_tokens_into_ast(pipe->next, end, status);
+		return (ast_node);
 	}
 	else
 	{
-		ast = create_expanded_ast_cmd_node(tok_lst);
-		if (!ast)
-			return (NULL);
+		ast_node = new_command_node(start, end);
+		if (!ast_node)
+			*status = STATUS_ERR;
+		return (ast_node);
 	}
-	return (ast);
 }
 
 /* 

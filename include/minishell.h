@@ -51,6 +51,11 @@
 /* ***************************    types     ********************************* */
 /* ************************************************************************** */
 
+typedef enum e_status {
+    STATUS_OK,
+	STATUS_ERR
+} t_status;
+
 typedef enum e_cycle_result
 {
 	CYCLE_CONTINUE,

@@ -46,7 +46,7 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 		cleanup(input, NULL, NULL);
 		return (CYCLE_FATAL);
 	}
-	ast = build_expanded_ast(tokens, env_vars);
+	ast = build_ast(tokens);
 	if (!ast)
 	{
 		cleanup(input, tokens, NULL);
