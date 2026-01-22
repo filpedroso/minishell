@@ -145,10 +145,10 @@ typedef struct	s_command
 
 typedef struct	s_ast_node
 {
-	t_node_type		type;
+	t_node_type			type;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-	t_command		*cmd;
+	t_command			*cmd;
 } t_ast_node;
 
 typedef enum	e_token_type

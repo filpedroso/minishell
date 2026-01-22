@@ -12,10 +12,18 @@
 
 #include "minishell.h"
 
-// um problema neste design:
-// tem que ter um loop pra evitar um early return,
-// onde se emite um node de comando e pronto
-// pensar melhor
+static t_ast_node 	*parse_tokens_into_ast(
+	t_token_lst *start,
+	t_token_lst *end,
+	t_status *status
+	);
+static t_ast_node	*new_command_node(
+	t_token_lst *start,
+	t_token_lst *end,
+	t_status *status
+	);
+static t_ast_node	*create_pipe_ast_node(t_status *status);
+
 t_ast_node	*build_ast(t_token_lst *tok_lst)
 {
 	t_token_lst	*last_tok;
@@ -25,7 +33,7 @@ t_ast_node	*build_ast(t_token_lst *tok_lst)
 	if (!tok_lst)
 		return (NULL);
 	last_tok = tok_lstlast(tok_lst);
-	if (tok_lst->type == TOK_PIPE || last_tok->type == TOK_PIPE)
+	if (check_syntax(tok_lst, last_tok) == false)
 	{
 		ft_putstr_fd("Parse error near '|'\n", 2);
 		return (NULL);
@@ -40,7 +48,7 @@ t_ast_node	*build_ast(t_token_lst *tok_lst)
 	return (ast);
 }
 
-t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_status *status)
+static t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_status *status)
 {
     t_token_lst *pipe;
     t_ast_node  *ast_node;
@@ -65,42 +73,33 @@ t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_status
     return (new_command_node(start, end, status));
 }
 
-
-t_ast_node	*parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_status *status)
+static t_ast_node	*create_pipe_ast_node(t_status *status)
 {
-	t_token_lst	*pipe;
-	t_ast_node	*ast_node;
+	t_ast_node	*new_pipe_node;
 
-	if (!start || !end)
+	new_pipe_node = malloc(sizeof(t_ast_node));
+	if (!new_pipe_node)
+	{
+		*status = STATUS_ERR;
 		return (NULL);
-	pipe = get_first_pipe(start, end);
-	if (pipe)
-	{
-		ast_node = create_pipe_ast_node();
-		if (!ast_node)
-		{
-			*status = STATUS_ERR;
-			return (NULL);
-		}
-		ast_node->left = parse_tokens_into_ast(start, pipe->previous, status);
-		ast_node->right = parse_tokens_into_ast(pipe->next, end, status);
-		return (ast_node);
 	}
-	else
-	{
-		ast_node = new_command_node(start, end);
-		if (!ast_node)
-			*status = STATUS_ERR;
-		return (ast_node);
-	}
+	new_pipe_node->type = NODE_PIPE;
+	new_pipe_node->cmd = NULL;
+	new_pipe_node->left = NULL;
+	new_pipe_node->right = NULL;
+	return (new_pipe_node);
 }
 
-/* 
-atravessa a lista.
-se for pipe, vira raiz, se não, vira esquerda ou direita
-a árvore roda da forma que o executor roda... como converter os tokens
-em nodes numa ast?
-- tokens vão ser divididos em nodes diferentes?
-- um node consiste em comando + redireções + args, correto?
-- o token já guarda essa estrutura?
-*/
+static t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_status *status)
+{
+	/* 
+	tudo entre pipes é um comando só ;
+	varios tokens podem fazer parte de um comando ;
+	programa ;
+	redireções ;
+	path ;
+	variáveis... ;
+	é o argv do babado ;
+	é focar em construir esse argv do jeito certo;
+	*/
+}
