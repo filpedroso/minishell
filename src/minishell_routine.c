@@ -35,7 +35,7 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 {
 	char		*input;
 	t_token_lst	*tokens;
-	t_ast_node	*ast;
+	t_ast		ast;
 
 	input = get_input_line();
 	if (!input)
@@ -46,12 +46,14 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 		cleanup(input, NULL, NULL);
 		return (CYCLE_FATAL);
 	}
-	ast = build_ast(tokens);
-	if (!ast)
+	ast = make_ast(tokens);
+	if (ast.parse_status == PARSE_FATAL)
 	{
 		cleanup(input, tokens, NULL);
 		return (CYCLE_FATAL);
 	}
+	if (ast.parse_status == PARSE_ERROR)
+		return (CYCLE_CONTINUE);
 	execute_tree(ast);
 	cycle_cleanup(input, tokens, ast);	//terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);

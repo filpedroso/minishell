@@ -158,6 +158,19 @@ typedef struct	s_ast_node
 	t_command			*cmd;
 } t_ast_node;
 
+typedef enum e_parse_status
+{
+	PARSE_OK,
+	PARSE_ERROR,
+	PARSE_FATAL
+} t_parse_status;
+
+typedef struct	s_ast
+{
+	t_ast_node		*ast_root;
+	t_parse_status	parse_status;
+} t_ast;
+
 typedef enum	e_token_type
 {
 	TOK_WORD,
@@ -207,6 +220,9 @@ void			free_tok_lst(t_token_lst *lst);
 void			free_token(t_token_lst *token);
 t_token_type	get_token_type(t_token_lst *token);
 
+
+// parser
+t_ast	make_ast(t_token_lst *tok_lst);
 
 
 
