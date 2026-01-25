@@ -51,7 +51,8 @@
 /* ***************************    types     ********************************* */
 /* ************************************************************************** */
 
-typedef enum e_status {
+typedef enum e_status
+{
     STATUS_OK,
 	STATUS_ERR
 } t_status;
@@ -131,6 +132,12 @@ typedef enum	e_node_type
 	NODE_PIPE,
 	NODE_CMD
 } t_node_type;
+
+typedef struct	s_word
+{
+	char	*token_word_ptr;
+	char	*context_mask_ptr;
+} t_word;
 
 typedef struct	s_command
 {

@@ -24,7 +24,7 @@ static t_ast_node	*new_command_node(
 	);
 static t_ast_node	*create_pipe_ast_node(t_status *status);
 
-t_ast_node	*build_ast(t_token_lst *tok_lst)
+t_ast_node	*make_ast(t_token_lst *tok_lst)
 {
 	t_token_lst	*last_tok;
 	t_status	status;
@@ -92,6 +92,42 @@ static t_ast_node	*create_pipe_ast_node(t_status *status)
 
 static t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_status *status)
 {
+	t_token_lst	*current;
+	t_ast_node	*new_cmd_node;
+	t_status	status;
+
+	new_cmd_node = alloc_cmd_node(); // allocates the node and its cmd
+	if (!new_cmd_node)
+		return (NULL);
+	current = start;
+	status = STATUS_OK;
+	while (current && current != end->next)
+	{
+		if (is_tok_redirection(current->type))
+		{
+			add_redir_to_cmd(&new_cmd_node, current, &status);
+			if (status == STATUS_ERR)
+			{
+				cleanup_ast(new_cmd_node);
+				return (NULL);
+			}
+			current = current->next;
+		}
+		else
+		{
+			add_word_to_cmd(&new_cmd_node, current, &status);
+			if (status == STATUS_ERR)
+			{
+				cleanup_ast(new_cmd_node);
+				return (NULL);
+			}
+		}
+		current = current->next;
+	}
+	return (new_cmd_node);
+}
+
+
 	/* 
 	tudo entre pipes é um comando só ;
 	varios tokens podem fazer parte de um comando ;
@@ -100,6 +136,6 @@ static t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_stat
 	path ;
 	variáveis... ;
 	é o argv do babado ;
-	é focar em construir esse argv do jeito certo;
+	é focar em construir esse argv do jeito certo ;
+	estudar esse negócio de argv ;
 	*/
-}
