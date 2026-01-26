@@ -98,8 +98,7 @@ typedef enum	e_redirection_type
 typedef struct s_redirection
 {
 	t_redirection_type	type;
-	char				*arg;
-	char				*target;
+	t_word				target;
 } t_redirection;
 
 typedef enum	e_cmd_type
