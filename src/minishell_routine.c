@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 static t_cycle_result	one_shell_cycle(t_env_vars env_vars);
 static char				*get_input_line(void);
 
@@ -38,25 +39,32 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 	t_ast		ast;
 
 	input = get_input_line();
-	if (!input)
-		return (CYCLE_EXIT); // ctrl-D
+	if (!input)				// ctrl-D
+		return (CYCLE_EXIT);
 	tokens = lexer(input);
-	if (!tokens) // NULL tokens means fatal; Empty tokens will be passed on, normally
-	{
-		cleanup(input, NULL, NULL);
-		return (CYCLE_FATAL);
-	}
+	if (!tokens)			// NULL tokens means fatal; Empty tokens will be passed on, normally
+		return (cycle_lexer_err(input));
 	ast = make_ast(tokens);
-	if (ast.parse_status == PARSE_FATAL)
-	{
-		cleanup(input, tokens, NULL);
-		return (CYCLE_FATAL);
-	}
-	if (ast.parse_status == PARSE_ERROR)
-		return (CYCLE_CONTINUE);
+	if (ast.parse_status != PARSE_OK)
+		return (cycle_parser_err(input, tokens, ast));
 	execute_tree(ast);
 	cycle_cleanup(input, tokens, ast);	//terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);
+}
+
+t_cycle_result	cycle_lexer_err(char *input)
+{
+	cycle_cleanup(input, NULL, NULL);
+	return (CYCLE_FATAL);
+}
+
+t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens, t_ast ast)
+{
+	cycle_cleanup(input, tokens, ast);
+	if (ast.parse_status == PARSE_FATAL)
+		return (CYCLE_FATAL);
+	if (ast.parse_status == PARSE_ERROR)
+		return (CYCLE_CONTINUE);
 }
 
 static char	*get_input_line(void)

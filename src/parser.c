@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+/* **************************************************** */
+/*                                                      */
+//	THINK ABOUT THIS SUGGESTION:                        */
+//		Only fatal errors abort parsing immediately     */
+//		Syntax errors propagate normally                */
+/*                                                      */
+/* **************************************************** */
+
 static t_ast_node 	*parse_tokens_into_ast(
 	t_token_lst *start,
 	t_token_lst *end,
