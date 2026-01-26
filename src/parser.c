@@ -14,11 +14,12 @@
 
 /* **************************************************** */
 /*                                                      */
-//	THINK ABOUT THIS SUGGESTION:                        */
-//		Only fatal errors abort parsing immediately     */
-//		Syntax errors propagate normally                */
+//	                                                    */
+//		            *** BE HAPPY! ***                   */
+//		                                                */
 /*                                                      */
 /* **************************************************** */
+
 
 static t_ast_node 	*parse_tokens_into_ast(
 	t_token_lst *start,
@@ -34,7 +35,7 @@ static t_ast_node	*create_pipe_ast_node(t_parse_status *status);
 
 t_ast	make_ast(t_token_lst *tok_lst)
 {
-	t_ast			ast;
+	t_ast	ast;
 
 	if (!tok_lst || !check_syntax(tok_lst))
 	{
@@ -44,8 +45,6 @@ t_ast	make_ast(t_token_lst *tok_lst)
 	}
 	ast.parse_status = PARSE_OK;
 	ast.ast_root = parse_tokens_into_ast(tok_lst, tok_lstlast(tok_lst), &ast.parse_status);
-	if (ast.parse_status == PARSE_ERROR)
-		cleanup_ast(ast.ast_root);
 	return (ast);
 }
 
@@ -54,11 +53,6 @@ static t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t
     t_token_lst *pipe;
     t_ast_node  *ast_node;
 
-    if (!start || !end)
-    {
-        *status = PARSE_FATAL;
-        return (NULL);
-    }
     pipe = get_first_pipe(start, end);
     if (pipe)
     {
@@ -67,8 +61,16 @@ static t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t
             return (NULL);
         ast_node->left = parse_tokens_into_ast(start, pipe->previous, status);
         if (*status != PARSE_OK)
-            return (ast_node);
+		{
+			free(ast_node);
+            return (NULL);
+		}
         ast_node->right = parse_tokens_into_ast(pipe->next, end, status);
+		if (*status != PARSE_OK)
+		{
+			free(ast_node);
+            return (NULL);
+		}
         return (ast_node);
     }
     return (new_command_node(start, end, status));
@@ -96,12 +98,9 @@ static t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_pars
 	t_token_lst	*current;
 	t_ast_node	*new_cmd_node;
 
-	new_cmd_node = alloc_cmd_node(start, end); // allocates the node, its cmd, redirs and everything it will need
-	if (!new_cmd_node)
-	{
-		*status = STATUS_ERR;
+	new_cmd_node = alloc_cmd_node(start, end, status); // allocates the node, its cmd, redirs and everything it will need
+	if (*status != PARSE_OK)
 		return (NULL);
-	}
 	current = start;
 	while (current && current != end->next)
 	{
@@ -109,9 +108,9 @@ static t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_pars
 			current = parse_redirection(new_cmd_node, current, status);
 		else
 			current = parse_word(new_cmd_node, current, status);
-		if (*status != STATUS_OK)
+		if (*status != PARSE_OK)
 		{
-			cleanup_ast(new_cmd_node);
+			destroy_cmd_node(new_cmd_node);
 			return (NULL);
 		}
 	}
@@ -122,8 +121,8 @@ t_token_lst	*parse_redirection(t_ast_node *cmd_ast_node, t_token_lst *token_node
 {
     if (!token_node->next || token_node->next->type != TOK_WORD)
     {
-        *status = STATUS_ERR;
-        return NULL;
+        *status = PARSE_ERROR;
+        return (NULL);
     }
     add_redir(cmd_ast_node, token_node, token_node->next, status);
     return (token_node->next->next);
