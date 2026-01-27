@@ -33,7 +33,8 @@ static t_ast_node	*new_command_node(
 	);
 static t_ast_node	*create_pipe_ast_node(t_parse_status *status);
 
-t_ast	make_ast(t_token_lst *tok_lst)
+
+t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 {
 	t_ast	ast;
 
@@ -45,8 +46,49 @@ t_ast	make_ast(t_token_lst *tok_lst)
 	}
 	ast.parse_status = PARSE_OK;
 	ast.ast_root = parse_tokens_into_ast(tok_lst, tok_lstlast(tok_lst), &ast.parse_status);
+	add_env_vars_refs_to_tree(ast.ast_root, env_vars);
 	return (ast);
 }
+
+
+void	add_env_vars_refs_to_tree(t_ast_node *tree_root, t_env_vars env_vars_ref)
+{
+	// That's it
+}
+
+
+bool	check_syntax(t_token_lst)
+{
+	/* 
+	** check for pipes in start & end,
+	** check for double pipes
+	*/
+}
+
+
+t_token_lst	*get_first_pipe(t_token_lst *start, t_token_lst *end)
+{
+	// that's it
+}
+
+
+t_ast_node	*alloc_cmd_node(t_token_lst *start, t_token_lst *end, t_parse_status *status)
+{
+	// big guy
+}
+
+
+bool	is_tok_redirection(t_token_type tok_type)
+{
+	// easy
+}
+
+
+void	destroy_cmd_node(t_ast_node *cmd_node)
+{
+	// thats it
+}
+
 
 static t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_parse_status *status)
 {
@@ -76,6 +118,7 @@ static t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t
     return (new_command_node(start, end, status));
 }
 
+
 static t_ast_node	*create_pipe_ast_node(t_parse_status *status)
 {
 	t_ast_node	*new_pipe_node;
@@ -93,6 +136,7 @@ static t_ast_node	*create_pipe_ast_node(t_parse_status *status)
 	return (new_pipe_node);
 }
 
+
 static t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_parse_status *status)
 {
 	t_token_lst	*current;
@@ -105,7 +149,7 @@ static t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_pars
 	while (current && current != end->next)
 	{
 		if (is_tok_redirection(current->type))
-			current = parse_redirection(new_cmd_node, current, status);
+			current = parse_redirection(new_cmd_node->cmd, current, status);
 		else
 			current = parse_word(new_cmd_node->cmd, current, status);
 		if (*status != PARSE_OK)
@@ -116,6 +160,15 @@ static t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_pars
 	}
 	return (new_cmd_node);
 }
+
+
+t_token_lst *parse_word(t_command *cmd, t_token_lst *token_node, t_parse_status *status)
+{
+	cmd->words[cmd->words_count] = get_word_from_token(token_node);
+	cmd->words_count++;
+    return (token_node->next);
+}
+
 
 t_token_lst	*parse_redirection(t_command *cmd, t_token_lst *token_node, t_parse_status *status)
 {
@@ -128,6 +181,7 @@ t_token_lst	*parse_redirection(t_command *cmd, t_token_lst *token_node, t_parse_
     return (token_node->next->next);
 }
 
+
 void	add_redir_to_cmd(t_command *cmd, t_token_lst *tok_redir, t_token_lst *tok_target, t_parse_status *status)
 {
 	t_redirection		redir;
@@ -138,6 +192,7 @@ void	add_redir_to_cmd(t_command *cmd, t_token_lst *tok_redir, t_token_lst *tok_t
 	cmd->redirections_count++;
 }
 
+
 t_word	get_word_from_token(t_token_lst *token)
 {
 	t_word	word;
@@ -146,6 +201,7 @@ t_word	get_word_from_token(t_token_lst *token)
 	word.context_mask_ptr = token->seg_mask;
 	return (word);
 }
+
 
 t_redirection_type	get_redir_type_from_tok_type(t_token_type token_type)
 {
@@ -157,10 +213,4 @@ t_redirection_type	get_redir_type_from_tok_type(t_token_type token_type)
 		return (REDIR_APPEND);
 	if (token_type == TOK_HEREDOC)
 		return (REDIR_HEREDOC);
-}
-
-t_token_lst *parse_word(t_ast_node *cmd_ast_node, t_token_lst *token_node, t_parse_status *status)
-{
-    add_word(cmd_ast_node, token_node, status);
-    return (token_node->next);
 }

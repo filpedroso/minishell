@@ -116,7 +116,7 @@ typedef struct	s_var_lst
 
 typedef struct	s_env_vars
 {
-	t_var_lst	*persistent_envs;
+	t_var_lst	*persistent_envs_ptr;
 	t_var_lst	*inline_envs;
 } t_env_vars;
 
@@ -141,7 +141,8 @@ typedef struct	s_word
 typedef struct	s_command
 {
 	t_cmd_type		type;
-	char			**args;
+	t_word			*words;
+	int				words_count;
 	bool			is_pipeline;
 	t_env_vars		env_vars;
 	t_redirection	*redirections;
