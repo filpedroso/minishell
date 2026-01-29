@@ -138,6 +138,12 @@ typedef struct	s_word
 	char	*context_mask_ptr;
 } t_word;
 
+typedef struct s_file_lst
+{
+	char				*path;
+	struct s_file_lst	*next;
+} t_file_lst;
+
 typedef struct	s_command
 {
 	t_cmd_type		type;
@@ -226,8 +232,17 @@ void 		destroy_ast(t_ast_node *node);
 void		destroy_cmd_node(t_ast_node *cmd_node);
 
 // minishell_utils
+char		*get_input_line(void);
+t_var_lst	*envp_to_env_list(char **envp);
+t_var_lst	*env_node_from_str(char *str);
+t_var_lst	*alloc_t_var_list_node(void);
+void    	destroy_env_list(t_var_lst *env_list);
+void		cleanup_env(t_env_vars env_vars);
 void		skip_spaces(char **input);
 int			is_operator(char c);
 
+// DEBUG
+void	debug_print_ast(t_ast_node *node, int depth);
+void	debug_print_ast_2(FILE *out, const t_ast_node *root);
 
 #endif

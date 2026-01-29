@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
-
 static t_cycle_result	one_shell_cycle(t_env_vars env_vars);
-static char				*get_input_line(void);
+static t_cycle_result	cycle_lexer_err(char *input);
+static t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens, t_ast ast);
+static void				cycle_cleanup(char *input, t_token_lst *tok_lst, t_ast ast);
 
 int	minishell_routine(t_env_vars env_vars)
 {
@@ -47,34 +48,33 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 	ast = make_ast(tokens);
 	if (ast.parse_status != PARSE_OK)
 		return (cycle_parser_err(input, tokens, ast));
-	execute_tree(ast);
+	//execute_tree(ast);
+	debug_print_ast(ast.ast_root);
 	cycle_cleanup(input, tokens, ast);	//terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);
 }
 
-t_cycle_result	cycle_lexer_err(char *input)
+static void	cycle_cleanup(char *input, t_token_lst *tok_lst, t_ast ast)
+{
+	if (input)
+		free(input);
+	if (tok_lst)
+		free_tok_lst(tok_lst);
+	if (ast.ast_root)
+		destroy_ast(ast.ast_root);
+}
+
+static t_cycle_result	cycle_lexer_err(char *input)
 {
 	cycle_cleanup(input, NULL, NULL);
 	return (CYCLE_FATAL);
 }
 
-t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens, t_ast ast)
+static t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens, t_ast ast)
 {
 	cycle_cleanup(input, tokens, ast);
 	if (ast.parse_status == PARSE_FATAL)
 		return (CYCLE_FATAL);
 	if (ast.parse_status == PARSE_ERROR)
 		return (CYCLE_CONTINUE);
-}
-
-static char	*get_input_line(void)
-{
-	char	*input;
-
-	input = readline("> ");
-	if (!input)
-		return (NULL);
-	if (*input)
-		add_history(input);
-	return (input);
 }

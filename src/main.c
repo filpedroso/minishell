@@ -10,12 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	ERROR HANDLING PROPOSITION:
-**		I clean the data I own
-**		NULL is always fatal
-*/
-
 #include "minishell.h"
 
 static int	init_env_list_struct(char **envp, t_env_vars *env_vars);
@@ -35,11 +29,15 @@ int main(char **envp)
     return (SUCCESS);
 }
 
-static int	init_env_list_struct(char **envp, t_env_vars *env_vars)
+static int init_env_list_struct(char **envp, t_env_vars *env_vars)
 {
-    env_vars->persistent_envs_ptr = convert_envp_to_env_list(envp);
-    if (!env_vars->persistent_envs_ptr)
-        return (ERROR);
+    env_vars->persistent_envs_ptr = NULL;
+    if (envp && envp[0])
+	{
+        env_vars->persistent_envs_ptr = envp_to_env_list(envp);
+    	if (!env_vars->persistent_envs_ptr)
+        	return (ERROR);
+	}
     env_vars->inline_envs = NULL;
     return (SUCCESS);
 }
