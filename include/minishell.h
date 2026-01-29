@@ -206,26 +206,32 @@ char	*get_input_line(void);
 
 
 
-//	Lexer
+//	lexer
 t_token_lst	*lexer(char **input);
-void	push_char(t_token_lst *token, char c, char mask, t_lexer_state *state);
+void		push_char(t_token_lst *token, char c, char mask, t_lexer_state *state);
+void		state_machine_tokenizer(t_lexer_state *st, t_token_lst *tok, char c);
 
-// lexer_2.c
-void	state_machine_tokenizer(t_lexer_state *st, t_token_lst *tok, char c);
-
-//	lexer_utils.c
+//	lexer_utils
 void			tok_lst_add_back(t_token_lst **lst, t_token_lst *new);
 t_token_lst		*alloc_null_tok(void);
 void			free_tok_lst(t_token_lst *lst);
 void			free_token(t_token_lst *token);
 t_token_type	get_token_type(t_token_lst *token);
 
-
 // parser
-t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
+t_ast		make_ast(t_token_lst *tok_lst, t_env_vars env_vars);
+t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_parse_status *status);
+t_token_lst *parse_word(t_command *cmd, t_token_lst *token_node, t_parse_status *status);
+t_token_lst	*parse_redirection(t_command *cmd, t_token_lst *token_node, t_parse_status *status);
 
+// parser_tools
+t_token_lst	*get_first_pipe(t_token_lst *start, t_token_lst *end);
+t_token_lst	*tok_lstlast(t_token_lst *lst);
+bool		is_tok_redirection(t_token_type tok_type);
+void 		destroy_ast(t_ast_node *node);
+void		destroy_cmd_node(t_ast_node *cmd_node);
 
-
+// minishell_utils
 void		skip_spaces(char **input);
 int			is_operator(char c);
 
