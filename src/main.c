@@ -37,8 +37,8 @@ int main(char **envp)
 
 static int	init_env_list_struct(char **envp, t_env_vars *env_vars)
 {
-    env_vars->persistent_envs = convert_envp_to_env_list(envp);
-    if (!env_vars->persistent_envs)
+    env_vars->persistent_envs_ptr = convert_envp_to_env_list(envp);
+    if (!env_vars->persistent_envs_ptr)
         return (ERROR);
     env_vars->inline_envs = NULL;
     return (SUCCESS);

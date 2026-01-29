@@ -14,6 +14,8 @@
 
 void	skip_spaces(char **input)
 {
+	if (!input || !*input)
+		return ;
 	while (**input && (**input == ' ' || **input == '\t'))
 		(*input)++;
 }
