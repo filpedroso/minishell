@@ -37,10 +37,11 @@ static t_ast_node	*create_pipe_ast_node(t_parse_status *status);
 t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 {
 	t_ast		ast;
-	t_token_lst	last_tok;
+	t_token_lst	*last_tok;
 
-	last_tok = tok_lst_last(tok_lst);
-	if (!tok_lst || !check_pipe_syntax(tok_lst, last_tok))
+	if (tok_lst)
+		last_tok = tok_lst_last(tok_lst);
+	if (!check_pipe_syntax(tok_lst, last_tok))
 	{
 		ft_putstr_fd("Parse error\n", 2);
 		ast.parse_status = PARSE_ERROR;
@@ -62,12 +63,8 @@ void	add_env_vars_refs_to_tree(t_ast_node *tree_node, t_env_vars env_vars)
 		add_env_vars_refs_to_tree(tree_node->left, env_vars);
 		add_env_vars_refs_to_tree(tree_node->right, env_vars);
 	}
-	else
-	{
-		if (tree_node->cmd)
-			tree_node->cmd->env_vars = env_vars;
-		return ;
-	}
+	else if (tree_node->cmd)
+		tree_node->cmd->env_vars = env_vars;
 }
 
 /* 
@@ -76,6 +73,8 @@ void	add_env_vars_refs_to_tree(t_ast_node *tree_node, t_env_vars env_vars)
 */
 bool	check_pipe_syntax(t_token_lst *first, t_token_lst *last)
 {
+	if (!first || !last)
+    	return (false);
 	if (first->type == TOK_PIPE || last->type == TOK_PIPE)
 		return (false);
 	while (first && first != last)
@@ -101,11 +100,9 @@ t_token_lst	*get_first_pipe(t_token_lst *start, t_token_lst *end)
 	return (NULL);
 }
 
-//	is redirection.target always only one word?
 t_ast_node	*alloc_cmd_node(t_token_lst *start, t_token_lst *end, t_parse_status *status)
 {
 	t_ast_node	*ast_node;
-	int			redirs_amount;
 
 	ast_node = malloc_node_and_cmd();
 	if (!ast_node)
@@ -123,9 +120,49 @@ t_ast_node	*alloc_cmd_node(t_token_lst *start, t_token_lst *end, t_parse_status 
 }
 
 void	alloc_cmd_words_and_redirs(t_command *cmd, t_token_lst *start,
-	t_token_lst *end, t_parse_status status)
+	t_token_lst *end, t_parse_status *status)
 {
-	...;
+    int	word_count;
+    int	redir_count;
+
+	get_word_and_redir_count(&word_count, &redir_count, start, end);
+    cmd->words = malloc(sizeof(t_word) * (word_count));
+    if (!cmd->words)
+    {
+        *status = PARSE_FATAL;
+        return;
+    }
+	if (redir_count)
+	{
+		cmd->redirections = malloc(sizeof(t_redirection) * (redir_count));
+		if (!cmd->redirections && redir_count > 0)
+		{
+			free(cmd->words);
+			*status = PARSE_FATAL;
+			return;
+		}
+	}
+}
+
+void	get_word_and_redir_count(int *word_count, int *redir_count, t_token_lst *start, t_token_lst *end)
+{
+	t_token_lst	*current;
+
+	*word_count = 0;
+	*redir_count = 0;
+    current = start;
+    while (current && current != end->next)
+    {
+        if (is_tok_redirection(current->type))
+        {
+            (*redir_count)++;
+            current = current->next;
+        }
+        else
+        	(*word_count)++;
+		if (current)
+			current = current->next;
+    }
 }
 
 t_ast_node	*malloc_node_and_cmd(void)
@@ -144,8 +181,10 @@ t_ast_node	*malloc_node_and_cmd(void)
 		free(ast_node);
 		return (NULL);
 	}
-	ast_node->cmd->redirections_count = 0;
 	ast_node->cmd->words_count = 0;
+	ast_node->cmd->redirections_count = 0;
+	ast_node->cmd->words = NULL;
+	ast_node->cmd->redirections = NULL;
 	ast_node->cmd->temp_files_list = NULL;
 	return (ast_node);
 }
@@ -169,7 +208,7 @@ void	destroy_cmd_node(t_ast_node *cmd_node)
 bool	is_tok_redirection(t_token_type tok_type)
 {
 	return (tok_type == TOK_APPEND || tok_type == TOK_REDIR_IN
-		|| tok_type == TOK_REDIR_OUT || tok_type == TOK_REDIR_OUT);
+		|| tok_type == TOK_REDIR_OUT || tok_type == TOK_HEREDOC);
 }
 
 static t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_parse_status *status)
@@ -186,13 +225,13 @@ static t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t
         ast_node->left = parse_tokens_into_ast(start, pipe->previous, status);
         if (*status != PARSE_OK)
 		{
-			free(ast_node);
+			destroy_ast(ast_node);
             return (NULL);
 		}
         ast_node->right = parse_tokens_into_ast(pipe->next, end, status);
 		if (*status != PARSE_OK)
 		{
-			free(ast_node);
+			destroy_ast(ast_node);
             return (NULL);
 		}
         return (ast_node);
@@ -294,4 +333,18 @@ t_redirection_type	get_redir_type_from_tok_type(t_token_type token_type)
 		return (REDIR_APPEND);
 	if (token_type == TOK_HEREDOC)
 		return (REDIR_HEREDOC);
+}
+
+void destroy_ast(t_ast_node *node)
+{
+    if (!node)
+        return;
+    if (node->type == NODE_PIPE)
+    {
+        destroy_ast(node->left);
+        destroy_ast(node->right);
+        free(node);
+    }
+    else
+        destroy_cmd_node(node);
 }

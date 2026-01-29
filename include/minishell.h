@@ -222,7 +222,7 @@ t_token_type	get_token_type(t_token_lst *token);
 
 
 // parser
-t_ast	make_ast(t_token_lst *tok_lst);
+t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 
 
 
