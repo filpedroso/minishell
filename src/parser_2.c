@@ -17,8 +17,6 @@ static t_ast_node	*malloc_node_and_cmd(void);
 static void			alloc_cmd_words_and_redirs(t_command *cmd, t_token_lst *start, t_token_lst *end, t_parse_status *status);
 static void			get_word_and_redir_count(int *word_count, int *redir_count, t_token_lst *start, t_token_lst *end);
 
-
-
 t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_parse_status *status)
 {
 	t_token_lst	*current;
@@ -33,7 +31,7 @@ t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_parse_statu
 		if (is_tok_redirection(current->type))
 			current = parse_redirection(new_cmd_node->cmd, current, status);
 		else
-			current = parse_word(new_cmd_node->cmd, current, status);
+			current = parse_word(new_cmd_node->cmd, current);
 		if (*status != PARSE_OK)
 		{
 			destroy_cmd_node(new_cmd_node);

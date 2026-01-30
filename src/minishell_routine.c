@@ -15,7 +15,7 @@
 static t_cycle_result	one_shell_cycle(t_env_vars env_vars);
 static t_cycle_result	cycle_lexer_err(char *input);
 static t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens, t_ast ast);
-static void				cycle_cleanup(char *input, t_token_lst *tok_lst, t_ast ast);
+static void				cycle_cleanup(char *input, t_token_lst *tok_lst, t_ast_node *ast_root);
 
 int	minishell_routine(t_env_vars env_vars)
 {
@@ -36,32 +36,37 @@ int	minishell_routine(t_env_vars env_vars)
 static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 {
 	char		*input;
+	char		*input_base;
 	t_token_lst	*tokens;
 	t_ast		ast;
 
 	input = get_input_line();
 	if (!input)				// ctrl-D
 		return (CYCLE_EXIT);
-	tokens = lexer(input);
+	input_base = input;
+	tokens = lexer(&input);
 	if (!tokens)			// NULL tokens means fatal; Empty tokens will be passed on, normally
-		return (cycle_lexer_err(input));
-	ast = make_ast(tokens);
+		return (cycle_lexer_err(input_base));
+	ast = make_ast(tokens, env_vars);
 	if (ast.parse_status != PARSE_OK)
-		return (cycle_parser_err(input, tokens, ast));
+		return (cycle_parser_err(input_base, tokens, ast));
 	//execute_tree(ast);
-	debug_print_ast(ast.ast_root);
-	cycle_cleanup(input, tokens, ast);	//terminal cleanup + data cleanup
+	debug_print_ast_pretty(stderr, ast.ast_root);
+	cycle_cleanup(input_base, tokens, ast.ast_root);	//terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);
 }
 
-static void	cycle_cleanup(char *input, t_token_lst *tok_lst, t_ast ast)
+static void	cycle_cleanup(char *input, t_token_lst *tok_lst, t_ast_node *ast_root)
 {
 	if (input)
+	{
 		free(input);
+		input = NULL;
+	}
 	if (tok_lst)
 		free_tok_lst(tok_lst);
-	if (ast.ast_root)
-		destroy_ast(ast.ast_root);
+	if (ast_root)
+		destroy_ast(ast_root);
 }
 
 static t_cycle_result	cycle_lexer_err(char *input)
@@ -72,9 +77,9 @@ static t_cycle_result	cycle_lexer_err(char *input)
 
 static t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens, t_ast ast)
 {
-	cycle_cleanup(input, tokens, ast);
+	cycle_cleanup(input, tokens, ast.ast_root);
 	if (ast.parse_status == PARSE_FATAL)
 		return (CYCLE_FATAL);
-	if (ast.parse_status == PARSE_ERROR)
+	else
 		return (CYCLE_CONTINUE);
 }

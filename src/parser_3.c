@@ -14,13 +14,12 @@
 
 static void	add_redir_to_cmd(t_command *cmd,
 	t_token_lst *tok_redir,
-	t_token_lst *tok_target,
-	t_parse_status *status);
+	t_token_lst *tok_target);
 static t_word				get_word_from_token(t_token_lst *token);
 static t_redirection_type	get_redir_type_from_tok_type(t_token_type token_type);
 
 
-t_token_lst *parse_word(t_command *cmd, t_token_lst *token_node, t_parse_status *status)
+t_token_lst *parse_word(t_command *cmd, t_token_lst *token_node)
 {
 	cmd->words[cmd->words_count] = get_word_from_token(token_node);
 	cmd->words_count++;
@@ -34,11 +33,11 @@ t_token_lst	*parse_redirection(t_command *cmd, t_token_lst *token_node, t_parse_
         *status = PARSE_ERROR;
         return (NULL);
     }
-    add_redir_to_cmd(cmd, token_node, token_node->next, status);
+    add_redir_to_cmd(cmd, token_node, token_node->next);
     return (token_node->next->next);
 }
 
-static void	add_redir_to_cmd(t_command *cmd, t_token_lst *tok_redir, t_token_lst *tok_target, t_parse_status *status)
+static void	add_redir_to_cmd(t_command *cmd, t_token_lst *tok_redir, t_token_lst *tok_target)
 {
 	t_redirection		redir;
 
@@ -65,6 +64,5 @@ static t_redirection_type	get_redir_type_from_tok_type(t_token_type token_type)
 		return (REDIR_OUT);
 	if (token_type == TOK_APPEND)
 		return (REDIR_APPEND);
-	if (token_type == TOK_HEREDOC)
-		return (REDIR_HEREDOC);
+	return (REDIR_HEREDOC);
 }

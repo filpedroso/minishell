@@ -49,7 +49,7 @@ static void dbg_print_word(FILE *out, const t_word *w, int depth, const char *la
 	fputs(" }\n", out);
 }
 
-static void dbg_print_var_list(FILE *out, const t_var_lst *v, int depth, const char *label)
+/* static void dbg_print_var_list(FILE *out, const t_var_lst *v, int depth, const char *label)
 {
 	put_indent(out, depth);
 	fprintf(out, "%s: %p\n", label, (void *)v);
@@ -66,9 +66,9 @@ static void dbg_print_var_list(FILE *out, const t_var_lst *v, int depth, const c
 		v = v->next;
 		i++;
 	}
-}
+} */
 
-static void dbg_print_env_vars(FILE *out, const t_env_vars *e, int depth)
+/* static void dbg_print_env_vars(FILE *out, const t_env_vars *e, int depth)
 {
 	put_indent(out, depth);
 	fprintf(out, "env_vars: { persistent_envs_ptr=%p, inline_envs=%p }\n",
@@ -79,7 +79,7 @@ static void dbg_print_env_vars(FILE *out, const t_env_vars *e, int depth)
 		return;
 	dbg_print_var_list(out, e->persistent_envs_ptr, depth + 1, "persistent_envs_ptr");
 	dbg_print_var_list(out, e->inline_envs,          depth + 1, "inline_envs");
-}
+} */
 
 static void dbg_print_redirections(FILE *out, const t_redirection *r, int count, int depth)
 {
@@ -133,7 +133,7 @@ static void dbg_print_command(FILE *out, const t_command *c, int depth)
 	put_indent(out, depth + 1);
 	fprintf(out, "is_pipeline=%s\n", c->is_pipeline ? "true" : "false");
 
-	dbg_print_env_vars(out, &c->env_vars, depth + 1);
+	// dbg_print_env_vars(out, &c->env_vars, depth + 1);
 
 	dbg_print_redirections(out, c->redirections, c->redirections_count, depth + 1);
 

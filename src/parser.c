@@ -22,8 +22,7 @@ t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 	t_ast		ast;
 	t_token_lst	*last_tok;
 
-	if (tok_lst)
-		last_tok = tok_lst_last(tok_lst);
+	last_tok = tok_lstlast(tok_lst);
 	if (!check_pipe_syntax(tok_lst, last_tok))
 	{
 		ft_putstr_fd("Parse error\n", 2);
@@ -32,6 +31,8 @@ t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 	}
 	ast.parse_status = PARSE_OK;
 	ast.ast_root = parse_tokens_into_ast(tok_lst, last_tok, &ast.parse_status);
+	if (ast.parse_status != PARSE_OK || ast.ast_root == NULL)
+    	return (ast);
 	add_env_vars_refs_to_tree(ast.ast_root, env_vars);
 	return (ast);
 }

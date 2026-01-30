@@ -14,10 +14,12 @@
 
 static int	init_env_list_struct(char **envp, t_env_vars *env_vars);
 
-int main(char **envp)
+int main(int argc, char **argv, char **envp)
 {
     t_env_vars	env_vars;
 
+	(void)argc;
+    (void)argv;
     if (init_env_list_struct(envp, &env_vars) == ERROR)
         return (1);
     if (minishell_routine(env_vars) == ERROR)

@@ -18,17 +18,22 @@ bool	is_tok_redirection(t_token_type tok_type)
 		|| tok_type == TOK_REDIR_OUT || tok_type == TOK_HEREDOC);
 }
 
-t_token_lst	*get_first_pipe(t_token_lst *start, t_token_lst *end)
+t_token_lst *get_first_pipe(t_token_lst *start, t_token_lst *end)
 {
-	while (start && start != end)
-	{
-		if (start->type == TOK_PIPE)
-			return (start);
-		start = start->next;
-	}
-	if (end->type == TOK_PIPE)
-		return (end);
-	return (NULL);
+    t_token_lst *current;
+
+    if (!start || !end)
+        return (NULL);
+    current = start;
+    while (current)
+    {
+        if (current->type == TOK_PIPE)
+            return (current);
+        if (current == end)
+            break;
+        current = current->next;
+    }
+    return (NULL);
 }
 
 t_token_lst	*tok_lstlast(t_token_lst *lst)

@@ -41,6 +41,7 @@ void	tok_lst_add_back(t_token_lst **lst, t_token_lst *new)
 		last = last->next;
 	}
 	last->next = new;
+	new->previous = last;
 }
 
 void	free_tok_lst(t_token_lst *lst)
@@ -48,6 +49,8 @@ void	free_tok_lst(t_token_lst *lst)
 	t_token_lst	*current;
 	t_token_lst	*next;
 
+	if (!lst)
+		return ;
 	current = lst;
 	while (current)
 	{
