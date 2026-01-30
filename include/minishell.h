@@ -227,7 +227,7 @@ void 		destroy_ast(t_ast_node *node);
 void		destroy_cmd_node(t_ast_node *cmd_node);
 
 // minishell_utils
-bool		is_builtin(t_word *words);
+bool		is_builtin(t_word *words, int words_amount);
 char		*get_input_line(void);
 t_var_lst	*envp_to_env_list(char **envp);
 t_var_lst	*env_node_from_str(char *str);

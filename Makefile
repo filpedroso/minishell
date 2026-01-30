@@ -37,8 +37,8 @@ FILES := main.c							\
          convert_envp_to_env_list.c		\
          env_lst_utils.c				\
          env_lst_utils_2.c           	\
-         _debug_print_ast_3_pretty.c	\
-		is_builtin_IMPLEMENT.c
+		is_builtin.c					\
+         _debug_print_ast_3_pretty.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))

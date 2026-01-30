@@ -38,7 +38,8 @@ t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_parse_statu
 			return (NULL);
 		}
 	}
-	if (is_builtin(new_cmd_node->cmd->words))
+	
+	if (is_builtin(new_cmd_node->cmd->words, new_cmd_node->cmd->words_count))
 		new_cmd_node->cmd->type = BUILTIN;
 	else
 		new_cmd_node->cmd->type = EXT;
