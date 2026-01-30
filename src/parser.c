@@ -27,6 +27,7 @@ t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 	{
 		ft_putstr_fd("Parse error\n", 2);
 		ast.parse_status = PARSE_ERROR;
+		ast.ast_root = NULL;
 		return (ast);
 	}
 	ast.parse_status = PARSE_OK;
