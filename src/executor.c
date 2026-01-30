@@ -46,7 +46,7 @@ static void	recursive_pipe_logic(t_ast_node *node)
 	exec_piped_right_node(pip, node->right);
 }
 
-static void	exec_piped_left_node(int pip[2], t_node *node)
+static void	exec_piped_left_node(int pip[2], t_ast_node *node)
 {
     pid_t	left_pid;
 
@@ -63,7 +63,7 @@ static void	exec_piped_left_node(int pip[2], t_node *node)
 	close(pip[WRITE]);
 }
 
-static void	exec_piped_right_node(int pip[2], t_node *node)
+static void	exec_piped_right_node(int pip[2], t_ast_node *node)
 {
     pid_t	right_pid;
 
