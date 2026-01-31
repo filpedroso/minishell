@@ -76,15 +76,21 @@ t_token_type	get_token_type(t_token_lst *token)
 	size_t	len;
 
 	len = ft_strlen(token->segment);
-	if (len == 1 && token->segment[0] == '|')
-		return (TOK_PIPE);
-	if (len == 1 && token->segment[0] == '<')
-		return (TOK_REDIR_IN);
-	if (len == 1 && token->segment[0] == '>')
-		return (TOK_REDIR_OUT);
-	if (len == 2 && ft_strncmp(token->segment, "<<", 2) == 0)
-		return (TOK_HEREDOC);
-	if (len == 2 && ft_strncmp(token->segment, ">>", 2) == 0)
-		return (TOK_APPEND);
+	if (len == 1 && token->seg_mask[0] == 'o')
+	{
+		if (token->segment[0] == '|')
+			return (TOK_PIPE);
+		if (token->segment[0] == '<')
+			return (TOK_REDIR_IN);
+		if (token->segment[0] == '>')
+			return (TOK_REDIR_OUT);
+	}
+	if (len == 2 && ft_strncmp(token->seg_mask, "oo", 2) == 0)
+	{
+		if (ft_strncmp(token->segment, "<<", 2) == 0)
+			return (TOK_HEREDOC);
+		if (ft_strncmp(token->segment, ">>", 2) == 0)
+			return (TOK_APPEND);
+	}
 	return (TOK_WORD);
 }
