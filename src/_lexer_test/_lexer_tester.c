@@ -3,12 +3,9 @@
 
 void	print_tok_list(t_token_lst *lst);
 
-int main (int argc, char **argv)
+int main ()
 {
-	if (!argc)
-		return (0);
-
-	char	*input = argv[1];
+	char		*input = get_input_line();
 	t_token_lst	*tok_lst = lexer(&input);
 
 	print_tok_list(tok_lst);

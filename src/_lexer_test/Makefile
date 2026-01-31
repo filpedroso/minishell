@@ -24,11 +24,12 @@ LIBFT_DIR = ../../libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Arquivos fonte organizados por diretório
-SRC = _lexer_tester.c \
-      ../lexer.c \
-      ../lexer_2.c \
-      ../lexer_utils.c \
-      ../not_refactored_yet/tokenizer_utils.c
+SRC =	_lexer_tester.c			\
+    	../lexer.c 				\
+		../lexer_2.c			\
+		../lexer_utils.c		\
+		../minishell_utils.c	\
+		../get_input_line.c
 
 # Objetos
 OBJ = $(SRC:.c=.o)
@@ -43,7 +44,7 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) $(LIBFT) -o $(NAME)
+	$(CC) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 	@echo "✅ $(NAME) compiled successfully!"
 
 %.o: %.c

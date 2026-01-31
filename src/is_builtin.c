@@ -21,14 +21,13 @@ bool	is_builtin(t_word *words, int words_amount)
 
 	if (!words)
         return (false);
-	i = 0;
-	while (i < words_amount)
+	i = -1;
+	while (++i < words_amount)
 	{
         if (!mask_is_all_n(words[i].context_mask_ptr))
             continue;
         if (is_builtin_name(words[i].token_word_ptr))
             return (true);
-		i++;
 	}
     return (false);
 }
