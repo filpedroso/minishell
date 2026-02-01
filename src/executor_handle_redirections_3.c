@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#include "minishell.h"
 
 static char	*create_temp_filepath();
 static void	read_input_into_file(int fd, char *delim);
@@ -38,12 +38,12 @@ static char	*create_temp_filepath()
 {
 	static int	counter = 0;
 	char		*num_str;
-	char		*temp;
+	char		*new_filepath;
 
 	num_str = ft_itoa(counter++);
-	temp = ft_strjoin("/tmp/heredoc_", num_str);
+	new_filepath = ft_strjoin("/tmp/heredoc_", num_str);
 	free(num_str);
-	return (temp);
+	return (new_filepath);
 }
 
 static void	read_input_into_file(int fd, char *delim)
@@ -52,7 +52,7 @@ static void	read_input_into_file(int fd, char *delim)
 
 	while (1)
 	{
-		line = readline("> ");
+		line = readline(">> ");
 		if (!line || ft_strcmp(line, delim) == 0)
 		{
 			free(line);

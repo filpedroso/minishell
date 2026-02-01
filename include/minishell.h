@@ -237,6 +237,23 @@ void		cleanup_env(t_env_vars env_vars);
 void		skip_spaces(char **input);
 int			is_operator(char c);
 
+// executor
+void	execute_tree(t_ast_node *node);
+void	command_logic(t_ast_node *node);
+int		handle_redirections(t_command *cmd);
+void	exec_ext_cmd(t_ast_node *node);
+char	*get_cmd_path(t_command *cmd);
+char	*find_in_path(const char *cmd_str, char *path_env);
+
+// executor envs
+char		**get_current_envs(t_env_vars env_lists);
+int			var_lst_size(t_var_lst *lst);
+bool 		lst_has_var(t_var_lst *lst, const char *var_name);
+t_var_lst	*copy_var_list(t_var_lst *src_lst);
+bool		append_var_to_list(t_var_lst **lst_ptr, t_var_lst *src_node);
+t_var_lst	*duplicate_node(t_var_lst *src_node);
+
+
 // DEBUG
 void	debug_print_ast(t_ast_node *node, int depth);
 void	debug_print_ast_2(FILE *out, const t_ast_node *root);

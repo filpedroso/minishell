@@ -10,22 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#include "minishell.h"
 
-static char	*find_correct_command_path(char **paths, char *cmd_str);
+static char	*find_correct_command_path(char **paths, const char *cmd_str);
 static char	*join_path_with_cmd(char *dir, char *cmd);
 
-char	*find_in_path(char *cmd_str, char *path_env)
+char	*find_in_path(const char *cmd_str, char *path_env)
 {
 	char	**paths;
+	char	*cmd_path;
 
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);
-	return (find_correct_command_path(paths, cmd_str));
+	cmd_path = find_correct_command_path(paths, cmd_str);
+	free_str_arr(paths);
+	return (cmd_path);
 }
 
-static char	*find_correct_command_path(char **paths, char *cmd_str)
+static char	*find_correct_command_path(char **paths, const char *cmd_str)
 {
 	int		i;
 	char	*current_full_path;
@@ -35,19 +38,12 @@ static char	*find_correct_command_path(char **paths, char *cmd_str)
 	{
 		current_full_path = join_path_with_cmd(paths[i], cmd_str);
 		if (!current_full_path)
-		{
-			free_str_arr(paths);
 			return (NULL);
-		}
 		if (access(current_full_path, X_OK) == 0)
-		{
-			free_str_arr(paths);
 			return (current_full_path);
-		}
 		free(current_full_path);
 		i++;
 	}
-	free_str_arr(paths);
 	return (NULL);
 }
 

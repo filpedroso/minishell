@@ -10,11 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#include "minishell.h"
 
 static int	dup_file_into_stdin(char *heredoc_filepath);
-static char	*create_temp_file(char *delim);
-static int	append_filepath(char *filepath, t_intr_list *temp_files_list);
+static int	append_filepath(char *filepath, t_file_lst *temp_files_list);
 
 int	set_heredoc_redir(t_command *cmd, char *heredoc_delim)
 {
@@ -29,14 +28,14 @@ int	set_heredoc_redir(t_command *cmd, char *heredoc_delim)
 	}
 	if (dup_file_into_stdin(heredoc_filepath) < 0)
 	{
-		free(heredoc_filepath);
 		unlink(heredoc_filepath);
+		free(heredoc_filepath);
 		return (-1);
 	}
 	if (append_filepath(heredoc_filepath, cmd->temp_files_list) < 0)
 	{
-		free(heredoc_filepath);
 		unlink(heredoc_filepath);
+		free(heredoc_filepath);
 		return (-1);
 	}
 	return (0);
@@ -66,17 +65,24 @@ static int	dup_file_into_stdin(char *heredoc_filepath)
 	return (0);
 }
 
-static int	append_filepath(char *filepath, t_intr_list *temp_files_list)
+static int	append_filepath(char *filepath, t_file_lst *temp_files_list)
 {
-	t_file_lst_node	*file_node;
+	t_file_lst	*new_file_node;
 
-	file_node = (t_file_lst_node *)malloc(sizeof(t_file_lst_node));
-	if (!file_node)
+	new_file_node = malloc(sizeof(t_file_lst));
+	if (!new_file_node)
 	{
 		perror("malloc");
 		return (-1);
 	}
-	file_node->path = filepath;
-	ft_intr_lstadd_back(&temp_files_list, &file_node->node);
+	new_file_node->path = filepath;
+	if (!temp_files_list)
+		temp_files_list = new_file_node;
+	else
+	{
+		while(temp_files_list->next)
+			temp_files_list = temp_files_list->next;
+		temp_files_list = new_file_node;
+	}
 	return (0);
 }

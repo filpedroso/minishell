@@ -24,21 +24,21 @@ LIBFT := $(LIBFT_DIR)/libft.a
 READLINE_FLAGS := -lreadline
 
 FILES := main.c							\
-         minishell_routine.c			\
-         get_input_line.c				\
-         minishell_utils.c				\
-         lexer.c						\
-         lexer_2.c						\
-         lexer_utils.c					\
-         parser.c						\
-         parser_2.c						\
-         parser_3.c						\
-         parser_tools.c					\
-         convert_envp_to_env_list.c		\
-         env_lst_utils.c				\
-         env_lst_utils_2.c           	\
+		minishell_routine.c			\
+		get_input_line.c				\
+		minishell_utils.c				\
+		lexer.c						\
+		lexer_2.c						\
+		lexer_utils.c					\
+		parser.c						\
+		parser_2.c						\
+		parser_3.c						\
+		parser_tools.c					\
+		convert_envp_to_env_list.c		\
+		env_lst_utils.c				\
+		env_lst_utils_2.c           	\
 		is_builtin.c					\
-         _debug_print_ast_3_pretty.c
+		_debug_print_ast_3_pretty.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))

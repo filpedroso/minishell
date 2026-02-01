@@ -45,16 +45,16 @@ static void	set_append_redir(t_redirection redirection)
 {
 	int	fd;
 
-	fd = open(redirection.target, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(redirection.target.token_word_ptr, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		perror(redirection.target);
+		perror("Open append redir file");
 		return ;
 	}
 	dup2(fd, STDOUT_FILENO);
 	if (close(fd) < 0)
 	{
-		perror(redirection.target);
+		perror("Close");
 		return ;
 	}
 }
@@ -63,16 +63,16 @@ static void	set_stdout_redir(t_redirection redirection)
 {
 	int	fd;
 
-	fd = open(redirection.target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(redirection.target.token_word_ptr, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		perror(redirection.target);
+		perror("Open stdout redir file");
 		return ;
 	}
 	dup2(fd, STDOUT_FILENO);
 	if (close(fd) < 0)
 	{
-		perror(redirection.target);
+		perror("Close");
 		return ;
 	}
 }
@@ -81,16 +81,16 @@ static void	set_stdin_redir(t_redirection redirection)
 {
 	int	fd;
 
-	fd = open(redirection.target, O_RDONLY);
+	fd = open(redirection.target.token_word_ptr, O_RDONLY);
 	if (fd < 0)
 	{
-        perror(redirection.target);
+        perror("Open stdin redir file");
         return;
 	}
 	dup2(fd, STDIN_FILENO);
 	if (close(fd) < 0)
 	{
-		perror(redirection.target);
+		perror("Close");
 		return ;
 	}
 }
