@@ -38,6 +38,11 @@
 /* ***************************    macros    ********************************* */
 /* ************************************************************************** */
 
+#define CONTEXT_UNQUOTED	'n'
+#define CONTEXT_SINGLE		's'
+#define CONTEXT_DOUBLE		'd'
+#define CONTEXT_OPERATOR	'o'
+
 #define SUCCESS			0
 #define ERROR			-1
 #define READ			0
@@ -165,6 +170,14 @@ typedef struct	s_file_lst
 	struct s_file_lst	*next;
 } t_file_lst;
 
+
+typedef struct	s_argv_str_lst
+{
+	char					*string;
+	struct s_argv_str_lst	*next;
+} t_argv_str_lst;
+
+
 typedef struct	s_command
 {
 	t_cmd_type		type;
@@ -252,6 +265,9 @@ bool 		lst_has_var(t_var_lst *lst, const char *var_name);
 t_var_lst	*copy_var_list(t_var_lst *src_lst);
 bool		append_var_to_list(t_var_lst **lst_ptr, t_var_lst *src_node);
 t_var_lst	*duplicate_node(t_var_lst *src_node);
+
+// executor expansion
+t_argv_str_lst  *expand_all_words(t_command *cmd, char **current_envs);
 
 
 // DEBUG

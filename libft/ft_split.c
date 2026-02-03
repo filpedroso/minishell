@@ -12,92 +12,103 @@
 
 #include "libft.h"
 
-static char	*word_dup(const char *s, size_t len);
-static int	count_words(const char *s, char c);
-static void	free_all(char **arr, int i);
-static int	add_word(char **result, const char *s, char c, int *i);
+static char *word_dup(const char *s, size_t len);
+static int  count_words(const char *s, const char *seps);
+static int  add_word(char **result, const char *s, const char *seps, int *i);
+static int  is_separator(char c, const char *seps);
 
-char	**ft_split(char const *s, char c)
+char    **ft_split(char const *s, const char *seps)
 {
-	char	**result;
-	int		i;
-	int		step;
+    char    **result;
+    int     i;
+    int     step;
 
-	if (!s)
-		return (NULL);
-	result = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (*s)
-	{
-		if (*s != c)
-		{
-			step = add_word(result, s, c, &i);
-			if (!step)
-				return (NULL);
-			s += step;
-		}
-		else
-			s++;
-	}
-	result[i] = NULL;
-	return (result);
+    if (!s || !seps)
+        return (NULL);
+    result = (char **)malloc((count_words(s, seps) + 1) * sizeof(char *));
+    if (!result)
+        return (NULL);
+    i = 0;
+    while (*s)
+    {
+        if (!is_separator(*s, seps))
+        {
+            step = add_word(result, s, seps, &i);
+            if (!step)
+                return (NULL);
+            s += step;
+        }
+        else
+            s++;
+    }
+    result[i] = NULL;
+    return (result);
 }
 
-static int	add_word(char **result, const char *s, char c, int *i)
+static int  is_separator(char c, const char *seps)
 {
-	int	word_len;
-
-	word_len = 0;
-	while (s[word_len] && s[word_len] != c)
-		word_len++;
-	result[*i] = word_dup(s, word_len);
-	if (!result[*i])
-		return (free_all(result, *i), 0);
-	(*i)++;
-	return (word_len);
+    while (*seps)
+    {
+        if (c == *seps)
+            return (1);
+        seps++;
+    }
+    return (0);
 }
 
-static int	count_words(const char *s, char c)
+static int  add_word(char **result, const char *s, const char *seps, int *i)
 {
-	int	count;
-	int	in_word;
+    int word_len;
 
-	count = 0;
-	in_word = 0;
-	while (*s)
-	{
-		if (*s != c && !in_word)
-		{
-			in_word = 1;
-			count++;
-		}
-		else if (*s == c)
-			in_word = 0;
-		s++;
-	}
-	return (count);
+    word_len = 0;
+    while (s[word_len] && !is_separator(s[word_len], seps))
+        word_len++;
+    result[*i] = word_dup(s, word_len);
+    if (!result[*i])
+    {
+        while (*i >= 0)
+            free(result[(*i)--]);
+        free(result);
+        return (0);
+    }
+    (*i)++;
+    return (word_len);
 }
 
-static char	*word_dup(const char *s, size_t len)
+static int  count_words(const char *s, const char *seps)
 {
-	char	*word;
+    int count;
+    int in_word;
 
-	word = (char *)malloc(len + 1);
-	if (!word)
-		return (NULL);
-	ft_memcpy(word, s, len);
-	word[len] = '\0';
-	return (word);
+    count = 0;
+    in_word = 0;
+    while (*s)
+    {
+        if (!is_separator(*s, seps) && !in_word)
+        {
+            in_word = 1;
+            count++;
+        }
+        else if (is_separator(*s, seps))
+            in_word = 0;
+        s++;
+    }
+    return (count);
 }
 
-static void	free_all(char **arr, int i)
+static char *word_dup(const char *s, size_t len)
 {
-	while (i >= 0)
-		free(arr[i--]);
-	free(arr);
+    char    *word;
+
+    word = (char *)malloc(len + 1);
+    if (!word)
+        return (NULL);
+    ft_memcpy(word, s, len);
+    word[len] = '\0';
+    return (word);
 }
+
+
 
 /* int	main(void)
 {
