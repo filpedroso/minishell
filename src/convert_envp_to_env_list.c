@@ -50,7 +50,7 @@ static t_var_lst	*env_node_from(char *env_str)
 		perror("Malloc in env list creation failed");
 		exit(1);
 	}
-	split_str = ft_split(env_str, '=');
+	split_str = ft_split(env_str, "=");
 	if (!split_str)
 	{
 		perror("Split in env list creation failed");
