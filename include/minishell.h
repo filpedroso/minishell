@@ -268,6 +268,8 @@ t_var_lst	*duplicate_node(t_var_lst *src_node);
 
 // executor expansion
 t_argv_str_lst  *expand_all_words(t_command *cmd, char **current_envs);
+char    		**produce_final_argv(t_command *cmd, char **current_envs);
+char			*expand_word_with_context(t_word word, char **envs);
 
 
 // DEBUG

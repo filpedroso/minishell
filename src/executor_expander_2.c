@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char *expand_word_with_context(t_word word, char **envs)
+char	*expand_word_with_context(t_word word, char **envs)
 {
     char        *result;
     t_status    status;
@@ -23,66 +23,70 @@ static char *expand_word_with_context(t_word word, char **envs)
     status = STATUS_OK;
     while (word.token_word_ptr[i] && status == STATUS_OK)
     {
-        if (word.token_word_ptr[i] == '$' && should_expand(word, i))
-            i += expand_var_in_result(&result, &word.token_word_ptr[i + 1],
-                                      envs, &status);
+        if (word.token_word_ptr[i] == '$' && word.context_mask_ptr[i] != CONTEXT_SINGLE)
+		{
+			i++;
+			if (is_valid_var_name_and_not_single_quoted(word, i))
+				i += append_expanded_var(&result, &word.token_word_ptr[i], envs, &status);
+			else
+            	append_char(&result, '$', &status);
+		}
         else
-            append_char_in_place(&result, word.token_word_ptr[i], &status);
-        i++;
+            i += append_char(&result, word.token_word_ptr[i], &status);
     }
     return (result);
 }
 
-static void append_char_in_place(char **result, char c, t_status *status)
+bool	is_valid_var_name_and_not_single_quoted(t_word word, int i)
 {
-    char    *new_result;
-    int     len;
+	return (word.token_word_ptr[i]
+		&& word.context_mask_ptr[i] != CONTEXT_SINGLE
+		&& (ft_isalnum(word.token_word_ptr[i])
+		|| word.token_word_ptr[i] == '_'));
+}
 
-    len = *result ? ft_strlen(*result) : 0;
-    new_result = malloc(len + 2);
+static int append_char(char **result, char c, t_status *status)
+{
+    char	*new_result;
+
+    new_result = ft_strjoin(*result, &c);
     if (!new_result)
     {
         free(*result);
         *result = NULL;
         *status = STATUS_ERR;
-        return;
+        return (1);
     }
-    if (*result)
-    {
-        ft_memcpy(new_result, *result, len);
-        free(*result);      // Free old
-    }
-    new_result[len] = c;
-    new_result[len + 1] = '\0';
     *result = new_result;
+	return (1);
 }
 
-static int expand_var_in_result(char **result, const char *var_start, 
+static int append_expanded_var(char **result, const char *var_start,
                                  char **envs, t_status *status)
 {
-    char    *var_value;
-    char    *new_result;
-    int     var_len;
+    char	*var_value;
+    char	*new_result;
+    int		var_len;
 
     var_len = get_var_name_len(var_start);
     var_value = get_var_value(var_start, var_len, envs);
     if (!var_value)
     {
-        free(*result);          // Free on error
-        *result = NULL;         // Set to NULL
-        *status = STATUS_ERROR;
+        free(*result);
+        *result = NULL;
+        *status = STATUS_ERR;
         return (var_len);
     }
-    new_result = ft_strjoin_safe(*result, var_value);
+    new_result = ft_strjoin(*result, var_value);
     free(var_value);
     if (!new_result)
     {
-        free(*result);          // Free on error
-        *result = NULL;         // Set to NULL
-        *status = STATUS_ERROR;
+        free(*result);
+        *result = NULL;
+        *status = STATUS_ERR;
         return (var_len);
     }
-    free(*result);              // Free old on success
+    free(*result);
     *result = new_result;
     return (var_len);
 }
