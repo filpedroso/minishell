@@ -40,9 +40,7 @@ char	*expand_word_with_context(t_word word, char **envs)
 bool	is_valid_var_name_and_not_single_quoted(t_word word, int i)
 {
 	return (word.token_word_ptr[i]
-		&& word.context_mask_ptr[i] != CONTEXT_SINGLE
-		&& (ft_isalnum(word.token_word_ptr[i])
-		|| word.token_word_ptr[i] == '_'));
+		&& word.context_mask_ptr[i] != CONTEXT_SINGLE);
 }
 
 static int append_char(char **result, char c, t_status *status)
@@ -61,15 +59,15 @@ static int append_char(char **result, char c, t_status *status)
 	return (1);
 }
 
-static int append_expanded_var(char **result, const char *var_start,
+static int append_expanded_var(char **result, const char *var_name,
                                  char **envs, t_status *status)
 {
     char	*var_value;
     char	*new_result;
     int		var_len;
 
-    var_len = get_var_name_len(var_start);
-    var_value = get_var_value(var_start, var_len, envs);
+    var_len = ft_strlen(var_name);
+    var_value = get_var_value(var_name, var_len, envs);
     if (!var_value)
     {
         free(*result);
@@ -89,4 +87,24 @@ static int append_expanded_var(char **result, const char *var_start,
     free(*result);
     *result = new_result;
     return (var_len);
+}
+
+char	*get_var_value(const char *var_name, int var_len, char **envs)
+{
+	char	*value;
+	int		i;
+
+	value = NULL;
+	i = 0;
+	while (envs[i])
+	{
+		if (ft_strncmp(var_name, envs[i], var_len) == 0)
+		{
+			value = ft_strdup(envs[i] + var_len + 1);
+			if (!value)
+				retun (NULL);
+			return (value);
+		}
+	}
+	return (ft_strdup(""));
 }
