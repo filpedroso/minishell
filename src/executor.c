@@ -28,7 +28,7 @@ void	execute_tree(t_ast_node *node)
 	{
 		command_logic(node);
 	}
-	cleanup_node(node);
+	destroy_cmd_node(node);
 }
 
 static void	recursive_pipe_logic(t_ast_node *node)

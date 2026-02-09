@@ -13,12 +13,11 @@
 #include "minishell.h"
 
 static int	dup_file_into_stdin(char *heredoc_filepath);
-static int	append_filepath(char *filepath, t_file_lst *temp_files_list);
+static int	append_filepath(char *filepath, t_str_lst *temp_files_list);
 
 int	set_heredoc_redir(t_command *cmd, char *heredoc_delim)
 {
 	char	*heredoc_filepath;
-	int		heredoc_fd;
 
 	heredoc_filepath = create_temp_file(heredoc_delim);
 	if (!heredoc_filepath)
@@ -65,11 +64,11 @@ static int	dup_file_into_stdin(char *heredoc_filepath)
 	return (0);
 }
 
-static int	append_filepath(char *filepath, t_file_lst *temp_files_list)
+static int	append_filepath(char *filepath, t_str_lst *temp_files_list)
 {
-	t_file_lst	*new_file_node;
+	t_str_lst	*new_file_node;
 
-	new_file_node = malloc(sizeof(t_file_lst));
+	new_file_node = malloc(sizeof(t_str_lst));
 	if (!new_file_node)
 	{
 		perror("malloc");

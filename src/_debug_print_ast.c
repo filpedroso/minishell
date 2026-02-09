@@ -9,7 +9,7 @@ typedef struct s_command       t_command;
 typedef struct s_word          t_word;
 typedef struct s_var_lst       t_var_lst;
 typedef struct s_redirection   t_redirection;
-typedef struct s_file_lst      t_file_lst;
+typedef struct s_file_lst      t_str_lst;
 
 /* ===========================
    ENUM STRING HELPERS
@@ -153,7 +153,7 @@ static void	print_redirections(t_redirection *r, int count, int depth)
    PRINT TEMP FILE LIST
    =========================== */
 
-static void	print_temp_files(t_file_lst *lst, int depth)
+static void	print_temp_files(t_str_lst *lst, int depth)
 {
 	int	i = 0;
 

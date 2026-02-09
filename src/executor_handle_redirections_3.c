@@ -53,7 +53,7 @@ static void	read_input_into_file(int fd, char *delim)
 	while (1)
 	{
 		line = readline(">> ");
-		if (!line || ft_strcmp(line, delim) == 0)
+		if (!line || ft_strncmp(line, delim, ft_strlen(delim)) == 0)
 		{
 			free(line);
 			break ;

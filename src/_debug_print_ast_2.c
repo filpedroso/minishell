@@ -94,7 +94,7 @@ static void dbg_print_redirections(FILE *out, const t_redirection *r, int count,
 	}
 }
 
-static void dbg_print_file_list(FILE *out, const t_file_lst *f, int depth, const char *label)
+static void dbg_print_file_list(FILE *out, const t_str_lst *f, int depth, const char *label)
 {
 	put_indent(out, depth);
 	fprintf(out, "%s: %p\n", label, (void *)f);

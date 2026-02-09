@@ -24,10 +24,10 @@ LIBFT := $(LIBFT_DIR)/libft.a
 READLINE_FLAGS := -lreadline
 
 FILES := main.c							\
-		minishell_routine.c			\
+		minishell_routine.c				\
 		get_input_line.c				\
 		minishell_utils.c				\
-		lexer.c						\
+		lexer.c							\
 		lexer_2.c						\
 		lexer_utils.c					\
 		parser.c						\
@@ -35,9 +35,22 @@ FILES := main.c							\
 		parser_3.c						\
 		parser_tools.c					\
 		convert_envp_to_env_list.c		\
-		env_lst_utils.c				\
+		env_lst_utils.c					\
 		env_lst_utils_2.c           	\
 		is_builtin.c					\
+		executor.c						\
+		executor_command_logic.c		\
+		executor_handle_redirections_1.c	\
+		executor_handle_redirections_2.c	\
+		executor_handle_redirections_3.c	\
+		executor_exec_ext_cmd.c			\
+		executor_expander.c				\
+		executor_expander_2.c			\
+		executor_get_cmd_path.c			\
+		executor_get_cmd_path_2.c		\
+		executor_get_current_envs.c		\
+		executor_get_current_envs_2.c	\
+		executor_produce_final_argv.c	\
 		_debug_print_ast_3_pretty.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))

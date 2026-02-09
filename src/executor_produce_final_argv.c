@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-static int	count_word_list(t_argv_str_lst *expanded_words);
-static char	**word_list_to_array(t_argv_str_lst *list, int argc);
-static void	free_word_list_nodes_only(t_argv_str_lst *list);
-static void free_word_list(t_argv_str_lst *list);
+static int	count_word_list(t_str_lst *expanded_words);
+static char	**word_list_to_array(t_str_lst *list, int argc);
+static void	free_word_list_nodes_only(t_str_lst *list);
+static void free_word_list(t_str_lst *list);
 
 char    **produce_final_argv(t_command *cmd, char **current_envs)
 {
-    t_argv_str_lst	*expanded_words;
+    t_str_lst	*expanded_words;
     char			**argv;
     int				argc;
 
@@ -37,7 +37,7 @@ char    **produce_final_argv(t_command *cmd, char **current_envs)
     return (argv);
 }
 
-static int	count_word_list(t_argv_str_lst *expanded_words)
+static int	count_word_list(t_str_lst *expanded_words)
 {
 	int	count;
 
@@ -50,7 +50,7 @@ static int	count_word_list(t_argv_str_lst *expanded_words)
 	return (count);
 }
 
-static char    **word_list_to_array(t_argv_str_lst *list, int argc)
+static char    **word_list_to_array(t_str_lst *list, int argc)
 {
     char    **argv;
     int     i;
@@ -69,9 +69,9 @@ static char    **word_list_to_array(t_argv_str_lst *list, int argc)
     return (argv);
 }
 
-static void    free_word_list_nodes_only(t_argv_str_lst *list)
+static void    free_word_list_nodes_only(t_str_lst *list)
 {
-    t_argv_str_lst  *tmp;
+    t_str_lst  *tmp;
 
     while (list)
     {
@@ -81,9 +81,9 @@ static void    free_word_list_nodes_only(t_argv_str_lst *list)
     }
 }
 
-static void free_word_list(t_argv_str_lst *list)
+static void free_word_list(t_str_lst *list)
 {
-    t_argv_str_lst  *tmp;
+    t_str_lst  *tmp;
 
     while (list)
     {

@@ -16,16 +16,18 @@ void	command_logic(t_ast_node *node)
 {
 	if (handle_redirections(node->cmd) < 0)
 	{
-		cleanup_node(node);
+		destroy_cmd_node(node);
 		return ;
 	}
 	if (node->cmd->type == EXT)
 		exec_ext_cmd(node);
-	else if (node->cmd->type == BUILTIN)
-	{
-		if (node->cmd->is_pipeline)
-			exec_forked_builtin(node);
-		else
-			exec_builtin(node);
-	}
+	else
+		puts("TODO: BUILTINS");
+	// else if (node->cmd->type == BUILTIN)
+	// {
+	// 	if (node->cmd->is_pipeline)
+	// 		exec_forked_builtin(node);
+	// 	else
+	// 		exec_builtin(node);
+	// }
 }

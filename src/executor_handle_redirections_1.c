@@ -15,7 +15,6 @@
 static void	set_stdin_redir(t_redirection redirection);
 static void	set_stdout_redir(t_redirection redirection);
 static void	set_append_redir(t_redirection redirection);
-static void	redir_error_message(void);
 
 int	handle_redirections(t_command *cmd)
 {
@@ -34,11 +33,11 @@ int	handle_redirections(t_command *cmd)
 			set_append_redir(cmd->redirections[i]);
 		else if (redir_type == REDIR_HEREDOC)
 		{
-			if (set_heredoc_redir(cmd, cmd->redirections[i].target) < 0)
+			if (set_heredoc_redir(cmd, cmd->redirections[i].target.token_word_ptr) < 0)
 				return (-1);
 		}
-		return (0);
 	}
+	return (0);
 }
 
 static void	set_append_redir(t_redirection redirection)
@@ -93,11 +92,4 @@ static void	set_stdin_redir(t_redirection redirection)
 		perror("Close");
 		return ;
 	}
-}
-
-static void	redir_error_message(void)
-{
-	// incomplete!
-	printf("Code redir_error_message() function!\n");
-	return;
 }

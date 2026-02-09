@@ -14,6 +14,8 @@
 
 static int	get_argv_and_exec_ext_cmd(t_ast_node *node);
 
+void	debug_print_args(char *path, char **argv, char **current_envs);
+
 void	exec_ext_cmd(t_ast_node *node)
 {
 	pid_t	pid;
@@ -26,7 +28,7 @@ void	exec_ext_cmd(t_ast_node *node)
 		exit(exit_code);
 	}
 	wait(NULL);
-	free_stuff(node);
+	destroy_cmd_node(node);
 }
 
 static int	get_argv_and_exec_ext_cmd(t_ast_node *node)
@@ -56,15 +58,21 @@ static int	get_argv_and_exec_ext_cmd(t_ast_node *node)
 	// 	free_str_arr(current_envs);
 	// 	return(1);
 	// }
+	return (0);
 }
 
 void	debug_print_args(char *path, char **argv, char **current_envs)
 {
+	puts("ARGS DEBUG >>>>>");
+	puts("PATH:");
 	puts(path);
+	puts("ARGV:");
 	for (int i = 0; argv[i]; i++) {
 		puts(argv[i]);
 	}
+	puts("ENVP:");
 	for (int i = 0; current_envs[i]; i++) {
 		puts(current_envs[i]);
 	}
+	puts("<<<<< END ARGS DEBUG");
 }

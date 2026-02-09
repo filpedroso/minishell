@@ -13,14 +13,14 @@
 #include "minishell.h"
 
 static bool	can_split(t_word *word);
-static void	append_split_words(t_argv_str_lst **head, t_argv_str_lst **tail, char *str);
-static void	append_single_word(t_argv_str_lst **head, t_argv_str_lst **tail, char *str);
+static void	append_split_words(t_str_lst **head, t_str_lst **tail, char *str);
+static void	append_single_word(t_str_lst **head, t_str_lst **tail, char *str);
 
-t_argv_str_lst  *expand_all_words(t_command *cmd, char **current_envs)
+t_str_lst  *expand_all_words(t_command *cmd, char **current_envs)
 {
 	char			*expanded;
-    t_argv_str_lst  *head;
-    t_argv_str_lst  *tail;
+    t_str_lst  *head;
+    t_str_lst  *tail;
 	int				i;
 
     head = NULL;
@@ -52,7 +52,7 @@ bool    can_split(t_word *word)
     return (false);
 }
 
-void    append_split_words(t_argv_str_lst **head, t_argv_str_lst **tail, char *str)
+void    append_split_words(t_str_lst **head, t_str_lst **tail, char *str)
 {
     char    **split;
     int     i;
@@ -67,9 +67,9 @@ void    append_split_words(t_argv_str_lst **head, t_argv_str_lst **tail, char *s
     free(split);
 }
 
-void    append_single_word(t_argv_str_lst **head, t_argv_str_lst **tail, char *str)
+void    append_single_word(t_str_lst **head, t_str_lst **tail, char *str)
 {
-    t_argv_str_lst  *node;
+    t_str_lst  *node;
 
     node->string = str;
     if (!*head)

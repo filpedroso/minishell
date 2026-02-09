@@ -164,18 +164,12 @@ typedef struct	s_env_vars
 	t_var_lst	*inline_envs;
 } t_env_vars;
 
-typedef struct	s_file_lst
-{
-	char				*path;
-	struct s_file_lst	*next;
-} t_file_lst;
 
-
-typedef struct	s_argv_str_lst
+typedef struct	s_str_lst
 {
-	char					*string;
+	char					*value;
 	struct s_argv_str_lst	*next;
-} t_argv_str_lst;
+} t_str_lst;
 
 
 typedef struct	s_command
@@ -187,7 +181,7 @@ typedef struct	s_command
 	t_env_vars		env_vars;
 	t_redirection	*redirections;
 	int				redirections_count;
-	t_file_lst		*temp_files_list;
+	t_str_lst		*temp_files_list;
 } t_command;
 
 typedef struct	s_ast_node
@@ -254,6 +248,8 @@ int			is_operator(char c);
 void	execute_tree(t_ast_node *node);
 void	command_logic(t_ast_node *node);
 int		handle_redirections(t_command *cmd);
+int		set_heredoc_redir(t_command *cmd, char *heredoc_delim);
+char	*create_temp_file(char *delim);
 void	exec_ext_cmd(t_ast_node *node);
 char	*get_cmd_path(t_command *cmd);
 char	*find_in_path(const char *cmd_str, char *path_env);
@@ -267,7 +263,7 @@ bool		append_var_to_list(t_var_lst **lst_ptr, t_var_lst *src_node);
 t_var_lst	*duplicate_node(t_var_lst *src_node);
 
 // executor expansion
-t_argv_str_lst  *expand_all_words(t_command *cmd, char **current_envs);
+t_str_lst	  *expand_all_words(t_command *cmd, char **current_envs);
 char    		**produce_final_argv(t_command *cmd, char **current_envs);
 char			*expand_word_with_context(t_word word, char **envs);
 
