@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 18:27:28 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/11/05 19:19:26 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:14 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

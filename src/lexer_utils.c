@@ -6,15 +6,15 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 00:00:00 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/19 11:25:06 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:56 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token_lst		*alloc_null_tok(void)
+t_token_lst	*alloc_null_tok(void)
 {
-	t_token_lst		*token;
+	t_token_lst	*token;
 
 	token = malloc(sizeof(t_token_lst));
 	if (!token)
@@ -36,7 +36,7 @@ void	tok_lst_add_back(t_token_lst **lst, t_token_lst *new)
 		return ;
 	}
 	last = *lst;
-	while(last->next)
+	while (last->next)
 	{
 		last = last->next;
 	}

@@ -6,15 +6,17 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 22:17:15 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/20 22:17:15 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:58 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool			check_pipe_syntax(t_token_lst *first, t_token_lst *last);
-static t_ast_node	*parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_parse_status *status);
-static void			add_env_vars_refs_to_tree(t_ast_node *tree_node, t_env_vars env_vars);
+static t_ast_node	*parse_tokens_into_ast(t_token_lst *start, t_token_lst *end,
+						t_parse_status *status);
+static void			add_env_vars_refs_to_tree(t_ast_node *tree_node,
+						t_env_vars env_vars);
 static t_ast_node	*create_pipe_ast_node(t_parse_status *status);
 
 t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
@@ -33,7 +35,7 @@ t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 	ast.parse_status = PARSE_OK;
 	ast.ast_root = parse_tokens_into_ast(tok_lst, last_tok, &ast.parse_status);
 	if (ast.parse_status != PARSE_OK || ast.ast_root == NULL)
-    	return (ast);
+		return (ast);
 	add_env_vars_refs_to_tree(ast.ast_root, env_vars);
 	return (ast);
 }
@@ -41,7 +43,7 @@ t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 static bool	check_pipe_syntax(t_token_lst *first, t_token_lst *last)
 {
 	if (!first || !last)
-    	return (false);
+		return (false);
 	if (first->type == TOK_PIPE || last->type == TOK_PIPE)
 		return (false);
 	while (first && first != last)
@@ -53,35 +55,37 @@ static bool	check_pipe_syntax(t_token_lst *first, t_token_lst *last)
 	return (true);
 }
 
-static t_ast_node *parse_tokens_into_ast(t_token_lst *start, t_token_lst *end, t_parse_status *status)
+static t_ast_node	*parse_tokens_into_ast(t_token_lst *start, t_token_lst *end,
+		t_parse_status *status)
 {
-    t_token_lst *pipe;
-    t_ast_node  *ast_node;
+	t_token_lst	*pipe;
+	t_ast_node	*ast_node;
 
-    pipe = get_first_pipe(start, end);
-    if (pipe)
-    {
-        ast_node = create_pipe_ast_node(status);
-        if (*status != PARSE_OK)
-            return (NULL);
-        ast_node->left = parse_tokens_into_ast(start, pipe->previous, status);
-        if (*status != PARSE_OK)
-		{
-			destroy_ast(ast_node);
-            return (NULL);
-		}
-        ast_node->right = parse_tokens_into_ast(pipe->next, end, status);
+	pipe = get_first_pipe(start, end);
+	if (pipe)
+	{
+		ast_node = create_pipe_ast_node(status);
+		if (*status != PARSE_OK)
+			return (NULL);
+		ast_node->left = parse_tokens_into_ast(start, pipe->previous, status);
 		if (*status != PARSE_OK)
 		{
 			destroy_ast(ast_node);
-            return (NULL);
+			return (NULL);
 		}
-        return (ast_node);
-    }
-    return (new_command_node(start, end, status));
+		ast_node->right = parse_tokens_into_ast(pipe->next, end, status);
+		if (*status != PARSE_OK)
+		{
+			destroy_ast(ast_node);
+			return (NULL);
+		}
+		return (ast_node);
+	}
+	return (new_command_node(start, end, status));
 }
 
-static void	add_env_vars_refs_to_tree(t_ast_node *tree_node, t_env_vars env_vars)
+static void	add_env_vars_refs_to_tree(t_ast_node *tree_node,
+		t_env_vars env_vars)
 {
 	if (!tree_node)
 		return ;

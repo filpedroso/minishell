@@ -6,23 +6,29 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 00:57:23 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/29 00:57:23 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:58 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_ast_node	*alloc_cmd_node(t_token_lst *start, t_token_lst *end, t_parse_status *status);
+static t_ast_node	*alloc_cmd_node(t_token_lst *start, t_token_lst *end,
+						t_parse_status *status);
 static t_ast_node	*malloc_node_and_cmd(void);
-static void			alloc_cmd_words_and_redirs(t_command *cmd, t_token_lst *start, t_token_lst *end, t_parse_status *status);
-static void			get_word_and_redir_count(int *word_count, int *redir_count, t_token_lst *start, t_token_lst *end);
+static void			alloc_cmd_words_and_redirs(t_command *cmd,
+						t_token_lst *start, t_token_lst *end,
+						t_parse_status *status);
+static void			get_word_and_redir_count(int *word_count, int *redir_count,
+						t_token_lst *start, t_token_lst *end);
 
-t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_parse_status *status)
+t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end,
+		t_parse_status *status)
 {
 	t_token_lst	*current;
 	t_ast_node	*new_cmd_node;
 
-	new_cmd_node = alloc_cmd_node(start, end, status); // allocates the node, its cmd, redirs and everything it will need
+	new_cmd_node = alloc_cmd_node(start, end, status); // allocates the node,
+		its cmd, redirs and everything it will need
 	if (*status != PARSE_OK)
 		return (NULL);
 	current = start;
@@ -38,7 +44,6 @@ t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_parse_statu
 			return (NULL);
 		}
 	}
-	
 	if (is_builtin(new_cmd_node->cmd->words, new_cmd_node->cmd->words_count))
 		new_cmd_node->cmd->type = BUILTIN;
 	else
@@ -46,7 +51,8 @@ t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end, t_parse_statu
 	return (new_cmd_node);
 }
 
-static t_ast_node	*alloc_cmd_node(t_token_lst *start, t_token_lst *end, t_parse_status *status)
+static t_ast_node	*alloc_cmd_node(t_token_lst *start, t_token_lst *end,
+		t_parse_status *status)
 {
 	t_ast_node	*ast_node;
 
@@ -90,18 +96,18 @@ static t_ast_node	*malloc_node_and_cmd(void)
 }
 
 static void	alloc_cmd_words_and_redirs(t_command *cmd, t_token_lst *start,
-	t_token_lst *end, t_parse_status *status)
+		t_token_lst *end, t_parse_status *status)
 {
-    int	word_count;
-    int	redir_count;
+	int	word_count;
+	int	redir_count;
 
 	get_word_and_redir_count(&word_count, &redir_count, start, end);
-    cmd->words = malloc(sizeof(t_word) * (word_count));
-    if (!cmd->words)
-    {
-        *status = PARSE_FATAL;
-        return;
-    }
+	cmd->words = malloc(sizeof(t_word) * (word_count));
+	if (!cmd->words)
+	{
+		*status = PARSE_FATAL;
+		return ;
+	}
 	if (redir_count)
 	{
 		cmd->redirections = malloc(sizeof(t_redirection) * (redir_count));
@@ -109,28 +115,29 @@ static void	alloc_cmd_words_and_redirs(t_command *cmd, t_token_lst *start,
 		{
 			free(cmd->words);
 			*status = PARSE_FATAL;
-			return;
+			return ;
 		}
 	}
 }
 
-static void	get_word_and_redir_count(int *word_count, int *redir_count, t_token_lst *start, t_token_lst *end)
+static void	get_word_and_redir_count(int *word_count, int *redir_count,
+		t_token_lst *start, t_token_lst *end)
 {
 	t_token_lst	*current;
 
 	*word_count = 0;
 	*redir_count = 0;
-    current = start;
-    while (current && current != end->next)
-    {
-        if (is_tok_redirection(current->type))
-        {
-            (*redir_count)++;
-            current = current->next;
-        }
-        else
-        	(*word_count)++;
+	current = start;
+	while (current && current != end->next)
+	{
+		if (is_tok_redirection(current->type))
+		{
+			(*redir_count)++;
+			current = current->next;
+		}
+		else
+			(*word_count)++;
 		if (current)
 			current = current->next;
-    }
+	}
 }

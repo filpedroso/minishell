@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 14:36:52 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/10/28 15:18:23 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:09 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

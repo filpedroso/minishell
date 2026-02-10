@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_tree.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:56:13 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/01 16:56:13 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:26 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

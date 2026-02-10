@@ -1,45 +1,55 @@
-#include <stdio.h>
+#include "minishell.h"
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 
-#include "minishell.h"
-
-static void put_indent(FILE *out, int depth)
+static void	put_indent(FILE *out, int depth)
 {
 	for (int i = 0; i < depth; i++)
 		fputs("  ", out);
 }
 
-static const char *node_type_str(t_node_type t)
+static const char	*node_type_str(t_node_type t)
 {
-	if (t == NODE_PIPE) return "NODE_PIPE";
-	if (t == NODE_CMD)  return "NODE_CMD";
-	return "NODE_<UNKNOWN>";
+	if (t == NODE_PIPE)
+		return ("NODE_PIPE");
+	if (t == NODE_CMD)
+		return ("NODE_CMD");
+	return ("NODE_<UNKNOWN>");
 }
 
-static const char *cmd_type_str(t_cmd_type t)
+static const char	*cmd_type_str(t_cmd_type t)
 {
-	if (t == EXT)     return "EXT";
-	if (t == BUILTIN) return "BUILTIN";
-	return "CMD_<UNKNOWN>";
+	if (t == EXT)
+		return ("EXT");
+	if (t == BUILTIN)
+		return ("BUILTIN");
+	return ("CMD_<UNKNOWN>");
 }
 
-static const char *redir_type_str(t_redirection_type t)
+static const char	*redir_type_str(t_redirection_type t)
 {
-	if (t == REDIR_IN)     return "REDIR_IN";
-	if (t == REDIR_OUT)    return "REDIR_OUT";
-	if (t == REDIR_APPEND) return "REDIR_APPEND";
-	if (t == REDIR_HEREDOC)return "REDIR_HEREDOC";
-	return "REDIR_<UNKNOWN>";
+	if (t == REDIR_IN)
+		return ("REDIR_IN");
+	if (t == REDIR_OUT)
+		return ("REDIR_OUT");
+	if (t == REDIR_APPEND)
+		return ("REDIR_APPEND");
+	if (t == REDIR_HEREDOC)
+		return ("REDIR_HEREDOC");
+	return ("REDIR_<UNKNOWN>");
 }
 
-static void dbg_print_cstr(FILE *out, const char *s)
+static void	dbg_print_cstr(FILE *out, const char *s)
 {
-	if (s) fprintf(out, "\"%s\"", s);
-	else   fputs("(null)", out);
+	if (s)
+		fprintf(out, "\"%s\"", s);
+	else
+		fputs("(null)", out);
 }
 
-static void dbg_print_word(FILE *out, const t_word *w, int depth, const char *label)
+static void	dbg_print_word(FILE *out, const t_word *w, int depth,
+		const char *label)
 {
 	put_indent(out, depth);
 	fprintf(out, "%s: { token_word_ptr=", label);
@@ -49,12 +59,14 @@ static void dbg_print_word(FILE *out, const t_word *w, int depth, const char *la
 	fputs(" }\n", out);
 }
 
-/* static void dbg_print_var_list(FILE *out, const t_var_lst *v, int depth, const char *label)
+/* static void dbg_print_var_list(FILE *out, const t_var_lst *v, int depth,
+	const char *label)
 {
+	int	i;
+
 	put_indent(out, depth);
 	fprintf(out, "%s: %p\n", label, (void *)v);
-
-	int i = 0;
+	i = 0;
 	while (v)
 	{
 		put_indent(out, depth + 1);
@@ -67,25 +79,23 @@ static void dbg_print_word(FILE *out, const t_word *w, int depth, const char *la
 		i++;
 	}
 } */
-
 /* static void dbg_print_env_vars(FILE *out, const t_env_vars *e, int depth)
 {
 	put_indent(out, depth);
 	fprintf(out, "env_vars: { persistent_envs_ptr=%p, inline_envs=%p }\n",
 		(void *)(e ? e->persistent_envs_ptr : NULL),
 		(void *)(e ? e->inline_envs : NULL));
-
 	if (!e)
-		return;
-	dbg_print_var_list(out, e->persistent_envs_ptr, depth + 1, "persistent_envs_ptr");
+		return ;
+	dbg_print_var_list(out, e->persistent_envs_ptr, depth + 1,
+		"persistent_envs_ptr");
 	dbg_print_var_list(out, e->inline_envs,          depth + 1, "inline_envs");
 } */
-
-static void dbg_print_redirections(FILE *out, const t_redirection *r, int count, int depth)
+static void	dbg_print_redirections(FILE *out, const t_redirection *r, int count,
+		int depth)
 {
 	put_indent(out, depth);
 	fprintf(out, "redirections: ptr=%p, count=%d\n", (void *)r, count);
-
 	for (int i = 0; i < count; i++)
 	{
 		put_indent(out, depth + 1);
@@ -94,12 +104,14 @@ static void dbg_print_redirections(FILE *out, const t_redirection *r, int count,
 	}
 }
 
-static void dbg_print_file_list(FILE *out, const t_str_lst *f, int depth, const char *label)
+static void	dbg_print_file_list(FILE *out, const t_str_lst *f, int depth,
+		const char *label)
 {
+	int	i;
+
 	put_indent(out, depth);
 	fprintf(out, "%s: %p\n", label, (void *)f);
-
-	int i = 0;
+	i = 0;
 	while (f)
 	{
 		put_indent(out, depth + 1);
@@ -111,68 +123,56 @@ static void dbg_print_file_list(FILE *out, const t_str_lst *f, int depth, const 
 	}
 }
 
-static void dbg_print_command(FILE *out, const t_command *c, int depth)
+static void	dbg_print_command(FILE *out, const t_command *c, int depth)
 {
+		char label[64];
+
 	put_indent(out, depth);
 	fprintf(out, "cmd: %p\n", (void *)c);
 	if (!c)
-		return;
-
+		return ;
 	put_indent(out, depth + 1);
 	fprintf(out, "type=%s\n", cmd_type_str(c->type));
-
 	put_indent(out, depth + 1);
-	fprintf(out, "words: ptr=%p, words_count=%d\n", (void *)c->words, c->words_count);
+	fprintf(out, "words: ptr=%p, words_count=%d\n", (void *)c->words,
+		c->words_count);
 	for (int i = 0; i < c->words_count; i++)
 	{
-		char label[64];
 		snprintf(label, sizeof(label), "words[%d]", i);
 		dbg_print_word(out, &c->words[i], depth + 2, label);
 	}
-
 	put_indent(out, depth + 1);
 	fprintf(out, "is_pipeline=%s\n", c->is_pipeline ? "true" : "false");
-
 	// dbg_print_env_vars(out, &c->env_vars, depth + 1);
-
-	dbg_print_redirections(out, c->redirections, c->redirections_count, depth + 1);
-
+	dbg_print_redirections(out, c->redirections, c->redirections_count, depth
+		+ 1);
 	dbg_print_file_list(out, c->temp_files_list, depth + 1, "temp_files_list");
 }
 
-static void dbg_print_ast_node_rec(FILE *out, const t_ast_node *n, int depth)
+static void	dbg_print_ast_node_rec(FILE *out, const t_ast_node *n, int depth)
 {
-	const int MAX_DEPTH = 256;
+	const int	MAX_DEPTH = 256;
+
 	if (depth > MAX_DEPTH)
 	{
 		put_indent(out, depth);
 		fputs("** depth limit reached (possible cycle) **\n", out);
-		return;
+		return ;
 	}
-
 	put_indent(out, depth);
 	if (!n)
 	{
 		fputs("(null)\n", out);
-		return;
+		return ;
 	}
-
-	fprintf(out,
-		"ast_node %p { type=%s, left=%p, right=%p, cmd=%p }\n",
-		(void *)n,
-		node_type_str(n->type),
-		(void *)n->left,
-		(void *)n->right,
-		(void *)n->cmd
-	);
-
+	fprintf(out, "ast_node %p { type=%s, left=%p, right=%p, cmd=%p }\n",
+		(void *)n, node_type_str(n->type), (void *)n->left, (void *)n->right,
+		(void *)n->cmd);
 	if (n->type == NODE_CMD)
 		dbg_print_command(out, n->cmd, depth + 1);
-
 	put_indent(out, depth);
 	fputs("left:\n", out);
 	dbg_print_ast_node_rec(out, n->left, depth + 1);
-
 	put_indent(out, depth);
 	fputs("right:\n", out);
 	dbg_print_ast_node_rec(out, n->right, depth + 1);
@@ -180,7 +180,8 @@ static void dbg_print_ast_node_rec(FILE *out, const t_ast_node *n, int depth)
 
 void	debug_print_ast_2(FILE *out, const t_ast_node *root)
 {
-	if (!out) out = stderr;
+	if (!out)
+		out = stderr;
 	fputs("=== AST DUMP BEGIN ===\n", out);
 	dbg_print_ast_node_rec(out, root, 0);
 	fputs("=== AST DUMP END ===\n", out);

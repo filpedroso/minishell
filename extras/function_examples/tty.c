@@ -1,6 +1,6 @@
 #include "headers.h"
 
-int main (int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	/* if (argc != 2)
 	{
@@ -9,7 +9,8 @@ int main (int argc, char **argv)
 	}
 	int fd = atoi(argv[1]); */
 	printf("ttyslot: %i\n", ttyslot());
-	for (int fd = 0; fd <= FOPEN_MAX; fd++) {
+	for (int fd = 0; fd <= FOPEN_MAX; fd++)
+	{
 		if (isatty(fd))
 			puts(ttyname(fd));
 		else

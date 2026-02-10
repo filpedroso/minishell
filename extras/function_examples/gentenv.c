@@ -1,8 +1,9 @@
 #include "headers.h"
 
-int main (int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	char	*env_var = argv[1];
-	
+	char	*env_var;
+
+	env_var = argv[1];
 	puts(getenv(env_var));
 }

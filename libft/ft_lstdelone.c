@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:44:31 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/11/08 12:06:35 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:05 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

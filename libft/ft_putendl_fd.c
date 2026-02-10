@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:11:20 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/11/05 20:30:01 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:09 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

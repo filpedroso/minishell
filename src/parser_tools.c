@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 17:55:38 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/22 17:55:38 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:59 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,45 +18,45 @@ bool	is_tok_redirection(t_token_type tok_type)
 		|| tok_type == TOK_REDIR_OUT || tok_type == TOK_HEREDOC);
 }
 
-t_token_lst *get_first_pipe(t_token_lst *start, t_token_lst *end)
+t_token_lst	*get_first_pipe(t_token_lst *start, t_token_lst *end)
 {
-    t_token_lst *current;
+	t_token_lst	*current;
 
-    if (!start || !end)
-        return (NULL);
-    current = start;
-    while (current)
-    {
-        if (current->type == TOK_PIPE)
-            return (current);
-        if (current == end)
-            break;
-        current = current->next;
-    }
-    return (NULL);
+	if (!start || !end)
+		return (NULL);
+	current = start;
+	while (current)
+	{
+		if (current->type == TOK_PIPE)
+			return (current);
+		if (current == end)
+			break ;
+		current = current->next;
+	}
+	return (NULL);
 }
 
 t_token_lst	*tok_lstlast(t_token_lst *lst)
 {
 	if (!lst)
 		return (NULL);
-	while(lst->next)
+	while (lst->next)
 		lst = lst->next;
 	return (lst);
 }
 
-void destroy_ast(t_ast_node *node)
+void	destroy_ast(t_ast_node *node)
 {
-    if (!node)
-        return;
-    if (node->type == NODE_PIPE)
-    {
-        destroy_ast(node->left);
-        destroy_ast(node->right);
-        free(node);
-    }
-    else
-        destroy_cmd_node(node);
+	if (!node)
+		return ;
+	if (node->type == NODE_PIPE)
+	{
+		destroy_ast(node->left);
+		destroy_ast(node->right);
+		free(node);
+	}
+	else
+		destroy_cmd_node(node);
 }
 
 void	destroy_cmd_node(t_ast_node *cmd_node)

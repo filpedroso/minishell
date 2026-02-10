@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 16:51:07 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/10 18:41:11 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:49 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static void	exec_piped_right_node(int pip[2], t_ast_node *node);
 
 void	execute_tree(t_ast_node *node)
 {
-    if (!node)
-        return;
-    if (node->type == NODE_PIPE)
+	if (!node)
+		return ;
+	if (node->type == NODE_PIPE)
 	{
 		recursive_pipe_logic(node);
 	}
@@ -33,7 +33,7 @@ void	execute_tree(t_ast_node *node)
 
 static void	recursive_pipe_logic(t_ast_node *node)
 {
-    int		pip[2];
+	int	pip[2];
 
 	if (pipe(pip) != 0)
 	{
@@ -48,7 +48,7 @@ static void	recursive_pipe_logic(t_ast_node *node)
 
 static void	exec_piped_left_node(int pip[2], t_ast_node *node)
 {
-    pid_t	left_pid;
+	pid_t	left_pid;
 
 	left_pid = fork();
 	if (left_pid == CHILD)
@@ -65,7 +65,7 @@ static void	exec_piped_left_node(int pip[2], t_ast_node *node)
 
 static void	exec_piped_right_node(int pip[2], t_ast_node *node)
 {
-    pid_t	right_pid;
+	pid_t	right_pid;
 
 	right_pid = fork();
 	if (right_pid == CHILD)

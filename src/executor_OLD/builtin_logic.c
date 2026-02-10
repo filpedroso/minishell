@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_logic.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 20:17:35 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/16 20:17:35 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:21 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,29 @@ int	exec_builtin(t_node *node)
 
 	init_builtin_table(builtin_table);
 	i = 0;
-    while (i < N_BUILTINS)
-    {
-        if (ft_strcmp(node->cmds[0], builtin_table[i].name) == 0)
+	while (i < N_BUILTINS)
+	{
+		if (ft_strcmp(node->cmds[0], builtin_table[i].name) == 0)
 			return (builtin_table[i].func(node->cmds, node->envs));
-        i++;
-    }
-    return -1;
+		i++;
+	}
+	return (-1);
 }
 
-void    init_builtin_table(t_builtin table[N_BUILTINS])
+void	init_builtin_table(t_builtin table[N_BUILTINS])
 {
-    table[0].name = "echo";
-    table[0].func = &ft_echo;
-    table[1].name = "cd";
-    table[1].func = &ft_cd;
-    table[2].name = "pwd";
-    table[2].func = &ft_pwd;
-    table[3].name = "export";
-    table[3].func = &ft_export;
-    table[4].name = "unset";
-    table[4].func = &ft_unset;
-    table[5].name = "env";
-    table[5].func = &ft_env;
-    table[6].name = "exit";
-    table[6].func = &ft_exit;
+	table[0].name = "echo";
+	table[0].func = &ft_echo;
+	table[1].name = "cd";
+	table[1].func = &ft_cd;
+	table[2].name = "pwd";
+	table[2].func = &ft_pwd;
+	table[3].name = "export";
+	table[3].func = &ft_export;
+	table[4].name = "unset";
+	table[4].func = &ft_unset;
+	table[5].name = "env";
+	table[5].func = &ft_env;
+	table[6].name = "exit";
+	table[6].func = &ft_exit;
 }

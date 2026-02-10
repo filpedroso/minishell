@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:36:02 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/11/07 15:30:44 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:07 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

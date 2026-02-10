@@ -6,40 +6,41 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 01:02:16 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/29 01:02:16 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:59 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_redir_to_cmd(t_command *cmd,
-	t_token_lst *tok_redir,
-	t_token_lst *tok_target);
+static void					add_redir_to_cmd(t_command *cmd,
+								t_token_lst *tok_redir,
+								t_token_lst *tok_target);
 static t_word				get_word_from_token(t_token_lst *token);
 static t_redirection_type	get_redir_type_from_tok_type(t_token_type token_type);
 
-
-t_token_lst *parse_word(t_command *cmd, t_token_lst *token_node)
+t_token_lst	*parse_word(t_command *cmd, t_token_lst *token_node)
 {
 	cmd->words[cmd->words_count] = get_word_from_token(token_node);
 	cmd->words_count++;
-    return (token_node->next);
+	return (token_node->next);
 }
 
-t_token_lst	*parse_redirection(t_command *cmd, t_token_lst *token_node, t_parse_status *status)
+t_token_lst	*parse_redirection(t_command *cmd, t_token_lst *token_node,
+		t_parse_status *status)
 {
-    if (!token_node->next || token_node->next->type != TOK_WORD)
-    {
-        *status = PARSE_ERROR;
-        return (NULL);
-    }
-    add_redir_to_cmd(cmd, token_node, token_node->next);
-    return (token_node->next->next);
+	if (!token_node->next || token_node->next->type != TOK_WORD)
+	{
+		*status = PARSE_ERROR;
+		return (NULL);
+	}
+	add_redir_to_cmd(cmd, token_node, token_node->next);
+	return (token_node->next->next);
 }
 
-static void	add_redir_to_cmd(t_command *cmd, t_token_lst *tok_redir, t_token_lst *tok_target)
+static void	add_redir_to_cmd(t_command *cmd, t_token_lst *tok_redir,
+		t_token_lst *tok_target)
 {
-	t_redirection		redir;
+	t_redirection	redir;
 
 	redir.type = get_redir_type_from_tok_type(tok_redir->type);
 	redir.target = get_word_from_token(tok_target);

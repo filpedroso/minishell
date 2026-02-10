@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 13:02:41 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/10/27 16:20:49 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:03 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

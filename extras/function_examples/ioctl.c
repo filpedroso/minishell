@@ -1,6 +1,6 @@
 #include "headers.h"
 
-int main ()
+int	main(void)
 {
 	struct winsize	ws;
 

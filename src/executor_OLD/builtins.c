@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 00:00:00 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/01 00:00:00 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:23 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

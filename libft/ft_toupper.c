@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:56:55 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/10/30 15:05:45 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:16 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ int	ft_toupper(int c)
 {
 	char	test_chars[];
 	size_t	num_tests;
-    size_t i;
+	size_t	i;
 	int		original;
 	int		converted;
 
-    test_chars[] = {'a', 'z', 'A', 'Z', '0', '!', 'm', 'M'};
-    num_tests = sizeof(test_chars) / sizeof(test_chars[0]);
-    printf("Testing ft_toupper:\n");
-    for (i = 0; i < num_tests; i++)
-    {
-        original = test_chars[i];
-        converted = ft_toupper(original);
-        printf("ft_toupper('%c') = '%c'\n", original, converted);
-    }
-    return (0);
+	test_chars[] = {'a', 'z', 'A', 'Z', '0', '!', 'm', 'M'};
+	num_tests = sizeof(test_chars) / sizeof(test_chars[0]);
+	printf("Testing ft_toupper:\n");
+	for (i = 0; i < num_tests; i++)
+	{
+		original = test_chars[i];
+		converted = ft_toupper(original);
+		printf("ft_toupper('%c') = '%c'\n", original, converted);
+	}
+	return (0);
 }
  */

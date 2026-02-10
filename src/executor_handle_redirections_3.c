@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redirections_3.c                            :+:      :+:    :+:   */
+/*   executor_handle_redirections_3.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:47:47 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/29 16:47:47 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:53 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*create_temp_filepath();
+static char	*create_temp_filepath(void);
 static void	read_input_into_file(int fd, char *delim);
 
 char	*create_temp_file(char *delim)
@@ -34,7 +34,7 @@ char	*create_temp_file(char *delim)
 	return (filepath);
 }
 
-static char	*create_temp_filepath()
+static char	*create_temp_filepath(void)
 {
 	static int	counter = 0;
 	char		*num_str;

@@ -1,12 +1,15 @@
 #include "headers.h"
 
-int	main()
+int	main(void)
 {
+	char	path[] = "/Users/filpedroso/EstudosCS/42/42_projects/common_core/minishell/getcwd";
+	pid_t	pid;
+
 	printf("pid: %i\n", (int)getpid());
-	char path[] = "/Users/filpedroso/EstudosCS/42/42_projects/common_core/minishell/getcwd";
 	puts("calling getcwd:");
-	for (int i = 0; i < 16; i++) {
-		pid_t pid = fork();
+	for (int i = 0; i < 16; i++)
+	{
+		pid = fork();
 		if (pid == 0)
 		{
 			if (execve(path, NULL, NULL))
@@ -16,6 +19,6 @@ int	main()
 			}
 		}
 		else
-		puts("parent here");
+			puts("parent here");
 	}
 }

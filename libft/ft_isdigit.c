@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 13:41:19 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/10/27 16:20:44 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:04 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

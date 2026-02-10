@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 18:56:54 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/10/29 18:14:48 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:03 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

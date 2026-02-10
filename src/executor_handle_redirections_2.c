@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redirections_2.c                            :+:      :+:    :+:   */
+/*   executor_handle_redirections_2.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:39:46 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/29 16:10:21 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:52 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	append_filepath(char *filepath, t_str_lst *temp_files_list)
 		temp_files_list = new_file_node;
 	else
 	{
-		while(temp_files_list->next)
+		while (temp_files_list->next)
 			temp_files_list = temp_files_list->next;
 		temp_files_list = new_file_node;
 	}

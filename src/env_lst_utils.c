@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 18:34:38 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/29 18:34:38 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:48 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ t_var_lst	*envp_to_env_list(char **envp)
 	return (env_list);
 }
 
-t_var_lst  *env_node_from_str(char *str)
+t_var_lst	*env_node_from_str(char *str)
 {
-    t_var_lst  *node;
+	t_var_lst	*node;
 
-    if (!str)
-        return (NULL);
+	if (!str)
+		return (NULL);
 	node = alloc_t_var_list_node();
-    if (!node)
-        return (NULL);
+	if (!node)
+		return (NULL);
 	node->var_name = get_env_var_name(str);
 	if (!node->var_name)
 	{
@@ -73,11 +73,11 @@ static char	*get_env_var_name(char *str)
 	char	*var_name;
 	int		i;
 
-    i = 0;
-    while (str[i] && str[i] != '=')
-        i++;
-    var_name = ft_substr(str, 0, i);
-    if (!var_name)
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	var_name = ft_substr(str, 0, i);
+	if (!var_name)
 		return (NULL);
 	return (var_name);
 }
@@ -87,20 +87,20 @@ static char	*get_env_value(char *str)
 	char	*value;
 	int		i;
 
-    i = 0;
-    while (str[i] && str[i] != '=')
-        i++;
-    if (str[i] == '=')
-    {
-        value = ft_strdup(str + i + 1);
-        if (!value)
-        	return (NULL);
-    }
-    else
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (str[i] == '=')
 	{
-        value = ft_strdup("");
+		value = ft_strdup(str + i + 1);
 		if (!value)
 			return (NULL);
 	}
-    return (value);
+	else
+	{
+		value = ft_strdup("");
+		if (!value)
+			return (NULL);
+	}
+	return (value);
 }

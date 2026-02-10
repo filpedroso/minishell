@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:06:11 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/10/30 15:09:18 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:16 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

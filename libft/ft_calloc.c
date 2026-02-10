@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:10:13 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/11/04 14:25:13 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:02 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

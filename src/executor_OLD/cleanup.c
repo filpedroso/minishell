@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 19:39:34 by fpedroso          #+#    #+#             */
-/*   Updated: 2025/12/16 19:39:34 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:35:25 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	del_env_list_node(void *node)
 {
 	t_var_lst_node	*env_list_node;
 
-	env_list_node = (t_var_lst_node *)
-		(char *)node - offsetof(t_var_lst_node, node);
+	env_list_node = (t_var_lst_node *)(char *)node - offsetof(t_var_lst_node,
+			node);
 	if (env_list_node->value)
 		free(env_list_node->value);
 	if (env_list_node->var_name)
@@ -80,8 +80,8 @@ void	del_temp_file_node(void *node)
 {
 	t_file_lst_node	*temp_file_node;
 
-	temp_file_node = (t_file_lst_node *)
-		(char *)node - offsetof(t_file_lst_node, node);
+	temp_file_node = (t_file_lst_node *)(char *)node - offsetof(t_file_lst_node,
+			node);
 	if (temp_file_node->path)
 	{
 		unlink(temp_file_node->path);
@@ -89,5 +89,5 @@ void	del_temp_file_node(void *node)
 		temp_file_node->path = NULL;
 	}
 	temp_file_node = NULL;
-	return;
+	return ;
 }

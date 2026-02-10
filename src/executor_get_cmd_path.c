@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 00:00:00 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/01/31 17:10:36 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:34:50 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ char	*get_cmd_path(t_command *cmd)
 	char	*cmd_str_name_ptr;
 
 	cmd_str_name_ptr = cmd->words[0].token_word_ptr;
-	if (!cmd_str_name_ptr);
-		return (NULL);
+	if (!cmd_str_name_ptr)
+		;
+	return (NULL);
 	if (is_explicit_path(cmd_str_name_ptr))
 	{
 		if (access(cmd_str_name_ptr, X_OK) == 0)
