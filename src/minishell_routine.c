@@ -47,16 +47,14 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 		return (CYCLE_EXIT);
 	input_base = input;
 	tokens = lexer(&input);
-	if (!tokens) // NULL tokens means fatal; Empty tokens will be passed on,
-		normally
+	if (!tokens) // NULL tokens means fatal; Empty tokens will be passed on, normally
 		return (cycle_lexer_err(input_base));
 	ast = make_ast(tokens, env_vars);
 	if (ast.parse_status != PARSE_OK)
 		return (cycle_parser_err(input_base, tokens, ast));
-	// execute_tree(ast);
-	debug_print_ast_pretty(stderr, ast.ast_root);
-	cycle_cleanup(input_base, tokens, ast.ast_root); // terminal cleanup
-		+ data cleanup
+	execute_tree(ast.ast_root);
+	// debug_print_ast_pretty(stderr, ast.ast_root);
+	cycle_cleanup(input_base, tokens, ast.ast_root); // terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);
 }
 

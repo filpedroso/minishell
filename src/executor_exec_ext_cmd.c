@@ -50,10 +50,8 @@ static int	get_argv_and_exec_ext_cmd(t_ast_node *node)
 		perror("Get current envs");
 		return (1);
 	}
-	debug_print_args(path, produce_final_argv(node->cmd, current_envs),
-		current_envs);
-	// if (execve(path, produce_final_argv(node->cmd, current_envs),
-			current_envs) == -1)
+	debug_print_args(path, produce_final_argv(node->cmd, current_envs), current_envs);
+	// if (execve(path, produce_final_argv(node->cmd, current_envs), current_envs) == -1)
 	// {
 	// 	perror("Execve");
 	// 	destroy_cmd_node(node);

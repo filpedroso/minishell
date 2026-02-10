@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 21:13:07 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:50 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:48:00 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ void	append_single_word(t_str_lst **head, t_str_lst **tail, char *str)
 {
 	t_str_lst	*node;
 
-	node->string = str;
+	node = malloc(sizeof(t_str_lst));
+	if (!node)
+		return ;
+	node->value = str;
+	node->next = NULL;
 	if (!*head)
 		*head = node;
 	else

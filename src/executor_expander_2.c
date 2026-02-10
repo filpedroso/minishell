@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+static char	*get_var_value(const char *var_name, int var_len, char **envs);
+static int	append_expanded_var(char **result, const char *var_name,
+		char **envs, t_status *status);
+static int	append_char(char **result, char c, t_status *status);
+static bool	is_valid_var_name_and_not_single_quoted(t_word word, int i);
+
+
 char	*expand_word_with_context(t_word word, char **envs)
 {
 	char		*result;
@@ -39,7 +46,7 @@ char	*expand_word_with_context(t_word word, char **envs)
 	return (result);
 }
 
-bool	is_valid_var_name_and_not_single_quoted(t_word word, int i)
+static bool	is_valid_var_name_and_not_single_quoted(t_word word, int i)
 {
 	return (word.token_word_ptr[i]
 		&& word.context_mask_ptr[i] != CONTEXT_SINGLE);
@@ -91,7 +98,7 @@ static int	append_expanded_var(char **result, const char *var_name,
 	return (var_len);
 }
 
-char	*get_var_value(const char *var_name, int var_len, char **envs)
+static char	*get_var_value(const char *var_name, int var_len, char **envs)
 {
 	char	*value;
 	int		i;
@@ -104,7 +111,7 @@ char	*get_var_value(const char *var_name, int var_len, char **envs)
 		{
 			value = ft_strdup(envs[i] + var_len + 1);
 			if (!value)
-				retun(NULL);
+				return(NULL);
 			return (value);
 		}
 	}

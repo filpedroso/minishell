@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 00:41:05 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:46 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:48:00 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ typedef struct s_env_vars
 typedef struct s_str_lst
 {
 	char					*value;
-	struct s_argv_str_lst	*next;
+	struct s_str_lst		*next;
 }							t_str_lst;
 
 typedef struct s_command
@@ -274,6 +274,10 @@ t_str_lst					*expand_all_words(t_command *cmd,
 char						**produce_final_argv(t_command *cmd,
 								char **current_envs);
 char						*expand_word_with_context(t_word word, char **envs);
+
+// Cleanup General
+void	free_str_arr(char **arr);
+
 
 // DEBUG
 void						debug_print_ast(t_ast_node *node, int depth);

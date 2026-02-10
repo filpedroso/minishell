@@ -6,14 +6,14 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:39:46 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:52 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:48:00 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	dup_file_into_stdin(char *heredoc_filepath);
-static int	append_filepath(char *filepath, t_str_lst *temp_files_list);
+static int	append_filepath(char *filepath, t_str_lst **temp_files_list);
 
 int	set_heredoc_redir(t_command *cmd, char *heredoc_delim)
 {
@@ -31,7 +31,7 @@ int	set_heredoc_redir(t_command *cmd, char *heredoc_delim)
 		free(heredoc_filepath);
 		return (-1);
 	}
-	if (append_filepath(heredoc_filepath, cmd->temp_files_list) < 0)
+	if (append_filepath(heredoc_filepath, &cmd->temp_files_list) < 0)
 	{
 		unlink(heredoc_filepath);
 		free(heredoc_filepath);
@@ -64,7 +64,7 @@ static int	dup_file_into_stdin(char *heredoc_filepath)
 	return (0);
 }
 
-static int	append_filepath(char *filepath, t_str_lst *temp_files_list)
+static int	append_filepath(char *filepath, t_str_lst **temp_files_list)
 {
 	t_str_lst	*new_file_node;
 
@@ -74,14 +74,18 @@ static int	append_filepath(char *filepath, t_str_lst *temp_files_list)
 		perror("malloc");
 		return (-1);
 	}
-	new_file_node->path = filepath;
-	if (!temp_files_list)
-		temp_files_list = new_file_node;
+	new_file_node->value = filepath;
+	new_file_node->next = NULL;
+	if (!*temp_files_list)
+		*temp_files_list = new_file_node;
 	else
 	{
-		while (temp_files_list->next)
-			temp_files_list = temp_files_list->next;
-		temp_files_list = new_file_node;
+		t_str_lst	*last;
+
+		last = *temp_files_list;
+		while (last->next)
+			last = last->next;
+		last->next = new_file_node;
 	}
 	return (0);
 }

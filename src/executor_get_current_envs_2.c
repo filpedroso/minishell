@@ -33,7 +33,7 @@ bool	lst_has_var(t_var_lst *lst, const char *var_name)
 {
 	while (lst)
 	{
-		if (ft_strcmp(lst->var_name, var_name) == 0)
+		if (ft_strncmp(lst->var_name, var_name, ft_strlen(var_name)) == 0)
 			return (true);
 		lst = lst->next;
 	}

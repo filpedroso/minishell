@@ -61,7 +61,7 @@ static char	**word_list_to_array(t_str_lst *list, int argc)
 	i = 0;
 	while (list)
 	{
-		argv[i] = list->string;
+		argv[i] = list->value;
 		list = list->next;
 		i++;
 	}
@@ -88,7 +88,7 @@ static void	free_word_list(t_str_lst *list)
 	while (list)
 	{
 		tmp = list->next;
-		free(list->string);
+		free(list->value);
 		free(list);
 		list = tmp;
 	}

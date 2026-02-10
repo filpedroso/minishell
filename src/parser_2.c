@@ -27,8 +27,7 @@ t_ast_node	*new_command_node(t_token_lst *start, t_token_lst *end,
 	t_token_lst	*current;
 	t_ast_node	*new_cmd_node;
 
-	new_cmd_node = alloc_cmd_node(start, end, status); // allocates the node,
-		its cmd, redirs and everything it will need
+	new_cmd_node = alloc_cmd_node(start, end, status); // allocates the node, its cmd, redirs and everything it will need
 	if (*status != PARSE_OK)
 		return (NULL);
 	current = start;

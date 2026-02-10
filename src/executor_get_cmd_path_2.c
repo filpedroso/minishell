@@ -13,19 +13,34 @@
 #include "minishell.h"
 
 static char	*find_correct_command_path(char **paths, const char *cmd_str);
-static char	*join_path_with_cmd(char *dir, char *cmd);
+static char	*join_path_with_cmd(char *dir, const char *cmd);
 
 char	*find_in_path(const char *cmd_str, char *path_env)
 {
 	char	**paths;
 	char	*cmd_path;
 
-	paths = ft_split(path_env, ':');
+	paths = ft_split(path_env, ":");
 	if (!paths)
 		return (NULL);
 	cmd_path = find_correct_command_path(paths, cmd_str);
 	free_str_arr(paths);
 	return (cmd_path);
+}
+
+void	free_str_arr(char **arr)
+{
+	int	i;
+
+	if (!**arr || !*arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }
 
 static char	*find_correct_command_path(char **paths, const char *cmd_str)
@@ -47,7 +62,7 @@ static char	*find_correct_command_path(char **paths, const char *cmd_str)
 	return (NULL);
 }
 
-static char	*join_path_with_cmd(char *dir, char *cmd)
+static char	*join_path_with_cmd(char *dir, const char *cmd)
 {
 	char	*path_with_dash;
 
