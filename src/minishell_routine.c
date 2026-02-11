@@ -54,7 +54,7 @@ static t_cycle_result	one_shell_cycle(t_env_vars env_vars)
 		return (cycle_parser_err(input_base, tokens, ast));
 	execute_tree(ast.ast_root);
 	// debug_print_ast_pretty(stderr, ast.ast_root);
-	cycle_cleanup(input_base, tokens, ast.ast_root); // terminal cleanup + data cleanup
+	// cycle_cleanup(input_base, tokens, ast.ast_root); // terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);
 }
 

@@ -12,39 +12,33 @@
 
 #include "minishell.h"
 
-static int	is_explicit_path(char *cmd_arg);
+static bool	is_explicit_path(char *cmd_arg);
 static char	*search_in_path_var(t_command *cmd);
 static char	*get_path_env(char **env_vars);
 
 char	*get_cmd_path(t_command *cmd)
 {
-	char	*cmd_path;
 	char	*cmd_str_name_ptr;
 
 	cmd_str_name_ptr = cmd->words[0].token_word_ptr;
 	if (!cmd_str_name_ptr)
-		;
-	return (NULL);
+		return (NULL);
 	if (is_explicit_path(cmd_str_name_ptr))
 	{
 		if (access(cmd_str_name_ptr, X_OK) == 0)
 			return (ft_strdup(cmd_str_name_ptr));
-		return (NULL);
+		else
+			return (NULL);
 	}
-	else
-		cmd_path = search_in_path_var(cmd);
-	if (!cmd_path)
-	{
-		ft_putstr_fd("Command not found:", 2);
-		ft_putstr_fd(cmd_str_name_ptr, 2);
-		return (NULL);
-	}
-	return (cmd_path);
+	return (search_in_path_var(cmd));
 }
 
-static int	is_explicit_path(char *cmd_arg)
+static bool	is_explicit_path(char *cmd_arg)
 {
-	return (!ft_strchr(cmd_arg, '/'));
+	if (ft_strchr(cmd_arg, '/'))
+		return (true);
+	else
+		return (false);
 }
 
 static char	*search_in_path_var(t_command *cmd)

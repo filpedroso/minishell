@@ -13,8 +13,8 @@
 #include "minishell.h"
 
 static int	get_argv_and_exec_ext_cmd(t_ast_node *node);
-
-void		debug_print_args(char *path, char **argv, char **current_envs);
+void	debug_print_args(char *path, char **argv, char **current_envs);
+void	debug_puts_many(char **arr);
 
 void	exec_ext_cmd(t_ast_node *node)
 {
@@ -28,13 +28,13 @@ void	exec_ext_cmd(t_ast_node *node)
 		exit(exit_code);
 	}
 	wait(NULL);
-	destroy_cmd_node(node);
 }
 
 static int	get_argv_and_exec_ext_cmd(t_ast_node *node)
 {
 	char	*path;
 	char	**current_envs;
+	char	**final_argv;
 
 	path = get_cmd_path(node->cmd);
 	if (!path)
@@ -50,7 +50,8 @@ static int	get_argv_and_exec_ext_cmd(t_ast_node *node)
 		perror("Get current envs");
 		return (1);
 	}
-	debug_print_args(path, produce_final_argv(node->cmd, current_envs), current_envs);
+	final_argv = produce_final_argv(node->cmd, current_envs);
+	debug_print_args(path, final_argv, current_envs);
 	// if (execve(path, produce_final_argv(node->cmd, current_envs), current_envs) == -1)
 	// {
 	// 	perror("Execve");
@@ -64,17 +65,25 @@ static int	get_argv_and_exec_ext_cmd(t_ast_node *node)
 void	debug_print_args(char *path, char **argv, char **current_envs)
 {
 	puts("ARGS DEBUG >>>>>");
+
 	puts("PATH:");
 	puts(path);
+
 	puts("ARGV:");
-	for (int i = 0; argv[i]; i++)
-	{
-		puts(argv[i]);
-	}
+	debug_puts_many(argv);
+
 	puts("ENVP:");
-	for (int i = 0; current_envs[i]; i++)
-	{
-		puts(current_envs[i]);
-	}
+	debug_puts_many(current_envs);
+
 	puts("<<<<< END ARGS DEBUG");
+}
+
+void	debug_puts_many(char **arr)
+{
+	if (!arr)
+		return ;
+	for (int i = 0; arr[i]; i++)
+	{
+		puts(arr[i]);
+	}
 }

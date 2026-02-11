@@ -30,13 +30,14 @@ char	*expand_word_with_context(t_word word, char **envs)
 	status = STATUS_OK;
 	while (word.token_word_ptr[i] && status == STATUS_OK)
 	{
-		if (word.token_word_ptr[i] == '$'
-			&& word.context_mask_ptr[i] != CONTEXT_SINGLE)
+		if (word.token_word_ptr[i] == '$' && word.context_mask_ptr[i] != CONTEXT_SINGLE)
 		{
 			i++;
 			if (is_valid_var_name_and_not_single_quoted(word, i))
+			{
 				i += append_expanded_var(&result, &word.token_word_ptr[i], envs,
 						&status);
+			}
 			else
 				append_char(&result, '$', &status);
 		}
