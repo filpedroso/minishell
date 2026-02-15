@@ -274,6 +274,8 @@ t_str_lst					*expand_all_words(t_command *cmd,
 char						**produce_final_argv(t_command *cmd,
 								char **current_envs);
 char						*expand_word_with_context(t_word word, char **envs);
+char						*lookup_env_var(const char *name, int name_len,
+								char **envs);
 
 // Cleanup General
 void	free_str_arr(char **arr);

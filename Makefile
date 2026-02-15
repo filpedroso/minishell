@@ -46,6 +46,7 @@ FILES := main.c							\
 		executor_exec_ext_cmd.c			\
 		executor_expander.c				\
 		executor_expander_2.c			\
+		executor_expander_3.c			\
 		executor_get_cmd_path.c			\
 		executor_get_cmd_path_2.c		\
 		executor_get_current_envs.c		\
