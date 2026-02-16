@@ -13,22 +13,29 @@
 #include "minishell.h"
 
 static int	init_env_list_struct(char **envp, t_env_vars *env_vars);
+static int	init_shell(t_sh *shell, char **envp);
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env_vars	env_vars;
+	t_sh	shell;
 
 	(void)argc;
 	(void)argv;
-	if (init_env_list_struct(envp, &env_vars) == ERROR)
+	if (init_shell(&shell, envp) == ERROR)
 		return (1);
-	if (minishell_routine(env_vars) == ERROR)
+	if (minishell_routine(&shell) == ERROR)
 	{
-		cleanup_env(env_vars);
+		cleanup_env(shell.env_vars);
 		return (1);
 	}
-	cleanup_env(env_vars);
-	return (SUCCESS);
+	cleanup_env(shell.env_vars);
+	return (0);
+}
+
+static int	init_shell(t_sh *shell, char **envp)
+{
+	shell->last_exit_st = 0;
+	return (init_env_list_struct(envp, &shell->env_vars));
 }
 
 static int	init_env_list_struct(char **envp, t_env_vars *env_vars)

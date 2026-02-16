@@ -196,13 +196,21 @@ typedef struct s_ast
 	t_parse_status			parse_status;
 }							t_ast;
 
+typedef struct s_sh
+{
+	t_env_vars	env_vars;
+	t_token_lst	*tokens;
+	t_ast		ast;
+	int			last_exit_st;
+} t_sh;
+
 /* ************************************************************************** */
 /* ***************************   functions   ******************************** */
 /* ************************************************************************** */
 
 //	main minishell
-int							minishell_routine(t_env_vars env_vars);
-char						*get_input_line(void);
+int			minishell_routine(t_sh *shell);
+char		*get_input_line(void);
 
 //	lexer
 t_token_lst					*lexer(char **input);
@@ -249,7 +257,7 @@ void						skip_spaces(char **input);
 int							is_operator(char c);
 
 // executor
-void						execute_tree(t_ast_node *node);
+void	execute_tree(t_sh *sh, t_ast_node *node);
 void						command_logic(t_ast_node *node);
 int							handle_redirections(t_command *cmd);
 int							set_heredoc_redir(t_command *cmd,

@@ -12,26 +12,26 @@
 
 #include "minishell.h"
 
-static void	recursive_pipe_logic(t_ast_node *node);
-static void	exec_piped_left_node(int pip[2], t_ast_node *node);
-static void	exec_piped_right_node(int pip[2], t_ast_node *node);
+static void	recursive_pipe_logic(t_sh *sh, t_ast_node *node);
+static void	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node);
+static void	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node);
 
-void	execute_tree(t_ast_node *node)
+void	execute_tree(t_sh *sh, t_ast_node *node)
 {
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPE)
 	{
-		recursive_pipe_logic(node);
+		recursive_pipe_logic(sh, node);
 	}
 	else
 	{
-		command_logic(node);
+		command_logic(sh, node);
 	}
 	destroy_cmd_node(node);
 }
 
-static void	recursive_pipe_logic(t_ast_node *node)
+static void	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 {
 	int	pip[2];
 
@@ -42,11 +42,11 @@ static void	recursive_pipe_logic(t_ast_node *node)
 	}
 	node->left->cmd->is_pipeline = true;
 	node->right->cmd->is_pipeline = true;
-	exec_piped_left_node(pip, node->left);
-	exec_piped_right_node(pip, node->right);
+	exec_piped_left_node(sh, pip, node->left);
+	exec_piped_right_node(sh, pip, node->right);
 }
 
-static void	exec_piped_left_node(int pip[2], t_ast_node *node)
+static void	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node)
 {
 	pid_t	left_pid;
 
@@ -63,7 +63,7 @@ static void	exec_piped_left_node(int pip[2], t_ast_node *node)
 	close(pip[WRITE]);
 }
 
-static void	exec_piped_right_node(int pip[2], t_ast_node *node)
+static void	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node)
 {
 	pid_t	right_pid;
 
