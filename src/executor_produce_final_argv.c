@@ -17,13 +17,13 @@ static char	**word_list_to_array(t_str_lst *list, int argc);
 static void	free_word_list_nodes_only(t_str_lst *list);
 static void	free_word_list(t_str_lst *list);
 
-char	**produce_final_argv(t_command *cmd, char **current_envs)
+char	**produce_final_argv(t_sh *sh, t_command *cmd, char **current_envs)
 {
 	t_str_lst	*expanded_words;
 	char		**argv;
 	int			argc;
 
-	expanded_words = expand_all_words(cmd, current_envs);
+	expanded_words = expand_all_words(sh, cmd, current_envs);
 	if (!expanded_words)
 		return (NULL);
 	argc = count_word_list(expanded_words);

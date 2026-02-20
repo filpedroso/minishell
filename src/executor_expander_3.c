@@ -26,3 +26,19 @@ char	*lookup_env_var(const char *name, int name_len, char **envs)
 	}
 	return (ft_strdup(""));
 }
+
+char	*handle_exit_status_expansion(t_sh *sh, int *i, char *result)
+{
+	char	*value;
+
+	(*i)++;
+	value = ft_itoa(sh->last_exit_st);
+	if (!value)
+	{
+		free(result);
+		return (NULL);
+	}
+	result = join_and_free_left(result, value);
+	free(value);
+	return (result);
+}

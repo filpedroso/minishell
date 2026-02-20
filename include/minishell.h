@@ -258,12 +258,12 @@ int							is_operator(char c);
 
 // executor
 void	execute_tree(t_sh *sh, t_ast_node *node);
-void						command_logic(t_ast_node *node);
+void	command_logic(t_sh *sh, t_ast_node *node);
 int							handle_redirections(t_command *cmd);
 int							set_heredoc_redir(t_command *cmd,
 								char *heredoc_delim);
 char						*create_temp_file(char *delim);
-void						exec_ext_cmd(t_ast_node *node);
+void	exec_ext_cmd(t_sh *sh, t_ast_node *node);
 char						*get_cmd_path(t_command *cmd);
 char						*find_in_path(const char *cmd_str, char *path_env);
 
@@ -277,13 +277,14 @@ bool						append_var_to_list(t_var_lst **lst_ptr,
 t_var_lst					*duplicate_node(t_var_lst *src_node);
 
 // executor expansion
-t_str_lst					*expand_all_words(t_command *cmd,
+t_str_lst					*expand_all_words(t_sh *sh, t_command *cmd,
 								char **current_envs);
-char						**produce_final_argv(t_command *cmd,
+char						**produce_final_argv(t_sh *sh, t_command *cmd,
 								char **current_envs);
-char						*expand_word_with_context(t_word word, char **envs);
+char						*expand_word_with_context(t_sh *sh, t_word word, char **envs);
 char						*lookup_env_var(const char *name, int name_len,
 								char **envs);
+char	*handle_exit_status_expansion(t_sh *sh, int *i, char *result);
 
 // Cleanup General
 void	free_str_arr(char **arr);

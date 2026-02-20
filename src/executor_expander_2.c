@@ -17,25 +17,32 @@ static int	get_var_name_len(t_word word, int start);
 static char	*handle_dollar(t_word word, int *i, char *res, char **envs);
 static char	*append_literal_run(t_word word, int *i, char *result);
 
-char	*expand_word_with_context(t_word word, char **envs)
+char	*expand_word_with_context(t_sh *sh, t_word word, char **envs)
 {
 	char	*result;
 	int		i;
 
 	result = ft_strdup("");
+	if (!result)
+		return (NULL);
 	i = 0;
 	while (result && word.token_word_ptr[i])
 	{
 		if (word.token_word_ptr[i] == '$'
 			&& word.context_mask_ptr[i] != CONTEXT_SINGLE)
-			result = handle_dollar(word, &i, result, envs);
+		{
+			if (word.token_word_ptr[i + 1] == '?')
+				result = (handle_exit_status_expansion(sh, &i, result));
+			else
+				result = handle_dollar(word, &i, result, envs);
+		}
 		else
 			result = append_literal_run(word, &i, result);
 	}
 	return (result);
 }
 
-static char	*handle_dollar(t_word word, int *i, char *res, char **envs)
+static char	*handle_dollar(t_word word, int *i, char *result, char **envs)
 {
 	int		var_len;
 	char	*value;
@@ -43,17 +50,17 @@ static char	*handle_dollar(t_word word, int *i, char *res, char **envs)
 	(*i)++;
 	var_len = get_var_name_len(word, *i);
 	if (var_len == 0)
-		return (join_and_free_left(res, "$"));
+		return (join_and_free_left(result, "$"));
 	value = lookup_env_var(&word.token_word_ptr[*i], var_len, envs);
 	if (!value)
 	{
-		free(res);
+		free(result);
 		return (NULL);
 	}
 	*i += var_len;
-	res = join_and_free_left(res, value);
+	result = join_and_free_left(result, value);
 	free(value);
-	return (res);
+	return (result);
 }
 
 static char	*append_literal_run(t_word word, int *i, char *result)

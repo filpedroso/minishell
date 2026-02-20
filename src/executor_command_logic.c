@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	command_logic(t_ast_node *node)
+void	command_logic(t_sh *sh, t_ast_node *node)
 {
 	if (handle_redirections(node->cmd) < 0)
 	{
@@ -20,7 +20,7 @@ void	command_logic(t_ast_node *node)
 		return ;
 	}
 	if (node->cmd->type == EXT)
-		exec_ext_cmd(node);
+		exec_ext_cmd(sh, node);
 	else
 		puts("TODO: BUILTINS");
 	// else if (node->cmd->type == BUILTIN)

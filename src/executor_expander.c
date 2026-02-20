@@ -16,7 +16,7 @@ static bool	can_split(t_word *word);
 static void	append_split_words(t_str_lst **head, t_str_lst **tail, char *str);
 static void	append_single_word(t_str_lst **head, t_str_lst **tail, char *str);
 
-t_str_lst	*expand_all_words(t_command *cmd, char **current_envs)
+t_str_lst	*expand_all_words(t_sh *sh, t_command *cmd, char **current_envs)
 {
 	char		*expanded;
 	t_str_lst	*head;
@@ -28,7 +28,7 @@ t_str_lst	*expand_all_words(t_command *cmd, char **current_envs)
 	i = 0;
 	while (i < cmd->words_count)
 	{
-		expanded = expand_word_with_context(cmd->words[i], current_envs);
+		expanded = expand_word_with_context(sh, cmd->words[i], current_envs);
 		if (can_split(&cmd->words[i]))
 			append_split_words(&head, &tail, expanded);
 		else

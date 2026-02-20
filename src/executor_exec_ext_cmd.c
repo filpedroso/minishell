@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-static int	get_argv_and_exec_ext_cmd(t_ast_node *node);
+static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node);
 void	debug_print_args(char *path, char **argv);
 void	debug_puts_many(char **arr);
 
-void	exec_ext_cmd(t_ast_node *node)
+void	exec_ext_cmd(t_sh *sh, t_ast_node *node)
 {
 	pid_t	pid;
 	int		exit_code;
@@ -24,13 +24,13 @@ void	exec_ext_cmd(t_ast_node *node)
 	pid = fork();
 	if (pid == CHILD)
 	{
-		exit_code = get_argv_and_exec_ext_cmd(node);
+		exit_code = get_argv_and_exec_ext_cmd(sh, node);
 		exit(exit_code);
 	}
 	wait(NULL);
 }
 
-static int	get_argv_and_exec_ext_cmd(t_ast_node *node)
+static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node)
 {
 	char	*path;
 	char	**current_envs;
@@ -50,7 +50,7 @@ static int	get_argv_and_exec_ext_cmd(t_ast_node *node)
 		perror("Get current envs");
 		return (1);
 	}
-	final_argv = produce_final_argv(node->cmd, current_envs);
+	final_argv = produce_final_argv(sh, node->cmd, current_envs);
 	debug_print_args(path, final_argv);
 	// if (execve(path, produce_final_argv(node->cmd, current_envs), current_envs) == -1)
 	// {
