@@ -12,22 +12,24 @@
 
 #include "minishell.h"
 
-void	command_logic(t_sh *sh, t_ast_node *node)
+int	command_logic(t_sh *sh, t_ast_node *node)
 {
+	int	exit_status;
+
+	exit_status = 0;
 	if (handle_redirections(node->cmd) < 0)
 	{
 		destroy_cmd_node(node);
-		return ;
+		return (1);
 	}
 	if (node->cmd->type == EXT)
-		exec_ext_cmd(sh, node);
+		exit_status = exec_ext_cmd(sh, node);
 	else
-		puts("TODO: BUILTINS");
-	// else if (node->cmd->type == BUILTIN)
-	// {
-	// 	if (node->cmd->is_pipeline)
-	// 		exec_forked_builtin(node);
-	// 	else
-	// 		exec_builtin(node);
-	// }
+	{
+		if (node->cmd->is_pipeline)
+			exec_forked_builtin(node);
+		else
+			exec_builtin(node);
+	}
+	return (exit_status);
 }

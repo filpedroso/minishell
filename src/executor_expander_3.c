@@ -31,7 +31,7 @@ char	*handle_exit_status_expansion(t_sh *sh, int *i, char *result)
 {
 	char	*value;
 
-	(*i)++;
+	*i += 2;
 	value = ft_itoa(sh->last_exit_st);
 	if (!value)
 	{

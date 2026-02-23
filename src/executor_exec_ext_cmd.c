@@ -12,54 +12,70 @@
 
 #include "minishell.h"
 
-static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node);
+static void	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node);
 void	debug_print_args(char *path, char **argv);
 void	debug_puts_many(char **arr);
 
-void	exec_ext_cmd(t_sh *sh, t_ast_node *node)
+int	exec_ext_cmd(t_sh *sh, t_ast_node *node)
 {
 	pid_t	pid;
-	int		exit_code;
+	int		exit_status;
 
 	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return (1);
+	}
 	if (pid == CHILD)
 	{
-		exit_code = get_argv_and_exec_ext_cmd(sh, node);
-		exit(exit_code);
+		get_argv_and_exec_ext_cmd(sh, node);
+		destroy_cmd_node(node);
+		exit(1);
 	}
-	wait(NULL);
+	waitpid(pid, &exit_status, 0);
+	if (WIFEXITED(exit_status))
+		return (WEXITSTATUS(exit_status));
+	if (WIFSIGNALED(exit_status))
+		return (128 + WTERMSIG(exit_status));
+	return (1);
 }
 
-static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node)
+static void	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node)
 {
-	char	*path;
-	char	**current_envs;
-	char	**final_argv;
+	t_exec_args	ex;
 
-	path = get_cmd_path(node->cmd);
-	if (!path)
+	ex.path = get_cmd_path(node->cmd);
+	if (!ex.path)
+		return (perror("Command path not found"));
+	ex.envp = get_current_envs(node->cmd->env_vars);
+	if (!ex.envp)
 	{
-		destroy_cmd_node(node);
-		perror("Command path not found");
-		return (1);
+		free(ex.path);
+		return (perror("Get current envs"));
 	}
-	current_envs = get_current_envs(node->cmd->env_vars);
-	if (!current_envs)
+	ex.argv = produce_final_argv(sh, node->cmd, ex.envp);
+	if (!ex.argv)
 	{
-		destroy_cmd_node(node);
-		perror("Get current envs");
-		return (1);
+		destroy_exec_args(&ex);
+		return (perror("Produce final argv"));
 	}
-	final_argv = produce_final_argv(sh, node->cmd, current_envs);
-	debug_print_args(path, final_argv);
-	// if (execve(path, produce_final_argv(node->cmd, current_envs), current_envs) == -1)
-	// {
-	// 	perror("Execve");
-	// 	destroy_cmd_node(node);
-	// 	free_str_arr(current_envs);
-	// 	return(1);
-	// }
-	return (0);
+	execve(ex.path, ex.argv, ex.envp);
+	destroy_exec_args(&ex);
+	perror("Execve");
+}
+
+void	destroy_exec_args(t_exec_args *ex)
+{
+	if (ex->path)
+		free(ex->path);
+	if (ex->envp)	
+		free_str_arr(ex->envp);
+	if (ex->argv)
+		free_str_arr(ex->argv);
+	ex->path = NULL;
+	ex->envp = NULL;
+	ex->argv = NULL;
 }
 
 void	debug_print_args(char *path, char **argv)

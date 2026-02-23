@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-static char	*join_and_free_left(char *left, const char *right);
 static int	get_var_name_len(t_word word, int start);
 static char	*handle_dollar(t_word word, int *i, char *res, char **envs);
 static char	*append_literal_run(t_word word, int *i, char *result);
@@ -84,7 +83,7 @@ static char	*append_literal_run(t_word word, int *i, char *result)
 	return (result);
 }
 
-static char	*join_and_free_left(char *left, const char *right)
+char	*join_and_free_left(char *left, const char *right)
 {
 	char	*result;
 

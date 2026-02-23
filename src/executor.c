@@ -53,7 +53,9 @@ static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 	waitpid(right_pid, &right_status, 0);
 	if (WIFEXITED(right_status))
 		return (WEXITSTATUS(right_status));
-	return (128 + WTERMSIG(right_status));
+	if (WIFSIGNALED(right_status))
+		return (128 + WTERMSIG(right_status));
+	return (1);
 }
 
 static pid_t	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node)
