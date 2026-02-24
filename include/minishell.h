@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 00:41:05 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/02/10 00:48:00 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ typedef struct s_str_lst
 	struct s_str_lst	*next;
 }						t_str_lst;
 
-typedef struct s_command
+typedef struct s_cmd
 {
 	t_cmd_type			type;
 	t_word				*words;
@@ -187,14 +187,14 @@ typedef struct s_command
 	t_redirection		*redirections;
 	int					redirections_count;
 	t_str_lst			*temp_files_list;
-}						t_command;
+}						t_cmd;
 
 typedef struct s_ast_node
 {
 	t_node_type			type;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-	t_command			*cmd;
+	t_cmd			*cmd;
 }						t_ast_node;
 
 typedef struct s_ast
@@ -237,8 +237,8 @@ t_token_type			get_token_type(t_token_lst *token);
 t_ast					make_ast(t_token_lst *tok_lst, t_env_vars env_vars);
 t_ast_node				*new_command_node(t_token_lst *start, t_token_lst *end,
 							t_parse_status *status);
-t_token_lst				*parse_word(t_command *cmd, t_token_lst *token_node);
-t_token_lst				*parse_redirection(t_command *cmd,
+t_token_lst				*parse_word(t_cmd *cmd, t_token_lst *token_node);
+t_token_lst				*parse_redirection(t_cmd *cmd,
 							t_token_lst *token_node, t_parse_status *status);
 
 // parser_tools
@@ -262,11 +262,11 @@ int						is_operator(char c);
 // executor
 void					execute_tree(t_sh *sh, t_ast_node *node);
 int						command_logic(t_sh *sh, t_ast_node *node);
-int						handle_redirections(t_command *cmd);
-int						set_heredoc_redir(t_command *cmd, char *heredoc_delim);
+int						handle_redirections(t_cmd *cmd);
+int						set_heredoc_redir(t_cmd *cmd, char *heredoc_delim);
 char					*create_temp_file(char *delim);
 int						exec_ext_cmd(t_sh *sh, t_ast_node *node);
-char					*get_cmd_path(t_command *cmd);
+char					*get_cmd_path(t_cmd *cmd);
 char					*find_in_path(const char *cmd_str, char *path_env);
 
 // executor envs
@@ -279,9 +279,9 @@ bool					append_var_to_list(t_var_lst **lst_ptr,
 t_var_lst				*duplicate_node(t_var_lst *src_node);
 
 // executor expansion
-t_str_lst				*expand_all_words(t_sh *sh, t_command *cmd,
+t_str_lst				*expand_all_words(t_sh *sh, t_cmd *cmd,
 							char **current_envs);
-char					**produce_final_argv(t_sh *sh, t_command *cmd,
+char					**produce_final_argv(t_sh *sh, t_cmd *cmd,
 							char **current_envs);
 char					*expand_word_with_context(t_sh *sh, t_word word,
 							char **envs);

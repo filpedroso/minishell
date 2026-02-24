@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 18:33:42 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:52 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	set_stdin_redir(t_redirection redirection);
 static void	set_stdout_redir(t_redirection redirection);
 static void	set_append_redir(t_redirection redirection);
 
-int	handle_redirections(t_command *cmd)
+int	handle_redirections(t_cmd *cmd)
 {
 	t_redirection_type	redir_type;
 	int					i;

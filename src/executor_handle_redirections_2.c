@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:39:46 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:48:00 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	dup_file_into_stdin(char *heredoc_filepath);
 static int	append_filepath(char *filepath, t_str_lst **temp_files_list);
 
-int	set_heredoc_redir(t_command *cmd, char *heredoc_delim)
+int	set_heredoc_redir(t_cmd *cmd, char *heredoc_delim)
 {
 	char	*heredoc_filepath;
 

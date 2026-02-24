@@ -4,7 +4,7 @@
 
 /* forward declarations */
 typedef struct s_ast_node		t_ast_node;
-typedef struct s_command		t_command;
+typedef struct s_cmd		t_cmd;
 typedef struct s_word			t_word;
 typedef struct s_var_lst		t_var_lst;
 typedef struct s_redirection	t_redirection;
@@ -166,7 +166,7 @@ static void	print_temp_files(t_str_lst *lst, int depth)
    PRINT COMMAND
    =========================== */
 
-static void	print_command(t_command *cmd, int depth)
+static void	print_command(t_cmd *cmd, int depth)
 {
 	int	i;
 

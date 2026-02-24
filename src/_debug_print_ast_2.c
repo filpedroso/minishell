@@ -123,7 +123,7 @@ static void	dbg_print_file_list(FILE *out, const t_str_lst *f, int depth,
 	}
 }
 
-static void	dbg_print_command(FILE *out, const t_command *c, int depth)
+static void	dbg_print_command(FILE *out, const t_cmd *c, int depth)
 {
 		char label[64];
 

@@ -25,11 +25,6 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 	if (node->cmd->type == EXT)
 		exit_status = exec_ext_cmd(sh, node);
 	else
-	{
-		if (node->cmd->is_pipeline)
-			exec_forked_builtin(node);
-		else
-			exec_builtin(node);
-	}
+		exit_status = builtin_logic(sh, node);
 	return (exit_status);
 }

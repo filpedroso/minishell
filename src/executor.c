@@ -24,6 +24,8 @@ void	execute_tree(t_sh *sh, t_ast_node *node)
 		return ;
 	if (node->type == NODE_PIPE)
 		exit_status = recursive_pipe_logic(sh, node);
+	if (is_exit_builtin(node))
+		ft_exit(sh, node);
 	else
 		exit_status = command_logic(sh, node);
 	sh->last_exit_st = exit_status;

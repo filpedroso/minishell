@@ -6,17 +6,17 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 00:00:00 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:50 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	is_explicit_path(char *cmd_arg);
-static char	*search_in_path_var(t_command *cmd);
+static char	*search_in_path_var(t_cmd *cmd);
 static char	*get_path_env(char **env_vars);
 
-char	*get_cmd_path(t_command *cmd)
+char	*get_cmd_path(t_cmd *cmd)
 {
 	char	*cmd_str_name_ptr;
 
@@ -41,7 +41,7 @@ static bool	is_explicit_path(char *cmd_arg)
 		return (false);
 }
 
-static char	*search_in_path_var(t_command *cmd)
+static char	*search_in_path_var(t_cmd *cmd)
 {
 	char	*path_env_var;
 	char	**current_env_vars;

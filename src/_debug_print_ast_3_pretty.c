@@ -57,7 +57,7 @@ static void	fprint_quoted(FILE *out, const char *s)
 	fputc('"', out);
 }
 
-static void	fprint_command_compact(FILE *out, const t_command *c)
+static void	fprint_command_compact(FILE *out, const t_cmd *c)
 {
 	if (!c)
 	{

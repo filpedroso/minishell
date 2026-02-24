@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 21:12:02 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:53 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	**word_list_to_array(t_str_lst *list, int argc);
 static void	free_word_list_nodes_only(t_str_lst *list);
 static void	free_word_list(t_str_lst *list);
 
-char	**produce_final_argv(t_sh *sh, t_command *cmd, char **current_envs)
+char	**produce_final_argv(t_sh *sh, t_cmd *cmd, char **current_envs)
 {
 	t_str_lst	*expanded_words;
 	char		**argv;

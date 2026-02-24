@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 00:57:23 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:58 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_ast_node	*alloc_cmd_node(t_token_lst *start, t_token_lst *end,
 						t_parse_status *status);
 static t_ast_node	*malloc_node_and_cmd(void);
-static void			alloc_cmd_words_and_redirs(t_command *cmd,
+static void			alloc_cmd_words_and_redirs(t_cmd *cmd,
 						t_token_lst *start, t_token_lst *end,
 						t_parse_status *status);
 static void			get_word_and_redir_count(int *word_count, int *redir_count,
@@ -80,7 +80,7 @@ static t_ast_node	*malloc_node_and_cmd(void)
 	ast_node->left = NULL;
 	ast_node->right = NULL;
 	ast_node->type = NODE_CMD;
-	ast_node->cmd = malloc(sizeof(t_command));
+	ast_node->cmd = malloc(sizeof(t_cmd));
 	if (!ast_node->cmd)
 	{
 		free(ast_node);
@@ -94,7 +94,7 @@ static t_ast_node	*malloc_node_and_cmd(void)
 	return (ast_node);
 }
 
-static void	alloc_cmd_words_and_redirs(t_command *cmd, t_token_lst *start,
+static void	alloc_cmd_words_and_redirs(t_cmd *cmd, t_token_lst *start,
 		t_token_lst *end, t_parse_status *status)
 {
 	int	word_count;

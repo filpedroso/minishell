@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 21:13:07 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:48:00 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static bool	can_split(t_word *word);
 static void	append_split_words(t_str_lst **head, t_str_lst **tail, char *str);
 static void	append_single_word(t_str_lst **head, t_str_lst **tail, char *str);
 
-t_str_lst	*expand_all_words(t_sh *sh, t_command *cmd, char **current_envs)
+t_str_lst	*expand_all_words(t_sh *sh, t_cmd *cmd, char **current_envs)
 {
 	char		*expanded;
 	t_str_lst	*head;
