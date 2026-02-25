@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:45:31 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:35:08 by fpedroso         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:26:42 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

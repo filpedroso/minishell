@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:17:33 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:35:05 by fpedroso         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:05:43 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

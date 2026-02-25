@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:15:08 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:35:04 by fpedroso         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:23:25 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -291,6 +291,12 @@ char					*handle_exit_status_expansion(t_sh *sh, int *i,
 							char *result);
 char					*join_and_free_left(char *left, const char *right);
 
+// builtins
+int		exec_builtin(t_sh *sh, t_ast_node *node);
+int		ft_echo(char **argv);
+int		ft_exit(t_sh *sh, char **argv);
+
+
 // Cleanup General
 void					free_str_arr(char **arr);
 void					destroy_exec_args(t_exec_args *ex);
@@ -300,5 +306,6 @@ void					debug_print_ast(t_ast_node *node, int depth);
 void					debug_print_ast_2(FILE *out, const t_ast_node *root);
 void					debug_print_ast_pretty(FILE *out,
 							const t_ast_node *root);
+
 
 #endif

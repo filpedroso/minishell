@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:20:29 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:35:12 by fpedroso         ###   ########.fr       */
+/*   Updated: 2024/11/05 20:06:46 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

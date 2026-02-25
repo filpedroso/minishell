@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 12:58:32 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:35:06 by fpedroso         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:16:36 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,59 +43,59 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 
 /* void *to_uppercase(void *content)
 {
-	char	*str;
-	char	*new_str;
+    char *str = (char *)content;
+    char *new_str = malloc(strlen(str) + 1);
 
-	str = (char *)content;
-	new_str = malloc(strlen(str) + 1);
-	if (!new_str)
-		return (NULL);
-	for (int i = 0; str[i]; i++)
-		new_str[i] = toupper(str[i]);
-	new_str[strlen(str)] = '\0';  // Null-terminate the new string
-	return (new_str);
+    if (!new_str)
+        return NULL;
+
+    for (int i = 0; str[i]; i++)
+        new_str[i] = toupper(str[i]);
+    new_str[strlen(str)] = '\0';  // Null-terminate the new string
+
+    return new_str;
 }
 
 // Sample function to delete the content of a node (free the string)
-void	del(void *content)
+void del(void *content)
 {
-	free(content);
+    free(content);
 }
 
 // Helper function to print a list
-void	print_list(t_list *lst)
+void print_list(t_list *lst)
 {
-	while (lst)
-	{
-		printf("%s\n", (char *)lst->content);
-		lst = lst->next;
-	}
+    while (lst)
+    {
+        printf("%s\n", (char *)lst->content);
+        lst = lst->next;
+    }
 }
 
-int	main(void)
+int main()
 {
-	// Create the original list with some test data
-	t_list *original = ft_lstnew(strdup("hello"));
-	ft_lstadd_back(&original, ft_lstnew(strdup("world")));
-	ft_lstadd_back(&original, ft_lstnew(strdup("libft")));
+    // Create the original list with some test data
+    t_list *original = ft_lstnew(strdup("hello"));
+    ft_lstadd_back(&original, ft_lstnew(strdup("world")));
+    ft_lstadd_back(&original, ft_lstnew(strdup("libft")));
 
-	printf("Original list:\n");
-	print_list(original);
+    printf("Original list:\n");
+    print_list(original);
 	printf("test_point0");
 
-	// Apply ft_lstmap to transform the list
+    // Apply ft_lstmap to transform the list
 	printf("test_point1");
-	t_list *mapped = NULL;
+    t_list *mapped = NULL;
 	printf("test_point2");
 	mapped = ft_lstmap(original, &to_uppercase, &del);
 	printf("test_point3");
 
-	printf("\nMapped list (after to_uppercase):\n");
-	print_list(mapped);
+    printf("\nMapped list (after to_uppercase):\n");
+    print_list(mapped);
 
-	// Clean up memory
-	ft_lstclear(&original, del);  // Clear the original list
-	ft_lstclear(&mapped, del);    // Clear the mapped list
+    // Clean up memory
+    ft_lstclear(&original, del);  // Clear the original list
+    ft_lstclear(&mapped, del);    // Clear the mapped list
 
-	return (0);
+    return 0;
 } */

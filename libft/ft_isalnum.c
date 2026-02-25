@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:01:05 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:35:03 by fpedroso         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:47:27 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

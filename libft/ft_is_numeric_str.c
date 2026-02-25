@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_is_numeric_str.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 20:11:20 by fpedroso          #+#    #+#             */
-/*   Updated: 2024/11/05 20:30:01 by fpedroso         ###   ########.fr       */
+/*   Created: 2026/02/24 21:31:46 by fpedroso          #+#    #+#             */
+/*   Updated: 2026/02/24 21:31:46 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+int	ft_is_numeric_str(const char *str)
 {
-	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
+	int	i;
+
+	if (!str || !*str)
+		return (0);
+	i = 0;
+	while(str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
-/* int	main(void)
-{
-	ft_putendl_fd("jacare", 1);
-} */

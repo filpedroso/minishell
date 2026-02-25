@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_command_logic.c                           :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/16 20:06:36 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:49 by fpedroso         ###   ########.fr       */
+/*   Created: 2026/02/24 20:48:44 by fpedroso          #+#    #+#             */
+/*   Updated: 2026/02/24 20:48:44 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	command_logic(t_sh *sh, t_ast_node *node)
+int	ft_exit(t_sh *sh, char **argv)
 {
-	int	exit_status;
+	int	code;
 
-	exit_status = 0;
-	if (handle_redirections(node->cmd) < 0)
+	ft_putstr_fd("exit", 1);
+	if (!argv[1])
+		exit(sh->last_exit_st);
+	if (!ft_is_numeric_str(argv[1]))
 	{
-		destroy_cmd_node(node);
-		return (1);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(argv[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		exit(2);
 	}
-	if (node->cmd->type == EXT)
-		exit_status = exec_ext_cmd(sh, node);
-	else
-		exit_status = exec_builtin(sh, node);
-	return (exit_status);
+	code = ft_atoi(argv[1]);
+	exit((unsigned char)code);
 }

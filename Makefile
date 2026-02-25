@@ -52,7 +52,9 @@ FILES := main.c							\
 		executor_get_current_envs.c		\
 		executor_get_current_envs_2.c	\
 		executor_produce_final_argv.c	\
-		_debug_print_ast_3_pretty.c
+		builtin_logic.c					\
+		ft_echo.c						\
+		ft_exit.c						\
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))

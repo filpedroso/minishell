@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: fpedroso <fpedroso@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 12:07:13 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:35:05 by fpedroso         ###   ########.fr       */
+/*   Updated: 2024/11/08 12:46:31 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

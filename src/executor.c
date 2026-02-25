@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
-static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node);
+static int		recursive_pipe_logic(t_sh *sh, t_ast_node *node);
 static pid_t	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node);
 static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node);
+static bool		is_exit_builtin(t_ast_node *node);
 
 void	execute_tree(t_sh *sh, t_ast_node *node)
 {
@@ -25,7 +26,7 @@ void	execute_tree(t_sh *sh, t_ast_node *node)
 	if (node->type == NODE_PIPE)
 		exit_status = recursive_pipe_logic(sh, node);
 	if (is_exit_builtin(node))
-		ft_exit(sh, node);
+		exec_builtin(sh, node);
 	else
 		exit_status = command_logic(sh, node);
 	sh->last_exit_st = exit_status;
@@ -89,4 +90,12 @@ static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node)
 		exit(sh->last_exit_st);
 	}
 	return (right_pid);
+}
+
+static bool	is_exit_builtin(t_ast_node *node)
+{
+	char	*cmd;
+
+	cmd = node->cmd->words[0].token_word_ptr;
+	return (ft_strncmp(cmd, "exit", 4) == 0);
 }
