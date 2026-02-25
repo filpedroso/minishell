@@ -194,7 +194,7 @@ typedef struct s_ast_node
 	t_node_type			type;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-	t_cmd			*cmd;
+	t_cmd				*cmd;
 }						t_ast_node;
 
 typedef struct s_ast
@@ -238,8 +238,8 @@ t_ast					make_ast(t_token_lst *tok_lst, t_env_vars env_vars);
 t_ast_node				*new_command_node(t_token_lst *start, t_token_lst *end,
 							t_parse_status *status);
 t_token_lst				*parse_word(t_cmd *cmd, t_token_lst *token_node);
-t_token_lst				*parse_redirection(t_cmd *cmd,
-							t_token_lst *token_node, t_parse_status *status);
+t_token_lst				*parse_redirection(t_cmd *cmd, t_token_lst *token_node,
+							t_parse_status *status);
 
 // parser_tools
 t_token_lst				*get_first_pipe(t_token_lst *start, t_token_lst *end);
@@ -292,10 +292,11 @@ char					*handle_exit_status_expansion(t_sh *sh, int *i,
 char					*join_and_free_left(char *left, const char *right);
 
 // builtins
-int		exec_builtin(t_sh *sh, t_ast_node *node);
-int		ft_echo(char **argv);
-int		ft_exit(t_sh *sh, char **argv);
-
+int						exec_builtin(t_sh *sh, t_ast_node *node);
+int						ft_echo(char **argv);
+int						ft_exit(t_sh *sh, char **argv);
+int						ft_pwd(void);
+int						ft_env(char **envp);
 
 // Cleanup General
 void					free_str_arr(char **arr);
@@ -306,6 +307,5 @@ void					debug_print_ast(t_ast_node *node, int depth);
 void					debug_print_ast_2(FILE *out, const t_ast_node *root);
 void					debug_print_ast_pretty(FILE *out,
 							const t_ast_node *root);
-
 
 #endif

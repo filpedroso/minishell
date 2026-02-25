@@ -55,6 +55,8 @@ FILES := main.c							\
 		builtin_logic.c					\
 		ft_echo.c						\
 		ft_exit.c						\
+		ft_env.c						\
+		ft_pwd.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))

@@ -43,14 +43,16 @@ static int	builtin_dispatcher(t_sh *sh, t_cmd *cmd, t_exec_args *ex)
 		return (ft_echo(ex->argv));
 	else if (ft_strncmp(cmd_name, "exit", 4) == 0)
 		return (ft_exit(sh, ex->argv));
-	// else if (ft_strncmp(cmd_name, "pwd", 3) == 0)
-	// 	return (ft_pwd());
+	else if (ft_strncmp(cmd_name, "pwd", 3) == 0)
+		return (ft_pwd());
+	else if (ft_strncmp(cmd_name, "env", 3) == 0)
+		return (ft_env(ex->envp));
+	// else if (ft_strncmp(cmd_name, "cd", 2) == 0)
+	// 	return (ft_cd());
 	// else if (ft_strncmp(cmd_name, "export", 6) == 0)
 	// 	return (ft_export());
 	// else if (ft_strncmp(cmd_name, "unset", 5) == 0)
 	// 	return (ft_unset());
-	// else if (ft_strncmp(cmd_name, "env", 3) == 0)
-	// 	return (ft_env());
 	else
 		return (1);
 }
