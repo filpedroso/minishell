@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 00:41:05 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/25 22:56:13 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,6 +277,10 @@ t_var_lst				*copy_var_list(t_var_lst *src_lst);
 bool					append_var_to_list(t_var_lst **lst_ptr,
 							t_var_lst *src_node);
 t_var_lst				*duplicate_node(t_var_lst *src_node);
+t_var_lst				*find_env_var(t_var_lst *lst, const char *name);
+int						set_env_var(t_var_lst **lst, const char *name,
+							const char *value);
+void					remove_env_var(t_var_lst **lst, const char *name);
 
 // executor expansion
 t_str_lst				*expand_all_words(t_sh *sh, t_cmd *cmd,
@@ -297,6 +301,10 @@ int						ft_echo(char **argv);
 int						ft_exit(t_sh *sh, char **argv);
 int						ft_pwd(void);
 int						ft_env(char **envp);
+int						ft_cd(t_sh *sh, char **argv);
+int						ft_export(t_sh *sh, char **argv);
+int						ft_unset(t_sh *sh, char **argv);
+bool					is_valid_identifier(const char *str);
 
 // Cleanup General
 void					free_str_arr(char **arr);

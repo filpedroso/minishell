@@ -56,7 +56,11 @@ FILES := main.c							\
 		ft_echo.c						\
 		ft_exit.c						\
 		ft_env.c						\
-		ft_pwd.c
+		ft_pwd.c						\
+		ft_cd.c							\
+		ft_export.c						\
+		ft_unset.c						\
+		env_lst_utils_3.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
