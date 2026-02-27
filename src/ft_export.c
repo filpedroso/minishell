@@ -64,7 +64,7 @@ static int	process_export_arg(t_sh *sh, char *arg)
 	}
 	eq_pos = ft_strchr(arg, '=');
 	if (!eq_pos)
-		return (0);
+		return (set_env_var(&sh->env_vars.persistent_envs_ptr, arg, ""));
 	name = ft_substr(arg, 0, eq_pos - arg);
 	if (!name)
 		return (1);

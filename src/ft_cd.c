@@ -32,11 +32,7 @@ int	ft_cd(t_sh *sh, char **argv)
 		old_pwd[0] = '\0';
 	if (chdir(target) != 0)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(target, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putchar_fd('\n', 2);
+		perror("cd:");
 		return (1);
 	}
 	return (update_pwd_vars(sh, old_pwd));
@@ -47,7 +43,12 @@ static char	*get_cd_target(t_sh *sh, char **argv)
 	t_var_lst	*home_node;
 
 	if (argv[1])
+	{
+		if (ft_strncmp(argv[1], "-", 2) == 0)
+			return (find_env_var(sh->env_vars.persistent_envs_ptr,
+					"OLDPWD")->value);
 		return (argv[1]);
+	}
 	home_node = find_env_var(sh->env_vars.persistent_envs_ptr, "HOME");
 	if (!home_node)
 	{
@@ -67,4 +68,3 @@ static int	update_pwd_vars(t_sh *sh, const char *old_pwd)
 		set_env_var(&sh->env_vars.persistent_envs_ptr, "PWD", new_pwd);
 	return (0);
 }
-

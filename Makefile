@@ -34,7 +34,6 @@ FILES := main.c							\
 		parser_2.c						\
 		parser_3.c						\
 		parser_tools.c					\
-		convert_envp_to_env_list.c		\
 		env_lst_utils.c					\
 		env_lst_utils_2.c           	\
 		is_builtin.c					\
