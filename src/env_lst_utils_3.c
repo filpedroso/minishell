@@ -99,8 +99,7 @@ void	remove_env_var(t_var_lst **lst, const char *name)
 	current = *lst;
 	while (current)
 	{
-		if (ft_strlen(current->var_name) == name_len
-			&& ft_strncmp(current->var_name, name, name_len) == 0)
+		if (ft_strncmp(current->var_name, name, name_len + 1) == 0)
 		{
 			if (prev)
 				prev->next = current->next;
