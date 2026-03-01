@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:47:47 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:53 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/28 21:21:49 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 static char	*create_temp_filepath(void);
 static void	read_input_into_file(int fd, char *delim);
+static char	*heredoc_sigint_cleanup(int saved_stdin, char *filepath);
 
 char	*create_temp_file(char *delim)
 {
 	char	*filepath;
 	int		fd;
+	int		saved_stdin;
 
 	filepath = create_temp_filepath();
 	if (!filepath)
@@ -29,9 +31,24 @@ char	*create_temp_file(char *delim)
 		free(filepath);
 		return (NULL);
 	}
+	saved_stdin = dup(STDIN_FILENO);
+	set_signals_heredoc();
 	read_input_into_file(fd, delim);
 	close(fd);
+	set_signals_interactive();
+	if (g_signal == SIGINT)
+		return (heredoc_sigint_cleanup(saved_stdin, filepath));
+	close(saved_stdin);
 	return (filepath);
+}
+
+static char	*heredoc_sigint_cleanup(int saved_stdin, char *filepath)
+{
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdin);
+	unlink(filepath);
+	free(filepath);
+	return (NULL);
 }
 
 static char	*create_temp_filepath(void)

@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:39:46 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/28 21:18:52 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	set_heredoc_redir(t_cmd *cmd, char *heredoc_delim)
 	heredoc_filepath = create_temp_file(heredoc_delim);
 	if (!heredoc_filepath)
 	{
-		perror("heredoc reader");
+		if (!g_signal)
+			perror("heredoc reader");
 		return (-1);
 	}
 	if (dup_file_into_stdin(heredoc_filepath) < 0)

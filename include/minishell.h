@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 00:41:05 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/02/25 22:56:13 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/28 21:18:16 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
+
+void	rl_replace_line(const char *text, int clear_undo);
+
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdio.h>
@@ -211,13 +215,15 @@ typedef struct s_sh
 	int					last_exit_st;
 }						t_sh;
 
+extern volatile sig_atomic_t	g_signal;
+
 /* ************************************************************************** */
 /* ***************************   functions   ******************************** */
 /* ************************************************************************** */
 
 //	main minishell
 int						minishell_routine(t_sh *shell);
-char					*get_input_line(void);
+char					*get_input_line(t_sh *sh);
 
 //	lexer
 t_token_lst				*lexer(char **input);
@@ -250,7 +256,7 @@ void					destroy_cmd_node(t_ast_node *cmd_node);
 
 // minishell_utils
 bool					is_builtin(t_word *words, int words_amount);
-char					*get_input_line(void);
+char					*get_input_line(t_sh *sh);
 t_var_lst				*envp_to_env_list(char **envp);
 t_var_lst				*env_node_from_str(char *str);
 t_var_lst				*alloc_t_var_list_node(void);
@@ -309,6 +315,12 @@ bool					is_valid_identifier(const char *str);
 // Cleanup General
 void					free_str_arr(char **arr);
 void					destroy_exec_args(t_exec_args *ex);
+
+// signals
+void					set_signals_interactive(void);
+void					set_signals_child(void);
+void					set_signals_default(void);
+void					set_signals_heredoc(void);
 
 // DEBUG
 void					debug_print_ast(t_ast_node *node, int depth);

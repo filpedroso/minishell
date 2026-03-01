@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 20:15:43 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:49 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/28 21:11:45 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ int	exec_ext_cmd(t_sh *sh, t_ast_node *node)
 	}
 	if (pid == CHILD)
 	{
+		set_signals_default();
 		get_argv_and_exec_ext_cmd(sh, node);
 		destroy_cmd_node(node);
 		exit(1);
 	}
+	set_signals_child();
 	waitpid(pid, &exit_status, 0);
+	set_signals_interactive();
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));
 	if (WIFSIGNALED(exit_status))

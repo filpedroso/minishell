@@ -15,6 +15,8 @@
 static int	init_env_list_struct(char **envp, t_env_vars *env_vars);
 static int	init_shell(t_sh *shell, char **envp);
 
+volatile sig_atomic_t	g_signal = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_sh	shell;
@@ -35,7 +37,10 @@ int	main(int argc, char **argv, char **envp)
 static int	init_shell(t_sh *shell, char **envp)
 {
 	shell->last_exit_st = 0;
-	return (init_env_list_struct(envp, &shell->env_vars));
+	if (init_env_list_struct(envp, &shell->env_vars) == ERROR)
+		return (ERROR);
+	set_signals_interactive();
+	return (SUCCESS);
 }
 
 static int	init_env_list_struct(char **envp, t_env_vars *env_vars)

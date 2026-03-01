@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 10:47:45 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:57 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/28 21:11:10 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static t_cycle_result	one_shell_cycle(t_sh *sh)
 	char		*input;
 	char		*input_base;
 
-	input = get_input_line();
+	set_signals_interactive();
+	input = get_input_line(sh);
 	if (!input)
 		return (CYCLE_EXIT);
 	input_base = input;
@@ -51,7 +52,11 @@ static t_cycle_result	one_shell_cycle(t_sh *sh)
 	if (sh->ast.parse_status != PARSE_OK)
 		return (cycle_parser_err(input_base, sh->tokens, sh->ast));
 	execute_tree(sh, sh->ast.ast_root);
-	// debug_print_ast_pretty(stderr, ast.ast_root);
+	if (g_signal == SIGINT)
+	{
+		g_signal = 0;
+		sh->last_exit_st = 130;
+	}
 	// cycle_cleanup(input_base, sh.tokens, ast.ast_root); // terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);
 }

@@ -13,7 +13,7 @@
 NAME := minishell
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -Iinclude -Ilibft
+CFLAGS := -Wall -Wextra -Werror -Iinclude -Ilibft -I/usr/local/opt/readline/include
 
 # Directories
 SRC_DIR := src
@@ -21,7 +21,7 @@ OBJ_DIR := obj
 LIBFT_DIR := libft
 
 LIBFT := $(LIBFT_DIR)/libft.a
-READLINE_FLAGS := -lreadline
+READLINE_FLAGS := -L/usr/local/opt/readline/lib -lreadline
 
 FILES := main.c							\
 		minishell_routine.c				\
@@ -59,7 +59,9 @@ FILES := main.c							\
 		ft_cd.c							\
 		ft_export.c						\
 		ft_unset.c						\
-		env_lst_utils_3.c
+		env_lst_utils_3.c				\
+		signals.c						\
+		signals_2.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))

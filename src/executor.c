@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 16:51:07 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:49 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/02/28 21:12:25 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 	close(pip[WRITE]);
 	right_pid = exec_piped_right_node(sh, pip, node->right);
 	close(pip[READ]);
+	set_signals_child();
 	waitpid(left_pid, &left_status, 0);
 	waitpid(right_pid, &right_status, 0);
+	set_signals_interactive();
 	if (WIFEXITED(right_status))
 		return (WEXITSTATUS(right_status));
 	if (WIFSIGNALED(right_status))
@@ -68,6 +70,7 @@ static pid_t	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node)
 	left_pid = fork();
 	if (left_pid == CHILD)
 	{
+		set_signals_default();
 		close(pip[READ]);
 		dup2(pip[WRITE], STDOUT_FILENO);
 		close(pip[WRITE]);
@@ -84,6 +87,7 @@ static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node)
 	right_pid = fork();
 	if (right_pid == CHILD)
 	{
+		set_signals_default();
 		dup2(pip[READ], STDIN_FILENO);
 		close(pip[READ]);
 		execute_tree(sh, node);
