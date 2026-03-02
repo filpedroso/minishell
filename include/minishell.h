@@ -24,7 +24,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-
+ #include <sys/wait.h>
 void	rl_replace_line(const char *text, int clear_undo);
 
 # include <stdbool.h>
