@@ -2,12 +2,15 @@
 
 void	print_tok_list(t_token_lst *lst);
 
+volatile sig_atomic_t	g_signal = 0;
+
 int	main(void)
 {
 	char		*input;
 	t_token_lst	*tok_lst;
+	t_sh		sh;
 
-	input = get_input_line();
+	input = get_input_line(&sh);
 	tok_lst = lexer(&input);
 	print_tok_list(tok_lst);
 	free_tok_lst(tok_lst);
