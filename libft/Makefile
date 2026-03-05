@@ -15,7 +15,7 @@ NC			= \033[0m # No Color
 # Compilation Variables
 NAME = libft.a
 CC = cc
-CFLAGS = -Wextra -Wall -Werror
+CFLAGS = -Wextra -Wall -Werror -g
 SRC = $(MANDATORY)
 OBJ = $(SRC:.c=.o)
 

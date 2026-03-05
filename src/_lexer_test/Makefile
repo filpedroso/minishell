@@ -17,7 +17,7 @@
 NAME = test_lexer
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I../../include -I../../libft
+CFLAGS = -Wall -Wextra -Werror -g -I../../include -I../../libft
 
 # Diretórios
 LIBFT_DIR = ../../libft

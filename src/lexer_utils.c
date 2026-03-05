@@ -76,6 +76,8 @@ t_token_type	get_token_type(t_token_lst *token)
 	size_t	len;
 
 	len = ft_strlen(token->segment);
+	if (len == 0)
+		return (TOK_EOF);
 	if (len == 1 && token->seg_mask[0] == 'o')
 	{
 		if (token->segment[0] == '|')

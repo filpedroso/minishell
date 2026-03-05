@@ -13,7 +13,7 @@
 NAME := minishell
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -Iinclude -Ilibft -I/usr/local/opt/readline/include
+CFLAGS := -Wall -Wextra -Werror -g -Iinclude -Ilibft -I/usr/local/opt/readline/include
 
 # Directories
 SRC_DIR := src
