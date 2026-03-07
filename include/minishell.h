@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 00:41:05 by lcosta-a          #+#    #+#             */
-/*   Updated: 2026/02/28 21:18:16 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/07 13:08:36 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,12 +293,13 @@ t_str_lst				*expand_all_words(t_sh *sh, t_cmd *cmd,
 							char **current_envs);
 char					**produce_final_argv(t_sh *sh, t_cmd *cmd,
 							char **current_envs);
-char					*expand_word_with_context(t_sh *sh, t_word word,
+t_word					expand_word_with_context(t_sh *sh, t_word word,
 							char **envs);
 char					*lookup_env_var(const char *name, int name_len,
 							char **envs);
-char					*handle_exit_status_expansion(t_sh *sh, int *i,
-							char *result);
+t_word					handle_exit_status_expansion(t_sh *sh, int *i,
+							t_word result, char ctx);
+char					*make_ctx_mask(int len, char ctx);
 char					*join_and_free_left(char *left, const char *right);
 
 // builtins
@@ -315,6 +316,7 @@ bool					is_valid_identifier(const char *str);
 // Cleanup General
 void					free_str_arr(char **arr);
 void					destroy_exec_args(t_exec_args *ex);
+void	free_word(t_word word);
 
 // signals
 void					set_signals_interactive(void);

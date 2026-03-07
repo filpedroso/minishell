@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 21:13:07 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/07 13:04:41 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	append_single_word(t_str_lst **head, t_str_lst **tail, char *str);
 
 t_str_lst	*expand_all_words(t_sh *sh, t_cmd *cmd, char **current_envs)
 {
-	char		*expanded;
+	t_word		exp_word;
 	t_str_lst	*head;
 	t_str_lst	*tail;
 	int			i;
@@ -28,11 +28,14 @@ t_str_lst	*expand_all_words(t_sh *sh, t_cmd *cmd, char **current_envs)
 	i = 0;
 	while (i < cmd->words_count)
 	{
-		expanded = expand_word_with_context(sh, cmd->words[i], current_envs);
+		exp_word = expand_word_with_context(sh, cmd->words[i], current_envs);
+		if (!exp_word.token_word_ptr || !exp_word.context_mask_ptr)
+			return (NULL);
 		if (can_split(&cmd->words[i]))
-			append_split_words(&head, &tail, expanded);
+			append_split_words(&head, &tail, exp_word.token_word_ptr);
 		else
-			append_single_word(&head, &tail, expanded);
+			append_single_word(&head, &tail, exp_word.token_word_ptr);
+		free(exp_word.context_mask_ptr);
 		i++;
 	}
 	return (head);
