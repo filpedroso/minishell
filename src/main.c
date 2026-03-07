@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-static int	init_env_list_struct(char **envp, t_env_vars *env_vars);
-static int	init_shell(t_sh *shell, char **envp);
+static int				init_env_list_struct(char **envp, t_env_vars *env_vars);
+static int				init_shell(t_sh *shell, char **envp);
 
 volatile sig_atomic_t	g_signal = 0;
 
@@ -21,10 +21,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_sh	shell;
 
-	(void)argc;
-	(void)argv;
 	if (init_shell(&shell, envp) == ERROR)
 		return (1);
+	if (argc >= 3 && ft_strncmp(argv[1], "-c", 3) == 0)
+	{
+		run_input_line(&shell, ft_strdup(argv[2]));
+		cleanup_env(shell.env_vars);
+		return (shell.last_exit_st);
+	}
 	if (minishell_routine(&shell) == ERROR)
 	{
 		cleanup_env(shell.env_vars);

@@ -224,6 +224,7 @@ extern volatile sig_atomic_t	g_signal;
 //	main minishell
 int						minishell_routine(t_sh *shell);
 char					*get_input_line(t_sh *sh);
+t_cycle_result	run_input_line(t_sh *sh, char *input);
 
 //	lexer
 t_token_lst				*lexer(char **input);
