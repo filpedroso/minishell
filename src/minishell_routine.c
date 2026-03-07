@@ -37,19 +37,13 @@ int	minishell_routine(t_sh *shell)
 
 static t_cycle_result	one_shell_cycle(t_sh *sh)
 {
-	char	*input;
+	char		*input;
+	char		*input_base;
 
 	set_signals_interactive();
 	input = get_input_line(sh);
 	if (!input)
 		return (CYCLE_EXIT);
-	return (run_input_line(sh, input));
-}
-
-t_cycle_result	run_input_line(t_sh *sh, char *input)
-{
-	char	*input_base;
-
 	input_base = input;
 	sh->tokens = lexer(&input);
 	if (!sh->tokens)
@@ -63,6 +57,7 @@ t_cycle_result	run_input_line(t_sh *sh, char *input)
 		g_signal = 0;
 		sh->last_exit_st = 130;
 	}
+	// cycle_cleanup(input_base, sh.tokens, ast.ast_root); // terminal cleanup + data cleanup
 	return (CYCLE_CONTINUE);
 }
 
