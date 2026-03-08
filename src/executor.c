@@ -23,10 +23,11 @@ void	execute_tree(t_sh *sh, t_ast_node *node)
 
 	if (!node)
 		return ;
+	exit_status = 0;
 	if (node->type == NODE_PIPE)
 		exit_status = recursive_pipe_logic(sh, node);
-	if (is_exit_builtin(node))
-		exec_builtin(sh, node);
+	else if (is_exit_builtin(node))
+		exit_status = exec_builtin(sh, node);
 	else
 		exit_status = command_logic(sh, node);
 	sh->last_exit_st = exit_status;
@@ -41,16 +42,17 @@ static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 	int		right_status;
 	int		pip[2];
 
-	if (!node || !node->left || !node->right || !node->left->cmd
-		|| !node->right->cmd)
+	if (!node || !node->left || !node->right)
 		return (0);
 	if (pipe(pip) != 0)
 	{
 		perror("Pipe");
 		return (1);
 	}
-	node->left->cmd->is_pipeline = true;
-	node->right->cmd->is_pipeline = true;
+	if (node->left->cmd)
+		node->left->cmd->is_pipeline = true;
+	if (node->right->cmd)
+		node->right->cmd->is_pipeline = true;
 	left_pid = exec_piped_left_node(sh, pip, node->left);
 	close(pip[WRITE]);
 	right_pid = exec_piped_right_node(sh, pip, node->right);
