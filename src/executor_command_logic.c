@@ -12,15 +12,24 @@
 
 #include "minishell.h"
 
+static void	save_std_in_out(int *stdin_bkp, int *stdout_bkp);
+static void	restore_std_in_out(int stdin_bkp, int stdout_backup);
+
+
 int	command_logic(t_sh *sh, t_ast_node *node)
 {
 	int	exit_status;
+	int	stdin_bkp;
+	int	stdout_bkp;
 
 	if (!node || !node->cmd)
 		return (0);
 	exit_status = 0;
+	save_std_in_out(&stdin_bkp, &stdout_bkp);
 	if (handle_redirections(node->cmd) < 0)
 	{
+		close(stdin_bkp);
+		close(stdout_bkp);
 		destroy_cmd_node(node);
 		return (1);
 	}
@@ -28,5 +37,20 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 		exit_status = exec_ext_cmd(sh, node);
 	else
 		exit_status = exec_builtin(sh, node);
+	restore_std_in_out(stdin_bkp, stdout_bkp);
 	return (exit_status);
+}
+
+static void	save_std_in_out(int *stdin_bkp, int *stdout_bkp)
+{
+	*stdin_bkp = dup(STDIN_FILENO);
+	*stdout_bkp = dup(STDOUT_FILENO);
+}
+
+static void	restore_std_in_out(int stdin_bkp, int stdout_backup)
+{
+	dup2(stdin_bkp, STDIN_FILENO);
+	dup2(stdout_backup, STDOUT_FILENO);
+	close(stdin_bkp);
+	close(stdout_backup);
 }
