@@ -41,6 +41,9 @@ static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 	int		right_status;
 	int		pip[2];
 
+	if (!node || !node->left || !node->right || !node->left->cmd
+		|| !node->right->cmd)
+		return (0);
 	if (pipe(pip) != 0)
 	{
 		perror("Pipe");
@@ -100,6 +103,11 @@ static bool	is_exit_builtin(t_ast_node *node)
 {
 	char	*cmd;
 
+	if (!node
+		|| !node->cmd
+		|| !node->cmd->words
+		|| !node->cmd->words[0].token_word_ptr)
+		return (false);
 	cmd = node->cmd->words[0].token_word_ptr;
-	return (ft_strncmp(cmd, "exit", 4) == 0);
+	return (ft_strncmp(cmd, "exit", 5) == 0);
 }

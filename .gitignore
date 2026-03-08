@@ -55,3 +55,7 @@ dkms.conf
 *.dwo
 
 .vscode
+
+minishell
+minishell_essential_tests.md
+minishell_test_cases.md

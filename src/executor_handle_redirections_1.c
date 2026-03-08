@@ -21,6 +21,8 @@ int	handle_redirections(t_cmd *cmd)
 	t_redirection_type	redir_type;
 	int					i;
 
+	if (!cmd || !cmd->redirections || cmd->redirections_count == 0)
+		return (0);
 	i = -1;
 	while (++i < cmd->redirections_count)
 	{

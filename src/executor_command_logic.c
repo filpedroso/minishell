@@ -16,6 +16,8 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 {
 	int	exit_status;
 
+	if (!node || !node->cmd)
+		return (0);
 	exit_status = 0;
 	if (handle_redirections(node->cmd) < 0)
 	{

@@ -19,6 +19,8 @@ int	set_heredoc_redir(t_cmd *cmd, char *heredoc_delim)
 {
 	char	*heredoc_filepath;
 
+	if (!heredoc_delim)
+		return (0);
 	heredoc_filepath = create_temp_file(heredoc_delim);
 	if (!heredoc_filepath)
 	{
