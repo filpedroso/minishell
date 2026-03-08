@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node);
+static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node);
 void	debug_print_args(char *path, char **argv);
 void	debug_puts_many(char **arr);
 
@@ -30,9 +30,9 @@ int	exec_ext_cmd(t_sh *sh, t_ast_node *node)
 	if (pid == CHILD)
 	{
 		set_signals_default();
-		get_argv_and_exec_ext_cmd(sh, node);
+		exit_status = get_argv_and_exec_ext_cmd(sh, node);
 		destroy_cmd_node(node);
-		exit(1);
+		exit(exit_status);
 	}
 	set_signals_child();
 	waitpid(pid, &exit_status, 0);
@@ -44,28 +44,32 @@ int	exec_ext_cmd(t_sh *sh, t_ast_node *node)
 	return (1);
 }
 
-static void	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node)
+static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node)
 {
 	t_exec_args	ex;
 
 	ex.path = get_cmd_path(node->cmd);
 	if (!ex.path)
-		return (perror("Command path not found"));
+		return (perror("Command path not found"), 127);
 	ex.envp = get_current_envs(node->cmd->env_vars);
 	if (!ex.envp)
 	{
 		free(ex.path);
-		return (perror("Get current envs"));
+		return (perror("Get current envs"), 1);
 	}
 	ex.argv = produce_final_argv(sh, node->cmd, ex.envp);
 	if (!ex.argv)
 	{
 		destroy_exec_args(&ex);
-		return (perror("Produce final argv"));
+		return (perror("Produce final argv"), 1);
 	}
 	execve(ex.path, ex.argv, ex.envp);
 	destroy_exec_args(&ex);
 	perror("Execve");
+	if (errno == EACCES)
+		return (126);
+	else
+		return (127);
 }
 
 void	destroy_exec_args(t_exec_args *ex)
