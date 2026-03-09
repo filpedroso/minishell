@@ -36,7 +36,8 @@ int	handle_redirections(t_cmd *cmd)
 		else if (redir_type == REDIR_HEREDOC)
 		{
 			if (set_heredoc_redir(cmd,
-					cmd->redirections[i].target.token_word_ptr) < 0)
+					cmd->redirections[i].target.token_word_ptr,
+					cmd->redirections[i].target.context_mask_ptr) < 0)
 				return (-1);
 		}
 	}

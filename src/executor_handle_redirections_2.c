@@ -15,13 +15,13 @@
 static int	dup_file_into_stdin(char *heredoc_filepath);
 static int	append_filepath(char *filepath, t_str_lst **temp_files_list);
 
-int	set_heredoc_redir(t_cmd *cmd, char *heredoc_delim)
+int	set_heredoc_redir(t_cmd *cmd, char *hdoc_delim, char *delim_mask)
 {
 	char	*heredoc_filepath;
 
-	if (!heredoc_delim)
+	if (!hdoc_delim)
 		return (0);
-	heredoc_filepath = create_temp_file(heredoc_delim);
+	heredoc_filepath = create_temp_file(hdoc_delim, delim_mask, cmd->env_vars);
 	if (!heredoc_filepath)
 	{
 		if (!g_signal)

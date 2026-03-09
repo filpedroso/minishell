@@ -15,7 +15,6 @@
 static void	save_std_in_out(int *stdin_bkp, int *stdout_bkp);
 static void	restore_std_in_out(int stdin_bkp, int stdout_backup);
 
-
 int	command_logic(t_sh *sh, t_ast_node *node)
 {
 	int	exit_status;
