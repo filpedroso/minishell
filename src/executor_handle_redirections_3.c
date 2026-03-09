@@ -94,6 +94,30 @@ static void	read_input_into_file(int fd, char *delim, char *delim_mask,
 	}
 }
 
+char	*expand_line(char *line, t_env_vars env_vars)
+{
+	char	**envs;
+	char	*result;
+	int		i;
+
+	if (!ft_strchr(line, '$'))
+		return (ft_strdup(line));
+	envs = get_current_envs(env_vars);
+	if (!envs)
+		return (NULL);
+	result = ft_strdup("");
+	i = 0;
+	while (result && line[i])
+	{
+		if (line[i] == '$')
+			result = expand_hdoc_dollar(line, &i, result, envs);
+		else
+			result = append_hdoc_literal(line, &i, result);
+	}
+	free_str_arr(envs);
+	return (result);
+}
+
 static char	*expand_hdoc_dollar(char *line, int *i, char *res, char **envs)
 {
 	int		var_len;
@@ -132,30 +156,6 @@ static char	*append_hdoc_literal(char *line, int *i, char *result)
 	return (result);
 }
 
-char	*expand_line(char *line, t_env_vars env_vars)
-{
-	char	**envs;
-	char	*result;
-	int		i;
-
-	if (!ft_strchr(line, '$'))
-		return (ft_strdup(line));
-	envs = get_current_envs(env_vars);
-	if (!envs)
-		return (NULL);
-	result = ft_strdup("");
-	i = 0;
-	while (result && line[i])
-	{
-		if (line[i] == '$')
-			result = expand_hdoc_dollar(line, &i, result, envs);
-		else
-			result = append_hdoc_literal(line, &i, result);
-	}
-	free_str_arr(envs);
-	return (result);
-}
-
 static bool	delim_has_quotes(char *mask)
 {
 	int	i;
@@ -183,28 +183,3 @@ static void	write_to_file(int fd, char *line)
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
 }
-
-/* 
-int		status;
-	char	*dollar;
-	char	**envp;
-	char	*expanded;
-
-	dollar = ft_strchr(line, '$');
-	if (!dollar)
-		return (line);
-	envp = get_current_envs(env_vars);
-	if (!envp)
-		return (NULL);
-	expanded = NULL;
-	while (dollar)
-	{
-		status = append_up_to_next_var(expanded, dollar);
-		if (status == STATUS_ERR)
-		{
-			free_str_arr(envp);
-			return (NULL);
-		}
-		dollar = ft_strchr(line + 1, '$');
-	}
- */

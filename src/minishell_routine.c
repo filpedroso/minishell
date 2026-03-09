@@ -57,7 +57,8 @@ static t_cycle_result	one_shell_cycle(t_sh *sh)
 		g_signal = 0;
 		sh->last_exit_st = 130;
 	}
-	// cycle_cleanup(input_base, sh.tokens, ast.ast_root); // terminal cleanup + data cleanup
+	cycle_cleanup(input_base, sh->tokens, sh->ast.ast_root);
+	// TODO terminal_cleanup();
 	return (CYCLE_CONTINUE);
 }
 

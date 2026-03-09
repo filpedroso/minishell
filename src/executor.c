@@ -31,7 +31,6 @@ void	execute_tree(t_sh *sh, t_ast_node *node)
 	else
 		exit_status = command_logic(sh, node);
 	sh->last_exit_st = exit_status;
-	destroy_cmd_node(node);
 }
 
 static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
@@ -45,10 +44,7 @@ static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 	if (!node || !node->left || !node->right)
 		return (0);
 	if (pipe(pip) != 0)
-	{
-		perror("Pipe");
-		return (1);
-	}
+		return (perror("Pipe"), 1);
 	if (node->left->cmd)
 		node->left->cmd->is_pipeline = true;
 	if (node->right->cmd)
