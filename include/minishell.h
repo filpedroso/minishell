@@ -329,6 +329,7 @@ void							free_str_arr(char **arr);
 void							destroy_exec_args(t_exec_args *ex);
 void							free_word(t_word word);
 void							free_str_lst(t_str_lst *lst);
+void	free_temp_files(t_str_lst **list);
 
 // signals
 void							set_signals_interactive(void);

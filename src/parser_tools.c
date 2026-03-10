@@ -69,8 +69,32 @@ void	destroy_cmd_node(t_ast_node *cmd_node)
 				free(cmd_node->cmd->redirections);
 			if (cmd_node->cmd->words)
 				free(cmd_node->cmd->words);
-			free(cmd_node->cmd);
+			if (cmd_node->cmd->temp_files_list)
+				free_temp_files(&cmd_node->cmd->temp_files_list);
+			if (cmd_node->cmd)
+				free(cmd_node->cmd);
 		}
-		free(cmd_node);
+		if (cmd_node)
+			free(cmd_node);
+		cmd_node = NULL;
 	}
+}
+
+void	free_temp_files(t_str_lst **list)
+{
+	t_str_lst	*current;
+	t_str_lst	*next;
+
+	if (!list || !*list)
+		return ;
+	current = *list;
+	while (current)
+	{
+		next = current->next;
+		unlink(current->value);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	*list = NULL;
 }

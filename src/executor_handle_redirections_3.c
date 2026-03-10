@@ -65,6 +65,8 @@ static char	*create_temp_filepath(void)
 	num_str = ft_itoa(counter++);
 	new_filepath = ft_strjoin("/tmp/heredoc_", num_str);
 	free(num_str);
+	if (!new_filepath)
+		return (NULL);
 	return (new_filepath);
 }
 
