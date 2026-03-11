@@ -76,9 +76,16 @@ static pid_t	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node)
 		dup2(pip[WRITE], STDOUT_FILENO);
 		close(pip[WRITE]);
 		execute_tree(sh, node);
+		child_cleanup(sh);
 		exit(sh->last_exit_st);
 	}
 	return (left_pid);
+}
+
+void	child_cleanup(t_sh *sh)
+{
+	cycle_cleanup(NULL, sh->tokens, sh->ast.ast_root);
+	cleanup_env(sh->env_vars);
 }
 
 static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node)
@@ -92,6 +99,7 @@ static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node)
 		dup2(pip[READ], STDIN_FILENO);
 		close(pip[READ]);
 		execute_tree(sh, node);
+		child_cleanup(sh);
 		exit(sh->last_exit_st);
 	}
 	return (right_pid);

@@ -325,6 +325,8 @@ int								ft_unset(t_sh *sh, char **argv);
 bool							is_valid_identifier(const char *str);
 
 // Cleanup General
+void	cycle_cleanup(char *input, t_token_lst *tok_lst, t_ast_node *ast_root);
+void	child_cleanup(t_sh *sh);
 void							free_str_arr(char **arr);
 void							destroy_exec_args(t_exec_args *ex);
 void							free_word(t_word word);

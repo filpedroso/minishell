@@ -31,7 +31,7 @@ int	exec_ext_cmd(t_sh *sh, t_ast_node *node)
 	{
 		set_signals_default();
 		exit_status = get_argv_and_exec_ext_cmd(sh, node);
-		destroy_cmd_node(node);
+		child_cleanup(sh);
 		exit(exit_status);
 	}
 	set_signals_child();

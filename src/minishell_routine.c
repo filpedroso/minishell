@@ -16,8 +16,6 @@ static t_cycle_result	one_shell_cycle(t_sh *sh);
 static t_cycle_result	cycle_lexer_err(char *input);
 static t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens,
 							t_ast ast);
-static void				cycle_cleanup(char *input, t_token_lst *tok_lst,
-							t_ast_node *ast_root);
 
 int	minishell_routine(t_sh *shell)
 {
@@ -62,7 +60,7 @@ static t_cycle_result	one_shell_cycle(t_sh *sh)
 	return (CYCLE_CONTINUE);
 }
 
-static void	cycle_cleanup(char *input, t_token_lst *tok_lst,
+void	cycle_cleanup(char *input, t_token_lst *tok_lst,
 		t_ast_node *ast_root)
 {
 	if (input)
