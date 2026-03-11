@@ -71,7 +71,7 @@ static char	*join_path_with_cmd(char *dir, const char *cmd)
 	if (dir[ft_strlen(dir) - 1] != '/')
 	{
 		path_with_dash = ft_strjoin(dir, "/");
-		return (ft_strjoin(path_with_dash, cmd));
+		return (join_and_free_left(path_with_dash, cmd));
 	}
 	else
 		return (ft_strjoin(dir, cmd));

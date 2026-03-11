@@ -45,14 +45,20 @@ static char	*search_in_path_var(t_cmd *cmd)
 {
 	char	*path_env_var;
 	char	**current_env_vars;
+	char	*path;
 
 	current_env_vars = get_current_envs(cmd->env_vars);
 	if (!current_env_vars)
 		return (NULL);
 	path_env_var = get_path_env(current_env_vars);
+	free_str_arr(current_env_vars);
 	if (!path_env_var)
 		return (NULL);
-	return (find_in_path(cmd->words[0].token_word_ptr, path_env_var));
+	path = find_in_path(cmd->words[0].token_word_ptr, path_env_var);
+	free(path_env_var);
+	if (!path)
+		return (NULL);
+	return (path);
 }
 
 static char	*get_path_env(char **env_vars)
@@ -65,7 +71,7 @@ static char	*get_path_env(char **env_vars)
 	while (env_vars[i])
 	{
 		if (ft_strncmp(env_vars[i], "PATH=", 5) == 0)
-			return (env_vars[i] + 5);
+			return (ft_strdup(env_vars[i] + 5));
 		i++;
 	}
 	return (NULL);
