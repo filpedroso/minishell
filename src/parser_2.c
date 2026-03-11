@@ -101,12 +101,17 @@ static void	alloc_cmd_words_and_redirs(t_cmd *cmd, t_token_lst *start,
 	int	redir_count;
 
 	get_word_and_redir_count(&word_count, &redir_count, start, end);
-	cmd->words = malloc(sizeof(t_word) * (word_count));
-	if (!cmd->words)
+	if (word_count)
 	{
-		*status = PARSE_FATAL;
-		return ;
+		cmd->words = malloc(sizeof(t_word) * (word_count));
+		if (!cmd->words)
+		{
+			*status = PARSE_FATAL;
+			return ;
+		}
 	}
+	else
+		cmd->words = NULL;
 	if (redir_count)
 	{
 		cmd->redirections = malloc(sizeof(t_redirection) * (redir_count));
