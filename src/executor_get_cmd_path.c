@@ -20,6 +20,8 @@ char	*get_cmd_path(t_cmd *cmd)
 {
 	char	*cmd_str_name_ptr;
 
+	if (!cmd->words)
+		return (NULL);
 	cmd_str_name_ptr = cmd->words[0].token_word_ptr;
 	if (!cmd_str_name_ptr)
 		return (NULL);

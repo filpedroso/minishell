@@ -15,14 +15,17 @@
 static void	set_stdin_redir(t_redirection redirection);
 static void	set_stdout_redir(t_redirection redirection);
 static void	set_append_redir(t_redirection redirection);
+static void	set_heredoc_stdin(char *filepath);
 
 int	handle_redirections(t_cmd *cmd)
 {
 	t_redirection_type	redir_type;
 	int					i;
+	t_str_lst			*hdoc_file;
 
 	if (!cmd || !cmd->redirections || cmd->redirections_count == 0)
 		return (0);
+	hdoc_file = cmd->temp_files_list;
 	i = -1;
 	while (++i < cmd->redirections_count)
 	{
@@ -33,12 +36,10 @@ int	handle_redirections(t_cmd *cmd)
 			set_stdout_redir(cmd->redirections[i]);
 		else if (redir_type == REDIR_APPEND)
 			set_append_redir(cmd->redirections[i]);
-		else if (redir_type == REDIR_HEREDOC)
+		else if (redir_type == REDIR_HEREDOC && hdoc_file)
 		{
-			if (set_heredoc_redir(cmd,
-					cmd->redirections[i].target.token_word_ptr,
-					cmd->redirections[i].target.context_mask_ptr) < 0)
-				return (-1);
+			set_heredoc_stdin(hdoc_file->value);
+			hdoc_file = hdoc_file->next;
 		}
 	}
 	return (0);
@@ -98,4 +99,19 @@ static void	set_stdin_redir(t_redirection redirection)
 		perror("Close");
 		return ;
 	}
+}
+
+static void	set_heredoc_stdin(char *filepath)
+{
+	int	fd;
+
+	fd = open(filepath, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("heredoc temp file");
+		return ;
+	}
+	dup2(fd, STDIN_FILENO);
+	if (close(fd) < 0)
+		perror("Close");
 }

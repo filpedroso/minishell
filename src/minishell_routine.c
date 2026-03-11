@@ -49,7 +49,8 @@ static t_cycle_result	one_shell_cycle(t_sh *sh)
 	sh->ast = make_ast(sh->tokens, sh->env_vars);
 	if (sh->ast.parse_status != PARSE_OK)
 		return (cycle_parser_err(input_base, sh->tokens, sh->ast));
-	execute_tree(sh, sh->ast.ast_root);
+	if (collect_all_heredocs(sh->ast.ast_root) == 0)
+		execute_tree(sh, sh->ast.ast_root);
 	if (g_signal == SIGINT)
 	{
 		g_signal = 0;

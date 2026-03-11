@@ -12,57 +12,46 @@
 
 #include "minishell.h"
 
-static int	dup_file_into_stdin(char *heredoc_filepath);
+static int	collect_cmd_heredocs(t_cmd *cmd);
 static int	append_filepath(char *filepath, t_str_lst **temp_files_list);
 
-int	set_heredoc_redir(t_cmd *cmd, char *hdoc_delim, char *delim_mask)
+int	collect_all_heredocs(t_ast_node *node)
 {
-	char	*heredoc_filepath;
-
-	if (!hdoc_delim)
+	if (!node)
 		return (0);
-	heredoc_filepath = create_temp_file(hdoc_delim, delim_mask, cmd->env_vars);
-	if (!heredoc_filepath)
+	if (node->type == NODE_PIPE)
 	{
-		if (!g_signal)
-			perror("heredoc reader");
-		return (-1);
+		if (collect_all_heredocs(node->left) < 0)
+			return (-1);
+		return (collect_all_heredocs(node->right));
 	}
-	if (dup_file_into_stdin(heredoc_filepath) < 0)
-	{
-		unlink(heredoc_filepath);
-		free(heredoc_filepath);
-		return (-1);
-	}
-	if (append_filepath(heredoc_filepath, &cmd->temp_files_list) < 0)
-	{
-		unlink(heredoc_filepath);
-		free(heredoc_filepath);
-		return (-1);
-	}
-	return (0);
+	return (collect_cmd_heredocs(node->cmd));
 }
 
-static int	dup_file_into_stdin(char *heredoc_filepath)
+static int	collect_cmd_heredocs(t_cmd *cmd)
 {
-	int	heredoc_fd;
+	int		i;
+	char	*filepath;
 
-	heredoc_fd = open(heredoc_filepath, O_RDONLY);
-	if (heredoc_fd < 0)
+	if (!cmd || !cmd->redirections || cmd->redirections_count == 0)
+		return (0);
+	i = -1;
+	while (++i < cmd->redirections_count)
 	{
-		perror("heredoc temp file");
-		return (-1);
-	}
-	if (dup2(heredoc_fd, STDIN_FILENO) < 0)
-	{
-		perror("heredoc dup2");
-		close(heredoc_fd);
-		return (-1);
-	}
-	if (close(heredoc_fd) < 0)
-	{
-		perror("heredoc temp file close");
-		return (-1);
+		if (cmd->redirections[i].type != REDIR_HEREDOC)
+			continue ;
+		filepath = create_temp_file(
+				cmd->redirections[i].target.token_word_ptr,
+				cmd->redirections[i].target.context_mask_ptr,
+				cmd->env_vars);
+		if (!filepath)
+			return (-1);
+		if (append_filepath(filepath, &cmd->temp_files_list) < 0)
+		{
+			unlink(filepath);
+			free(filepath);
+			return (-1);
+		}
 	}
 	return (0);
 }

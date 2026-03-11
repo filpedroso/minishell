@@ -274,8 +274,7 @@ int								is_operator(char c);
 void							execute_tree(t_sh *sh, t_ast_node *node);
 int								command_logic(t_sh *sh, t_ast_node *node);
 int								handle_redirections(t_cmd *cmd);
-int								set_heredoc_redir(t_cmd *cmd,
-									char *heredoc_delim, char *delim_mask);
+int								collect_all_heredocs(t_ast_node *node);
 char	*create_temp_file(char *delim, char *delim_mask, t_env_vars env_vars);
 char							*expand_line(char *line, t_env_vars env_vars);
 int								exec_ext_cmd(t_sh *sh, t_ast_node *node);
