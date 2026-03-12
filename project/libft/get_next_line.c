@@ -16,7 +16,6 @@ static size_t	ft_strlen_nl(const char *s);
 static char		*linefill(char *old, char *buuf);
 static void		set_buf(char *buuf, size_t buf_len);
 
-
 char	*get_next_line(int fd)
 {
 	static char	buuf[FOPEN_MAX][BUFFER_SIZE + 1];
@@ -62,10 +61,10 @@ static size_t	ft_strlen_nl(const char *s)
 
 static char	*linefill(char *old, char *buuf)
 {
-	char		*line;
-	size_t		old_len;
-	size_t		buf_len;
-	size_t		i;
+	char	*line;
+	size_t	old_len;
+	size_t	buf_len;
+	size_t	i;
 
 	old_len = ft_strlen_nl(old);
 	buf_len = ft_strlen_nl(buuf);

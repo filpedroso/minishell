@@ -22,7 +22,7 @@ int	ft_is_numeric_str(const char *str)
 		i = 1;
 	else
 		i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
