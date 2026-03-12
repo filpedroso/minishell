@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 10:47:45 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/28 21:11:10 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:57:06 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	minishell_routine(t_sh *shell)
 
 static t_cycle_result	one_shell_cycle(t_sh *sh)
 {
-	char		*input;
-	char		*input_base;
+	char	*input;
+	char	*input_base;
 
 	set_signals_interactive();
 	input = get_input_line(sh);

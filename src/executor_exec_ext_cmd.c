@@ -15,6 +15,7 @@
 static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node);
 void	debug_print_args(char *path, char **argv);
 void	debug_puts_many(char **arr);
+static int	bad_cmd(t_cmd *cmd);
 
 int	exec_ext_cmd(t_sh *sh, t_ast_node *node)
 {
@@ -50,7 +51,7 @@ static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node)
 
 	ex.path = get_cmd_path(node->cmd);
 	if (!ex.path)
-		return (perror("Command path not found"), 127);
+		return (bad_cmd(node->cmd));
 	ex.envp = get_current_envs(node->cmd->env_vars);
 	if (!ex.envp)
 	{
@@ -70,6 +71,14 @@ static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node)
 		return (126);
 	else
 		return (127);
+}
+
+static int	bad_cmd(t_cmd *cmd)
+{
+	if (!cmd || !cmd->words || !cmd->words[0].token_word_ptr
+		|| !cmd->words[0].token_word_ptr[0])
+		return (0);
+	return (perror("Command not found"), 127);
 }
 
 void	destroy_exec_args(t_exec_args *ex)

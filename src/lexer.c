@@ -37,6 +37,8 @@ t_token_lst	*lexer(char **input)
 		}
 		tok_lst_add_back(&tokens_lst, new_token);
 	}
+	if (!tokens_lst)
+		return (alloc_null_tok());
 	return (tokens_lst);
 }
 
