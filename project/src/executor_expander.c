@@ -74,7 +74,8 @@ static int	append_words(t_str_lst **head, t_str_lst **tail, t_word exp_word)
 		if (!exp_word.token_word_ptr[i])
 			break ;
 		start = i;
-		while (exp_word.token_word_ptr[i] && !is_unquoted_and_space(exp_word, i))
+		while (exp_word.token_word_ptr[i] && !is_unquoted_and_space(exp_word,
+				i))
 			i++;
 		word = ft_substr(exp_word.token_word_ptr, start, i - start);
 		if (!word)
@@ -87,8 +88,7 @@ static int	append_words(t_str_lst **head, t_str_lst **tail, t_word exp_word)
 static bool	is_unquoted_and_space(t_word word, int i)
 {
 	return (word.context_mask_ptr[i] == CONTEXT_UNQUOTED
-		&& (word.token_word_ptr[i] == ' '
-		|| word.token_word_ptr[i] == '\t'));
+		&& (word.token_word_ptr[i] == ' ' || word.token_word_ptr[i] == '\t'));
 }
 
 void	append_single_word(t_str_lst **head, t_str_lst **tail, char *str)

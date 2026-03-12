@@ -31,6 +31,7 @@ bool	is_builtin(t_word *words, int words_amount)
 	}
 	return (false);
 }
+
 static bool	mask_is_all_n(const char *mask)
 {
 	int	i;

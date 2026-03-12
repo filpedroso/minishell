@@ -24,9 +24,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <sys/wait.h>
-void	rl_replace_line(const char *text, int clear_undo);
-
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdio.h>
@@ -36,7 +33,11 @@ void	rl_replace_line(const char *text, int clear_undo);
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
+
+void							rl_replace_line(const char *text,
+									int clear_undo);
 
 /* ************************************************************************** */
 /* ***************************    macros    ********************************* */
@@ -271,13 +272,22 @@ void							cleanup_env(t_env_vars env_vars);
 void							skip_spaces(char **input);
 int								is_operator(char c);
 
+// heredocs
+bool							delim_has_quotes(char *mask);
+void							write_to_file(int fd, char *line);
+char							*expand_hdoc_dollar(char *line, int *i,
+									char *res, char **envs);
+char							*append_hdoc_literal(char *line, int *i,
+									char *result);
+
 // executor
 void							execute_tree(t_sh *sh, t_ast_node *node);
 int								command_logic(t_sh *sh, t_ast_node *node);
 int								handle_redirections(t_cmd *cmd);
-int								collect_all_heredocs(t_sh *sh, t_ast_node *node);
-char	*create_temp_file(char *delim, char *delim_mask, t_env_vars env_vars);
-char							*expand_line(char *line, t_env_vars env_vars);
+int								collect_all_heredocs(t_sh *sh,
+									t_ast_node *node);
+char							*create_temp_file(char *delim, char *delim_mask,
+									t_env_vars env_vars);
 int								exec_ext_cmd(t_sh *sh, t_ast_node *node);
 char							*get_cmd_path(t_cmd *cmd);
 char							*find_in_path(const char *cmd_str,
@@ -323,16 +333,18 @@ int								ft_cd(t_sh *sh, char **argv);
 int								ft_export(t_sh *sh, char **argv);
 int								ft_unset(t_sh *sh, char **argv);
 bool							is_valid_identifier(const char *str);
+bool							is_exit_builtin(t_ast_node *node);
 
 // Cleanup General
-void	cycle_cleanup(char *input, t_token_lst *tok_lst, t_ast_node *ast_root);
-void	child_cleanup(t_sh *sh);
+void							cycle_cleanup(char *input, t_token_lst *tok_lst,
+									t_ast_node *ast_root);
+void							child_cleanup(t_sh *sh);
 void							free_str_arr(char **arr);
 void							destroy_exec_args(t_exec_args *ex);
 void							free_word(t_word word);
 void							free_str_lst(t_str_lst *lst);
-void	free_temp_files(t_str_lst **list);
-void	unlink_heredoc_files(t_str_lst **list);
+void							free_temp_files(t_str_lst **list);
+void							unlink_heredoc_files(t_str_lst **list);
 
 // signals
 void							set_signals_interactive(void);

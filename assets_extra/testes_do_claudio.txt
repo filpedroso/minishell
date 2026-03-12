@@ -1,0 +1,657 @@
+c1r1p2% ./minishell            
+miniconcha>  
+miniconcha> a
+Execve: Bad address
+miniconcha> bash
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ a
+a: command not found
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ exit 
+exit
+miniconcha> cat
+^C
+miniconcha> miniconcha> 
+miniconcha> cat
+^\miniconcha> bash
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ cat
+^\Quit (core dumped)
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ exit
+exit
+miniconcha> echo -nnnnnnn
+miniconcha> echo -nnnnnnn oi
+oiminiconcha> echo -nnnnnnn -n -n -nnnnnn oi
+oiminiconcha> echo $PWD
+/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+miniconcha> pwd
+/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+miniconcha> << here | << here | << exit | << oi
+miniconcha> here
+Execve: Bad address
+miniconcha> 
+miniconcha> 
+miniconcha> << oi
+miniconcha> ./m
+main.c                minishell             minishell_scale.md    minishell_utils.c
+main.o                minishell.h           minishell_subject.md  minishell_utils.o
+miniconcha> ./minishell
+miniconcha> ./minishell
+miniconcha> exit -1
+exit: numeric argument required
+miniconcha> exit 257
+miniconcha> echo $?
+0
+miniconcha> exit 3
+c1r1p2% echo $?
+3
+c1r1p2% ./minishell 
+miniconcha> ./minishell
+miniconcha> ./minishell
+miniconcha> exit 3
+miniconcha> echo $?
+0
+miniconcha> 
+
+miniconcha> miniconcha> echo $?
+0
+miniconcha> 
+miniconcha> 
+miniconcha> ls
+
+miniconcha> miniconcha> 
+miniconcha> cat
+^C
+miniconcha> 
+miniconcha> miniconcha> echo $?
+0
+miniconcha> bash
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ ^C
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ echo $?
+130
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ 
+exit
+miniconcha> echo $?
+0
+miniconcha> bash
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ bash
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ echo $?
+0
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ 
+exit
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ echo $?
+0
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ exit
+exit
+miniconcha> export
+declare -x ANDROID_HOME=//home/lcosta-a/Android/Sdk
+declare -x COLORTERM=truecolor
+declare -x DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_BUS_TYPE=session
+declare -x DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path
+declare -x DESKTOP_SESSION=ubuntu
+declare -x DISPLAY=:0
+declare -x DOCKER_HOST=unix:///run/user/1429241/docker.sock
+declare -x FT_HOOK_NAME=login-user
+declare -x FT_HOOK_PATHNAME=login-user.d
+declare -x GDMSESSION=ubuntu
+declare -x GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+declare -x GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c
+declare -x GNOME_TERMINAL_SERVICE=:1.89
+declare -x GPG_AGENT_INFO=/run/user/1429241/gnupg/S.gpg-agent:0:1
+declare -x GTK_IM_MODULE=ibus
+declare -x GTK_MODULES=gail:atk-bridge
+declare -x HOME=/home/lcosta-a
+declare -x KRB5CCNAME=FILE:/tmp/krb5cc_1429241_BAprWz
+declare -x LANG=en_US.UTF-8
+declare -x LIBVIRT_DEFAULT_URI=qemu:///system
+declare -x LOGNAME=lcosta-a
+declare -x MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path
+declare -x OLDPWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x PATH=/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin
+declare -x PWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x QT_ACCESSIBILITY=1
+declare -x QT_IM_MODULE=ibus
+declare -x SESSION_MANAGER=local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AGENT_LAUNCHER=gnome-keyring
+declare -x SSH_AUTH_SOCK=/run/user/1429241/keyring/ssh
+declare -x SYSTEMD_EXEC_PID=318010
+declare -x TERM=xterm-256color
+declare -x USER=lcosta-a
+declare -x VTE_VERSION=6800
+declare -x XAUTHORITY=/home/lcosta-a/.Xauthority
+declare -x XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+declare -x XDG_CURRENT_DESKTOP=ubuntu:GNOME
+declare -x XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+declare -x XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/lcosta-a
+declare -x XDG_MENU_PREFIX=gnome-
+declare -x XDG_RUNTIME_DIR=/run/user/1429241
+declare -x XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+declare -x XDG_SESSION_CLASS=user
+declare -x XDG_SESSION_DESKTOP=ubuntu
+declare -x XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+declare -x XDG_SESSION_TYPE=x11
+declare -x XMODIFIERS=@im=ibus
+declare -x _=/home/lcosta-a/Eu/Mesa/Para Sapiens testar/./minishell
+miniconcha> echo $XDG_SESSION_TYPE
+x11
+miniconcha> export a=1
+miniconcha> export
+declare -x ANDROID_HOME=//home/lcosta-a/Android/Sdk
+declare -x COLORTERM=truecolor
+declare -x DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_BUS_TYPE=session
+declare -x DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path
+declare -x DESKTOP_SESSION=ubuntu
+declare -x DISPLAY=:0
+declare -x DOCKER_HOST=unix:///run/user/1429241/docker.sock
+declare -x FT_HOOK_NAME=login-user
+declare -x FT_HOOK_PATHNAME=login-user.d
+declare -x GDMSESSION=ubuntu
+declare -x GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+declare -x GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c
+declare -x GNOME_TERMINAL_SERVICE=:1.89
+declare -x GPG_AGENT_INFO=/run/user/1429241/gnupg/S.gpg-agent:0:1
+declare -x GTK_IM_MODULE=ibus
+declare -x GTK_MODULES=gail:atk-bridge
+declare -x HOME=/home/lcosta-a
+declare -x KRB5CCNAME=FILE:/tmp/krb5cc_1429241_BAprWz
+declare -x LANG=en_US.UTF-8
+declare -x LIBVIRT_DEFAULT_URI=qemu:///system
+declare -x LOGNAME=lcosta-a
+declare -x MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path
+declare -x OLDPWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x PATH=/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin
+declare -x PWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x QT_ACCESSIBILITY=1
+declare -x QT_IM_MODULE=ibus
+declare -x SESSION_MANAGER=local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AGENT_LAUNCHER=gnome-keyring
+declare -x SSH_AUTH_SOCK=/run/user/1429241/keyring/ssh
+declare -x SYSTEMD_EXEC_PID=318010
+declare -x TERM=xterm-256color
+declare -x USER=lcosta-a
+declare -x VTE_VERSION=6800
+declare -x XAUTHORITY=/home/lcosta-a/.Xauthority
+declare -x XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+declare -x XDG_CURRENT_DESKTOP=ubuntu:GNOME
+declare -x XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+declare -x XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/lcosta-a
+declare -x XDG_MENU_PREFIX=gnome-
+declare -x XDG_RUNTIME_DIR=/run/user/1429241
+declare -x XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+declare -x XDG_SESSION_CLASS=user
+declare -x XDG_SESSION_DESKTOP=ubuntu
+declare -x XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+declare -x XDG_SESSION_TYPE=x11
+declare -x XMODIFIERS=@im=ibus
+declare -x _=/home/lcosta-a/Eu/Mesa/Para Sapiens testar/./minishell
+declare -x a=1
+miniconcha> export a+=2
+miniconcha> export
+declare -x ANDROID_HOME=//home/lcosta-a/Android/Sdk
+declare -x COLORTERM=truecolor
+declare -x DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_BUS_TYPE=session
+declare -x DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path
+declare -x DESKTOP_SESSION=ubuntu
+declare -x DISPLAY=:0
+declare -x DOCKER_HOST=unix:///run/user/1429241/docker.sock
+declare -x FT_HOOK_NAME=login-user
+declare -x FT_HOOK_PATHNAME=login-user.d
+declare -x GDMSESSION=ubuntu
+declare -x GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+declare -x GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c
+declare -x GNOME_TERMINAL_SERVICE=:1.89
+declare -x GPG_AGENT_INFO=/run/user/1429241/gnupg/S.gpg-agent:0:1
+declare -x GTK_IM_MODULE=ibus
+declare -x GTK_MODULES=gail:atk-bridge
+declare -x HOME=/home/lcosta-a
+declare -x KRB5CCNAME=FILE:/tmp/krb5cc_1429241_BAprWz
+declare -x LANG=en_US.UTF-8
+declare -x LIBVIRT_DEFAULT_URI=qemu:///system
+declare -x LOGNAME=lcosta-a
+declare -x MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path
+declare -x OLDPWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x PATH=/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin
+declare -x PWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x QT_ACCESSIBILITY=1
+declare -x QT_IM_MODULE=ibus
+declare -x SESSION_MANAGER=local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AGENT_LAUNCHER=gnome-keyring
+declare -x SSH_AUTH_SOCK=/run/user/1429241/keyring/ssh
+declare -x SYSTEMD_EXEC_PID=318010
+declare -x TERM=xterm-256color
+declare -x USER=lcosta-a
+declare -x VTE_VERSION=6800
+declare -x XAUTHORITY=/home/lcosta-a/.Xauthority
+declare -x XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+declare -x XDG_CURRENT_DESKTOP=ubuntu:GNOME
+declare -x XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+declare -x XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/lcosta-a
+declare -x XDG_MENU_PREFIX=gnome-
+declare -x XDG_RUNTIME_DIR=/run/user/1429241
+declare -x XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+declare -x XDG_SESSION_CLASS=user
+declare -x XDG_SESSION_DESKTOP=ubuntu
+declare -x XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+declare -x XDG_SESSION_TYPE=x11
+declare -x XMODIFIERS=@im=ibus
+declare -x _=/home/lcosta-a/Eu/Mesa/Para Sapiens testar/./minishell
+declare -x a+=2
+declare -x a=1
+miniconcha> bash
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ export a=1
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ export
+declare -x ANDROID_HOME="//home/lcosta-a/Android/Sdk"
+declare -x COLORTERM="truecolor"
+declare -x DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6"
+declare -x DBUS_STARTER_ADDRESS="unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6"
+declare -x DBUS_STARTER_BUS_TYPE="session"
+declare -x DEFAULTS_PATH="/usr/share/gconf/ubuntu.default.path"
+declare -x DESKTOP_SESSION="ubuntu"
+declare -x DISPLAY=":0"
+declare -x DOCKER_HOST="unix:///run/user/1429241/docker.sock"
+declare -x FT_HOOK_NAME="login-user"
+declare -x FT_HOOK_PATHNAME="login-user.d"
+declare -x GDMSESSION="ubuntu"
+declare -x GNOME_DESKTOP_SESSION_ID="this-is-deprecated"
+declare -x GNOME_TERMINAL_SCREEN="/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c"
+declare -x GNOME_TERMINAL_SERVICE=":1.89"
+declare -x GPG_AGENT_INFO="/run/user/1429241/gnupg/S.gpg-agent:0:1"
+declare -x GTK_IM_MODULE="ibus"
+declare -x GTK_MODULES="gail:atk-bridge"
+declare -x HOME="/home/lcosta-a"
+declare -x KRB5CCNAME="FILE:/tmp/krb5cc_1429241_BAprWz"
+declare -x LANG="en_US.UTF-8"
+declare -x LIBVIRT_DEFAULT_URI="qemu:///system"
+declare -x LOGNAME="lcosta-a"
+declare -x MANDATORY_PATH="/usr/share/gconf/ubuntu.mandatory.path"
+declare -x OLDPWD="/home/lcosta-a/Eu/Mesa/Para Sapiens testar"
+declare -x PATH="/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin"
+declare -x PWD="/home/lcosta-a/Eu/Mesa/Para Sapiens testar"
+declare -x QT_ACCESSIBILITY="1"
+declare -x QT_IM_MODULE="ibus"
+declare -x SESSION_MANAGER="local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="2"
+declare -x SSH_AGENT_LAUNCHER="gnome-keyring"
+declare -x SSH_AUTH_SOCK="/run/user/1429241/keyring/ssh"
+declare -x SYSTEMD_EXEC_PID="318010"
+declare -x TERM="xterm-256color"
+declare -x USER="lcosta-a"
+declare -x VTE_VERSION="6800"
+declare -x XAUTHORITY="/home/lcosta-a/.Xauthority"
+declare -x XDG_CONFIG_DIRS="/etc/xdg/xdg-ubuntu:/etc/xdg"
+declare -x XDG_CURRENT_DESKTOP="ubuntu:GNOME"
+declare -x XDG_DATA_DIRS="/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop"
+declare -x XDG_GREETER_DATA_DIR="/var/lib/lightdm-data/lcosta-a"
+declare -x XDG_MENU_PREFIX="gnome-"
+declare -x XDG_RUNTIME_DIR="/run/user/1429241"
+declare -x XDG_SEAT_PATH="/org/freedesktop/DisplayManager/Seat0"
+declare -x XDG_SESSION_CLASS="user"
+declare -x XDG_SESSION_DESKTOP="ubuntu"
+declare -x XDG_SESSION_PATH="/org/freedesktop/DisplayManager/Session0"
+declare -x XDG_SESSION_TYPE="x11"
+declare -x XMODIFIERS="@im=ibus"
+declare -x a="1"
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ export a+=2
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ export
+declare -x ANDROID_HOME="//home/lcosta-a/Android/Sdk"
+declare -x COLORTERM="truecolor"
+declare -x DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6"
+declare -x DBUS_STARTER_ADDRESS="unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6"
+declare -x DBUS_STARTER_BUS_TYPE="session"
+declare -x DEFAULTS_PATH="/usr/share/gconf/ubuntu.default.path"
+declare -x DESKTOP_SESSION="ubuntu"
+declare -x DISPLAY=":0"
+declare -x DOCKER_HOST="unix:///run/user/1429241/docker.sock"
+declare -x FT_HOOK_NAME="login-user"
+declare -x FT_HOOK_PATHNAME="login-user.d"
+declare -x GDMSESSION="ubuntu"
+declare -x GNOME_DESKTOP_SESSION_ID="this-is-deprecated"
+declare -x GNOME_TERMINAL_SCREEN="/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c"
+declare -x GNOME_TERMINAL_SERVICE=":1.89"
+declare -x GPG_AGENT_INFO="/run/user/1429241/gnupg/S.gpg-agent:0:1"
+declare -x GTK_IM_MODULE="ibus"
+declare -x GTK_MODULES="gail:atk-bridge"
+declare -x HOME="/home/lcosta-a"
+declare -x KRB5CCNAME="FILE:/tmp/krb5cc_1429241_BAprWz"
+declare -x LANG="en_US.UTF-8"
+declare -x LIBVIRT_DEFAULT_URI="qemu:///system"
+declare -x LOGNAME="lcosta-a"
+declare -x MANDATORY_PATH="/usr/share/gconf/ubuntu.mandatory.path"
+declare -x OLDPWD="/home/lcosta-a/Eu/Mesa/Para Sapiens testar"
+declare -x PATH="/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin"
+declare -x PWD="/home/lcosta-a/Eu/Mesa/Para Sapiens testar"
+declare -x QT_ACCESSIBILITY="1"
+declare -x QT_IM_MODULE="ibus"
+declare -x SESSION_MANAGER="local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="2"
+declare -x SSH_AGENT_LAUNCHER="gnome-keyring"
+declare -x SSH_AUTH_SOCK="/run/user/1429241/keyring/ssh"
+declare -x SYSTEMD_EXEC_PID="318010"
+declare -x TERM="xterm-256color"
+declare -x USER="lcosta-a"
+declare -x VTE_VERSION="6800"
+declare -x XAUTHORITY="/home/lcosta-a/.Xauthority"
+declare -x XDG_CONFIG_DIRS="/etc/xdg/xdg-ubuntu:/etc/xdg"
+declare -x XDG_CURRENT_DESKTOP="ubuntu:GNOME"
+declare -x XDG_DATA_DIRS="/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop"
+declare -x XDG_GREETER_DATA_DIR="/var/lib/lightdm-data/lcosta-a"
+declare -x XDG_MENU_PREFIX="gnome-"
+declare -x XDG_RUNTIME_DIR="/run/user/1429241"
+declare -x XDG_SEAT_PATH="/org/freedesktop/DisplayManager/Seat0"
+declare -x XDG_SESSION_CLASS="user"
+declare -x XDG_SESSION_DESKTOP="ubuntu"
+declare -x XDG_SESSION_PATH="/org/freedesktop/DisplayManager/Session0"
+declare -x XDG_SESSION_TYPE="x11"
+declare -x XMODIFIERS="@im=ibus"
+declare -x a="12"
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ export a+=2exit
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ exit
+exit
+miniconcha> export
+declare -x ANDROID_HOME=//home/lcosta-a/Android/Sdk
+declare -x COLORTERM=truecolor
+declare -x DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_BUS_TYPE=session
+declare -x DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path
+declare -x DESKTOP_SESSION=ubuntu
+declare -x DISPLAY=:0
+declare -x DOCKER_HOST=unix:///run/user/1429241/docker.sock
+declare -x FT_HOOK_NAME=login-user
+declare -x FT_HOOK_PATHNAME=login-user.d
+declare -x GDMSESSION=ubuntu
+declare -x GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+declare -x GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c
+declare -x GNOME_TERMINAL_SERVICE=:1.89
+declare -x GPG_AGENT_INFO=/run/user/1429241/gnupg/S.gpg-agent:0:1
+declare -x GTK_IM_MODULE=ibus
+declare -x GTK_MODULES=gail:atk-bridge
+declare -x HOME=/home/lcosta-a
+declare -x KRB5CCNAME=FILE:/tmp/krb5cc_1429241_BAprWz
+declare -x LANG=en_US.UTF-8
+declare -x LIBVIRT_DEFAULT_URI=qemu:///system
+declare -x LOGNAME=lcosta-a
+declare -x MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path
+declare -x OLDPWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x PATH=/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin
+declare -x PWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x QT_ACCESSIBILITY=1
+declare -x QT_IM_MODULE=ibus
+declare -x SESSION_MANAGER=local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AGENT_LAUNCHER=gnome-keyring
+declare -x SSH_AUTH_SOCK=/run/user/1429241/keyring/ssh
+declare -x SYSTEMD_EXEC_PID=318010
+declare -x TERM=xterm-256color
+declare -x USER=lcosta-a
+declare -x VTE_VERSION=6800
+declare -x XAUTHORITY=/home/lcosta-a/.Xauthority
+declare -x XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+declare -x XDG_CURRENT_DESKTOP=ubuntu:GNOME
+declare -x XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+declare -x XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/lcosta-a
+declare -x XDG_MENU_PREFIX=gnome-
+declare -x XDG_RUNTIME_DIR=/run/user/1429241
+declare -x XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+declare -x XDG_SESSION_CLASS=user
+declare -x XDG_SESSION_DESKTOP=ubuntu
+declare -x XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+declare -x XDG_SESSION_TYPE=x11
+declare -x XMODIFIERS=@im=ibus
+declare -x _=/home/lcosta-a/Eu/Mesa/Para Sapiens testar/./minishell
+declare -x a+=2
+declare -x a=1
+miniconcha> unset a
+miniconcha> export
+declare -x ANDROID_HOME=//home/lcosta-a/Android/Sdk
+declare -x COLORTERM=truecolor
+declare -x DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_BUS_TYPE=session
+declare -x DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path
+declare -x DESKTOP_SESSION=ubuntu
+declare -x DISPLAY=:0
+declare -x DOCKER_HOST=unix:///run/user/1429241/docker.sock
+declare -x FT_HOOK_NAME=login-user
+declare -x FT_HOOK_PATHNAME=login-user.d
+declare -x GDMSESSION=ubuntu
+declare -x GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+declare -x GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c
+declare -x GNOME_TERMINAL_SERVICE=:1.89
+declare -x GPG_AGENT_INFO=/run/user/1429241/gnupg/S.gpg-agent:0:1
+declare -x GTK_IM_MODULE=ibus
+declare -x GTK_MODULES=gail:atk-bridge
+declare -x HOME=/home/lcosta-a
+declare -x KRB5CCNAME=FILE:/tmp/krb5cc_1429241_BAprWz
+declare -x LANG=en_US.UTF-8
+declare -x LIBVIRT_DEFAULT_URI=qemu:///system
+declare -x LOGNAME=lcosta-a
+declare -x MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path
+declare -x OLDPWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x PATH=/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin
+declare -x PWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x QT_ACCESSIBILITY=1
+declare -x QT_IM_MODULE=ibus
+declare -x SESSION_MANAGER=local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AGENT_LAUNCHER=gnome-keyring
+declare -x SSH_AUTH_SOCK=/run/user/1429241/keyring/ssh
+declare -x SYSTEMD_EXEC_PID=318010
+declare -x TERM=xterm-256color
+declare -x USER=lcosta-a
+declare -x VTE_VERSION=6800
+declare -x XAUTHORITY=/home/lcosta-a/.Xauthority
+declare -x XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+declare -x XDG_CURRENT_DESKTOP=ubuntu:GNOME
+declare -x XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+declare -x XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/lcosta-a
+declare -x XDG_MENU_PREFIX=gnome-
+declare -x XDG_RUNTIME_DIR=/run/user/1429241
+declare -x XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+declare -x XDG_SESSION_CLASS=user
+declare -x XDG_SESSION_DESKTOP=ubuntu
+declare -x XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+declare -x XDG_SESSION_TYPE=x11
+declare -x XMODIFIERS=@im=ibus
+declare -x _=/home/lcosta-a/Eu/Mesa/Para Sapiens testar/./minishell
+declare -x a+=2
+miniconcha> unset a+
+miniconcha> export
+declare -x ANDROID_HOME=//home/lcosta-a/Android/Sdk
+declare -x COLORTERM=truecolor
+declare -x DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_BUS_TYPE=session
+declare -x DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path
+declare -x DESKTOP_SESSION=ubuntu
+declare -x DISPLAY=:0
+declare -x DOCKER_HOST=unix:///run/user/1429241/docker.sock
+declare -x FT_HOOK_NAME=login-user
+declare -x FT_HOOK_PATHNAME=login-user.d
+declare -x GDMSESSION=ubuntu
+declare -x GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+declare -x GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c
+declare -x GNOME_TERMINAL_SERVICE=:1.89
+declare -x GPG_AGENT_INFO=/run/user/1429241/gnupg/S.gpg-agent:0:1
+declare -x GTK_IM_MODULE=ibus
+declare -x GTK_MODULES=gail:atk-bridge
+declare -x HOME=/home/lcosta-a
+declare -x KRB5CCNAME=FILE:/tmp/krb5cc_1429241_BAprWz
+declare -x LANG=en_US.UTF-8
+declare -x LIBVIRT_DEFAULT_URI=qemu:///system
+declare -x LOGNAME=lcosta-a
+declare -x MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path
+declare -x OLDPWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x PATH=/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin
+declare -x PWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x QT_ACCESSIBILITY=1
+declare -x QT_IM_MODULE=ibus
+declare -x SESSION_MANAGER=local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AGENT_LAUNCHER=gnome-keyring
+declare -x SSH_AUTH_SOCK=/run/user/1429241/keyring/ssh
+declare -x SYSTEMD_EXEC_PID=318010
+declare -x TERM=xterm-256color
+declare -x USER=lcosta-a
+declare -x VTE_VERSION=6800
+declare -x XAUTHORITY=/home/lcosta-a/.Xauthority
+declare -x XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+declare -x XDG_CURRENT_DESKTOP=ubuntu:GNOME
+declare -x XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+declare -x XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/lcosta-a
+declare -x XDG_MENU_PREFIX=gnome-
+declare -x XDG_RUNTIME_DIR=/run/user/1429241
+declare -x XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+declare -x XDG_SESSION_CLASS=user
+declare -x XDG_SESSION_DESKTOP=ubuntu
+declare -x XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+declare -x XDG_SESSION_TYPE=x11
+declare -x XMODIFIERS=@im=ibus
+declare -x _=/home/lcosta-a/Eu/Mesa/Para Sapiens testar/./minishell
+miniconcha> export oi=ec
+miniconcha> $(oi)ho oi
+Execve: Bad address
+miniconcha> bash
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ export oi=ech
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ export
+declare -x ANDROID_HOME="//home/lcosta-a/Android/Sdk"
+declare -x COLORTERM="truecolor"
+declare -x DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6"
+declare -x DBUS_STARTER_ADDRESS="unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6"
+declare -x DBUS_STARTER_BUS_TYPE="session"
+declare -x DEFAULTS_PATH="/usr/share/gconf/ubuntu.default.path"
+declare -x DESKTOP_SESSION="ubuntu"
+declare -x DISPLAY=":0"
+declare -x DOCKER_HOST="unix:///run/user/1429241/docker.sock"
+declare -x FT_HOOK_NAME="login-user"
+declare -x FT_HOOK_PATHNAME="login-user.d"
+declare -x GDMSESSION="ubuntu"
+declare -x GNOME_DESKTOP_SESSION_ID="this-is-deprecated"
+declare -x GNOME_TERMINAL_SCREEN="/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c"
+declare -x GNOME_TERMINAL_SERVICE=":1.89"
+declare -x GPG_AGENT_INFO="/run/user/1429241/gnupg/S.gpg-agent:0:1"
+declare -x GTK_IM_MODULE="ibus"
+declare -x GTK_MODULES="gail:atk-bridge"
+declare -x HOME="/home/lcosta-a"
+declare -x KRB5CCNAME="FILE:/tmp/krb5cc_1429241_BAprWz"
+declare -x LANG="en_US.UTF-8"
+declare -x LIBVIRT_DEFAULT_URI="qemu:///system"
+declare -x LOGNAME="lcosta-a"
+declare -x MANDATORY_PATH="/usr/share/gconf/ubuntu.mandatory.path"
+declare -x OLDPWD="/home/lcosta-a/Eu/Mesa/Para Sapiens testar"
+declare -x PATH="/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin"
+declare -x PWD="/home/lcosta-a/Eu/Mesa/Para Sapiens testar"
+declare -x QT_ACCESSIBILITY="1"
+declare -x QT_IM_MODULE="ibus"
+declare -x SESSION_MANAGER="local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="2"
+declare -x SSH_AGENT_LAUNCHER="gnome-keyring"
+declare -x SSH_AUTH_SOCK="/run/user/1429241/keyring/ssh"
+declare -x SYSTEMD_EXEC_PID="318010"
+declare -x TERM="xterm-256color"
+declare -x USER="lcosta-a"
+declare -x VTE_VERSION="6800"
+declare -x XAUTHORITY="/home/lcosta-a/.Xauthority"
+declare -x XDG_CONFIG_DIRS="/etc/xdg/xdg-ubuntu:/etc/xdg"
+declare -x XDG_CURRENT_DESKTOP="ubuntu:GNOME"
+declare -x XDG_DATA_DIRS="/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop"
+declare -x XDG_GREETER_DATA_DIR="/var/lib/lightdm-data/lcosta-a"
+declare -x XDG_MENU_PREFIX="gnome-"
+declare -x XDG_RUNTIME_DIR="/run/user/1429241"
+declare -x XDG_SEAT_PATH="/org/freedesktop/DisplayManager/Seat0"
+declare -x XDG_SESSION_CLASS="user"
+declare -x XDG_SESSION_DESKTOP="ubuntu"
+declare -x XDG_SESSION_PATH="/org/freedesktop/DisplayManager/Session0"
+declare -x XDG_SESSION_TYPE="x11"
+declare -x XMODIFIERS="@im=ibus"
+declare -x oi="ech"
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ $oio
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ $oio oi
+oi: command not found
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ $oio y
+y: command not found
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ echo "$oi"o
+echo
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$  "$oi"o y
+y
+lcosta-a@c1r1p2:~/Eu/Mesa/Para Sapiens testar$ exit
+exit
+miniconcha> "$(oi)"ho oi
+Execve: Bad address
+miniconcha> "$oi"ho oi
+Execve: Bad address
+miniconcha> export
+declare -x ANDROID_HOME=//home/lcosta-a/Android/Sdk
+declare -x COLORTERM=truecolor
+declare -x DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_ADDRESS=unix:path=/run/user/1429241/bus,guid=e2cb2173a77825d0346b2aaf69af05a6
+declare -x DBUS_STARTER_BUS_TYPE=session
+declare -x DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path
+declare -x DESKTOP_SESSION=ubuntu
+declare -x DISPLAY=:0
+declare -x DOCKER_HOST=unix:///run/user/1429241/docker.sock
+declare -x FT_HOOK_NAME=login-user
+declare -x FT_HOOK_PATHNAME=login-user.d
+declare -x GDMSESSION=ubuntu
+declare -x GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+declare -x GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/a8634560_dd8f_45ab_bb23_692d5efded2c
+declare -x GNOME_TERMINAL_SERVICE=:1.89
+declare -x GPG_AGENT_INFO=/run/user/1429241/gnupg/S.gpg-agent:0:1
+declare -x GTK_IM_MODULE=ibus
+declare -x GTK_MODULES=gail:atk-bridge
+declare -x HOME=/home/lcosta-a
+declare -x KRB5CCNAME=FILE:/tmp/krb5cc_1429241_BAprWz
+declare -x LANG=en_US.UTF-8
+declare -x LIBVIRT_DEFAULT_URI=qemu:///system
+declare -x LOGNAME=lcosta-a
+declare -x MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path
+declare -x OLDPWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x PATH=/home/lcosta-a/.opencode/bin:/home/lcosta-a/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin://home/lcosta-a/Android/Sdk/platform-tools:/opt/flutter/flutter/bin
+declare -x PWD=/home/lcosta-a/Eu/Mesa/Para Sapiens testar
+declare -x QT_ACCESSIBILITY=1
+declare -x QT_IM_MODULE=ibus
+declare -x SESSION_MANAGER=local/c1r1p2.42sp.org.br:@/tmp/.ICE-unix/318010,unix/c1r1p2.42sp.org.br:/tmp/.ICE-unix/318010
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AGENT_LAUNCHER=gnome-keyring
+declare -x SSH_AUTH_SOCK=/run/user/1429241/keyring/ssh
+declare -x SYSTEMD_EXEC_PID=318010
+declare -x TERM=xterm-256color
+declare -x USER=lcosta-a
+declare -x VTE_VERSION=6800
+declare -x XAUTHORITY=/home/lcosta-a/.Xauthority
+declare -x XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+declare -x XDG_CURRENT_DESKTOP=ubuntu:GNOME
+declare -x XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/lcosta-a/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+declare -x XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/lcosta-a
+declare -x XDG_MENU_PREFIX=gnome-
+declare -x XDG_RUNTIME_DIR=/run/user/1429241
+declare -x XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+declare -x XDG_SESSION_CLASS=user
+declare -x XDG_SESSION_DESKTOP=ubuntu
+declare -x XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+declare -x XDG_SESSION_TYPE=x11
+declare -x XMODIFIERS=@im=ibus
+declare -x _=/home/lcosta-a/Eu/Mesa/Para Sapiens testar/./minishell
+declare -x oi=ec
+miniconcha> "$oi"ho oi
+Execve: Bad address
+miniconcha> echo "$oi"
+ec
+miniconcha> 
+

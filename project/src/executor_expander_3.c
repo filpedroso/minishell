@@ -55,3 +55,11 @@ t_word	handle_exit_status_expansion(t_sh *sh, int *i, t_word result, char ctx)
 	free(mask);
 	return (result);
 }
+
+void	free_word(t_word word)
+{
+	free(word.token_word_ptr);
+	free(word.context_mask_ptr);
+	word.token_word_ptr = NULL;
+	word.context_mask_ptr = NULL;
+}

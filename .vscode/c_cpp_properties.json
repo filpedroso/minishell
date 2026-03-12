@@ -1,19 +1,19 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "macOS",
             "includePath": [
                 "${workspaceFolder}",
-                "${workspaceFolder}/libft",
-                "${workspaceFolder}/libft/include",
-                "${workspaceFolder}/include",
-                "/usr/include"
+                "${workspaceFolder}/project/include",
+                "${workspaceFolder}/project/libft",
+                "/usr/local/opt/readline/include",
+                "/opt/homebrew/opt/readline/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c17",
             "cppStandard": "c++14",
-            "intelliSenseMode": "linux-clang-x64"
+            "intelliSenseMode": "macos-clang-arm64"
         }
     ],
     "version": 4

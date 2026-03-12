@@ -57,5 +57,3 @@ dkms.conf
 .vscode
 
 minishell
-minishell_essential_tests.md
-minishell_test_cases.md

@@ -33,7 +33,7 @@ t_token_lst	*lexer(char **input)
 		if (new_token->type == TOK_EOF)
 		{
 			free_token(new_token);
-			break;
+			break ;
 		}
 		tok_lst_add_back(&tokens_lst, new_token);
 	}

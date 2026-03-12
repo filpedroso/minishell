@@ -13,8 +13,8 @@
 #include "minishell.h"
 
 static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node);
-void	debug_print_args(char *path, char **argv);
-void	debug_puts_many(char **arr);
+void		debug_print_args(char *path, char **argv);
+void		debug_puts_many(char **arr);
 static int	bad_cmd(t_cmd *cmd);
 
 int	exec_ext_cmd(t_sh *sh, t_ast_node *node)
@@ -85,33 +85,11 @@ void	destroy_exec_args(t_exec_args *ex)
 {
 	if (ex->path)
 		free(ex->path);
-	if (ex->envp)	
+	if (ex->envp)
 		free_str_arr(ex->envp);
 	if (ex->argv)
 		free_str_arr(ex->argv);
 	ex->path = NULL;
 	ex->envp = NULL;
 	ex->argv = NULL;
-}
-
-void	debug_print_args(char *path, char **argv)
-{
-	puts("PATH:");
-	puts(path);
-
-	puts("ARGV:");
-	debug_puts_many(argv);
-
-}
-
-void	debug_puts_many(char **arr)
-{
-	if (!arr)
-		return ;
-	for (int i = 0; arr[i]; i++)
-	{
-		fputs(arr[i], stdout);
-		fputs(" ", stdout);
-	}
-	puts("");
 }

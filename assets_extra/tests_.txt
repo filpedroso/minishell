@@ -1,0 +1,61 @@
+miniconcha>  
+miniconcha> a
+miniconcha> bash
+miniconcha> cat
+miniconcha> miniconcha> 
+miniconcha> cat
+^\miniconcha> bash
+miniconcha> echo -nnnnnnn
+miniconcha> echo -nnnnnnn oi
+oiminiconcha> echo -nnnnnnn -n -n -nnnnnn oi
+oiminiconcha> echo $PWD
+miniconcha> pwd
+miniconcha> << here | << here | << exit | << oi
+miniconcha> here
+miniconcha> 
+miniconcha> 
+miniconcha> << oi
+miniconcha> ./m
+miniconcha> ./minishell
+miniconcha> ./minishell
+miniconcha> exit -1
+miniconcha> exit 257
+miniconcha> echo $?
+miniconcha> exit 3
+miniconcha> ./minishell
+miniconcha> ./minishell
+miniconcha> exit 3
+miniconcha> echo $?
+miniconcha> 
+miniconcha> miniconcha> echo $?
+miniconcha> 
+miniconcha> 
+miniconcha> ls
+miniconcha> miniconcha> 
+miniconcha> cat
+miniconcha> 
+miniconcha> miniconcha> echo $?
+miniconcha> bash
+miniconcha> echo $?
+miniconcha> bash
+miniconcha> export
+miniconcha> echo $XDG_SESSION_TYPE
+miniconcha> export a=1
+miniconcha> export
+miniconcha> export a+=2
+miniconcha> export
+miniconcha> bash
+miniconcha> export
+miniconcha> unset a
+miniconcha> export
+miniconcha> unset a+
+miniconcha> export
+miniconcha> export oi=ec
+miniconcha> $(oi)ho oi
+miniconcha> bash
+miniconcha> "$(oi)"ho oi
+miniconcha> "$oi"ho oi
+miniconcha> export
+miniconcha> "$oi"ho oi
+miniconcha> echo "$oi"
+miniconcha> 

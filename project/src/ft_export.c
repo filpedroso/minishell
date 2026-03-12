@@ -33,22 +33,6 @@ int	ft_export(t_sh *sh, char **argv)
 	return (ret);
 }
 
-bool	is_valid_identifier(const char *str)
-{
-	int	i;
-
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
-		return (false);
-	i = 1;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 static int	process_export_arg(t_sh *sh, char *arg)
 {
 	char	*eq_pos;

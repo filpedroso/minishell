@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-static void					add_redir_to_cmd(t_cmd *cmd,
-								t_token_lst *tok_redir,
+static void					add_redir_to_cmd(t_cmd *cmd, t_token_lst *tok_redir,
 								t_token_lst *tok_target);
 static t_word				get_word_from_token(t_token_lst *token);
-static t_redirection_type	get_redir_type_from_tok_type(t_token_type token_type);
+static t_redirection_type	get_redir_type_from_tok_type(t_token_type tok_typ);
 
 t_token_lst	*parse_word(t_cmd *cmd, t_token_lst *token_node)
 {
@@ -57,13 +56,13 @@ static t_word	get_word_from_token(t_token_lst *token)
 	return (word);
 }
 
-static t_redirection_type	get_redir_type_from_tok_type(t_token_type token_type)
+static t_redirection_type	get_redir_type_from_tok_type(t_token_type tok_typ)
 {
-	if (token_type == TOK_REDIR_IN)
+	if (tok_typ == TOK_REDIR_IN)
 		return (REDIR_IN);
-	if (token_type == TOK_REDIR_OUT)
+	if (tok_typ == TOK_REDIR_OUT)
 		return (REDIR_OUT);
-	if (token_type == TOK_APPEND)
+	if (tok_typ == TOK_APPEND)
 		return (REDIR_APPEND);
 	return (REDIR_HEREDOC);
 }

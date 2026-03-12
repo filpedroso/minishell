@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_handle_redirections_3.c                   :+:      :+:    :+:   */
+/*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/29 16:47:47 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/09 17:08:45 by fpedroso         ###   ########.fr       */
+/*   Created: 2026/03/12 16:01:21 by fpedroso          #+#    #+#             */
+/*   Updated: 2026/03/12 16:01:21 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ static char	*create_temp_filepath(void);
 static void	read_input_into_file(int fd, char *delim, char *delim_mask,
 				t_env_vars env_vars);
 static char	*heredoc_sigint_cleanup(int saved_stdin, char *filepath);
-static char	*expand_hdoc_dollar(char *line, int *i, char *res, char **envs);
-static char	*append_hdoc_literal(char *line, int *i, char *result);
-static bool	delim_has_quotes(char *mask);
-static void	write_to_file(int fd, char *line);
+static char	*expand_line(char *line, t_env_vars env_vars);
 
 char	*create_temp_file(char *delim, char *delim_mask, t_env_vars env_vars)
 {
@@ -47,15 +44,6 @@ char	*create_temp_file(char *delim, char *delim_mask, t_env_vars env_vars)
 	return (filepath);
 }
 
-static char	*heredoc_sigint_cleanup(int saved_stdin, char *filepath)
-{
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-	unlink(filepath);
-	free(filepath);
-	return (NULL);
-}
-
 static char	*create_temp_filepath(void)
 {
 	static int	counter = 0;
@@ -71,7 +59,7 @@ static char	*create_temp_filepath(void)
 }
 
 static void	read_input_into_file(int fd, char *delim, char *delim_mask,
-				t_env_vars env_vars)
+		t_env_vars env_vars)
 {
 	char	*line;
 	char	*expanded;
@@ -96,7 +84,16 @@ static void	read_input_into_file(int fd, char *delim, char *delim_mask,
 	}
 }
 
-char	*expand_line(char *line, t_env_vars env_vars)
+static char	*heredoc_sigint_cleanup(int saved_stdin, char *filepath)
+{
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdin);
+	unlink(filepath);
+	free(filepath);
+	return (NULL);
+}
+
+static char	*expand_line(char *line, t_env_vars env_vars)
 {
 	char	**envs;
 	char	*result;
@@ -118,70 +115,4 @@ char	*expand_line(char *line, t_env_vars env_vars)
 	}
 	free_str_arr(envs);
 	return (result);
-}
-
-static char	*expand_hdoc_dollar(char *line, int *i, char *res, char **envs)
-{
-	int		var_len;
-	char	*value;
-
-	(*i)++;
-	if (!line[*i] || (!ft_isalpha(line[*i]) && line[*i] != '_'))
-		return (join_and_free_left(res, "$"));
-	var_len = 1;
-	while (line[*i + var_len] && (ft_isalnum(line[*i + var_len])
-			|| line[*i + var_len] == '_'))
-		var_len++;
-	value = lookup_env_var(&line[*i], var_len, envs);
-	*i += var_len;
-	res = join_and_free_left(res, value);
-	free(value);
-	return (res);
-}
-
-static char	*append_hdoc_literal(char *line, int *i, char *result)
-{
-	int		start;
-	char	*seg;
-
-	start = *i;
-	while (line[*i] && line[*i] != '$')
-		(*i)++;
-	seg = ft_substr(line, start, *i - start);
-	if (!seg)
-	{
-		free(result);
-		return (NULL);
-	}
-	result = join_and_free_left(result, seg);
-	free(seg);
-	return (result);
-}
-
-static bool	delim_has_quotes(char *mask)
-{
-	int	i;
-
-	if (!mask)
-		return (false);
-	i = 0;
-	while(mask[i])
-	{
-		if (mask[i] == CONTEXT_SINGLE || mask[i] == CONTEXT_DOUBLE)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-static void	write_to_file(int fd, char *line)
-{
-	if (!line)
-	{
-		write(fd, "HEREDOC EXPANSION ERROR", 23);
-		write(fd, "\n", 1);
-		return ;
-	}
-	write(fd, line, ft_strlen(line));
-	write(fd, "\n", 1);
 }

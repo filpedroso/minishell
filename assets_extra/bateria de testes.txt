@@ -1,0 +1,64 @@
+1. Comandos Básicos
+# Teste 1: Comandos internos
+echo "Teste de echo"      # Verificar expansão de strings
+pwd                      # Confirmar diretório atual
+cd .. && pwd             # Testar navegação de diretórios
+# Teste 2: Comandos externos
+ls -l                     # Listar arquivos com detalhes
+cat Makefile              # Visualizar conteúdo de arquivo
+grep "NAME" Makefile      # Filtrar conteúdo
+2. Redirecionamentos
+# Teste 3: Redirecionamento de saída
+ls > output.txt           # Criar arquivo com listagem
+cat output.txt            # Verificar conteúdo
+# Teste 4: Redirecionamento de entrada
+cat < Makefile            # Ler de arquivo
+grep "CC" < Makefile      # Filtrar conteúdo de arquivo
+# Teste 5: Redirecionamento de erro
+invalid_command 2> error.txt  # Capturar erro
+cat error.txt             # Verificar mensagem de erro
+# Teste 6: Combinado
+ls -l > output.txt 2>&1  # Redirecionar stdout e stderr
+3. Pipes
+# Teste 7: Pipe simples
+ls | grep ".txt"          # Filtrar saída
+cat Makefile | grep "CC"  # Filtrar conteúdo
+# Teste 8: Múltiplos pipes
+ps aux | grep "bash" | wc -l  # Contar processos
+# Teste 9: Pipe com erro
+invalid_command | grep "error"  # Verificar comportamento
+4. Variáveis de Ambiente
+# Teste 10: Variáveis padrão
+echo $PATH                # Verificar PATH
+echo $?                   # Verificar código de saída
+# Teste 11: Variáveis customizadas
+export TEST_VAR="success"
+echo $TEST_VAR            # Verificar expansão
+5. Tratamento de Erros
+# Teste 12: Sintaxe inválida
+echo "Texto sem fechar   # Testar tratamento de aspas
+| ls                      # Pipeline vazio
+# Teste 13: Comandos inexistentes
+invalid_command           # Verificar mensagem de erro
+./nonexistent_script      # Verificar permissões
+6. Sinais
+# Teste 14: Ctrl+C (SIGINT)
+sleep 10                  # Interromper com Ctrl+C
+# Teste 15: Ctrl+D (EOF)
+cat                      # Enviar EOF com Ctrl+D
+7. Funcionalidades Avançadas (se implementadas)
+# Teste 16: Operadores lógicos
+ls && echo "Sucesso"      # Comando bem-sucedido
+invalid || echo "Erro"    # Comando falho
+# Teste 17: Execução em background
+sleep 5 &                 # Executar em background
+# Teste 18: Subshells
+(cd .. && pwd)            # Verificar escopo
+Para cada teste, observe:
+1. Resultado esperado vs resultado obtido
+2. Comportamento com:
+   - Strings com espaços
+   - Caracteres especiais ($, |, &, >, <)
+   - Comandos com/sem argumentos
+3. Inconsistências ou comportamentos inesperados
+4. Mensagens de erro claras

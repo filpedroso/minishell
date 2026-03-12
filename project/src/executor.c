@@ -15,7 +15,7 @@
 static int		recursive_pipe_logic(t_sh *sh, t_ast_node *node);
 static pid_t	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node);
 static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node);
-static bool		is_exit_builtin(t_ast_node *node);
+static int		wait_and_return_exit_st(pid_t left_pid, pid_t right_pid);
 
 void	execute_tree(t_sh *sh, t_ast_node *node)
 {
@@ -37,8 +37,6 @@ static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 {
 	pid_t	left_pid;
 	pid_t	right_pid;
-	int		left_status;
-	int		right_status;
 	int		pip[2];
 
 	if (!node || !node->left || !node->right)
@@ -54,6 +52,14 @@ static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 	right_pid = exec_piped_right_node(sh, pip, node->right);
 	close(pip[READ]);
 	set_signals_child();
+	return (wait_and_return_exit_st(left_pid, right_pid));
+}
+
+static int	wait_and_return_exit_st(pid_t left_pid, pid_t right_pid)
+{
+	int	left_status;
+	int	right_status;
+
 	waitpid(left_pid, &left_status, 0);
 	waitpid(right_pid, &right_status, 0);
 	set_signals_interactive();
@@ -82,12 +88,6 @@ static pid_t	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node)
 	return (left_pid);
 }
 
-void	child_cleanup(t_sh *sh)
-{
-	cycle_cleanup(NULL, sh->tokens, sh->ast.ast_root);
-	cleanup_env(sh->env_vars);
-}
-
 static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node)
 {
 	pid_t	right_pid;
@@ -103,17 +103,4 @@ static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node)
 		exit(sh->last_exit_st);
 	}
 	return (right_pid);
-}
-
-static bool	is_exit_builtin(t_ast_node *node)
-{
-	char	*cmd;
-
-	if (!node
-		|| !node->cmd
-		|| !node->cmd->words
-		|| !node->cmd->words[0].token_word_ptr)
-		return (false);
-	cmd = node->cmd->words[0].token_word_ptr;
-	return (ft_strncmp(cmd, "exit", 5) == 0);
 }

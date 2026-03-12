@@ -1,0 +1,83 @@
+echo hi | cat | cat | cat | cat | grep hi
+# output: hi
+
+echo a | cat | grep a | cat | cat
+# output: a
+
+echo x | od -c | grep x
+# output:    (no output — 'x' in od -c appears as " x", grep 'x' matches it)
+# actually: 0000000    x  \n                                                
+# 0000003
+# (od output contains 'x', so grep matches — output is the od line)
+
+env | grep TERM
+# output: TERM=xterm-256color  (or whatever your $TERM is)
+
+export FOO=bar | cat
+# output: (empty) — cat reads nothing; FOO must be set in parent env after
+
+unset PATH | cat
+# output: (empty) — PATH must still work after, unset must NOT affect parent
+
+cd /tmp | cat
+# output: (empty) — cwd must NOT change in parent shell
+
+echo $? | cat
+# output: 0
+
+true | false | true
+echo $?
+# output: 0
+
+false | true | false
+echo $?
+# output: 1
+
+false | echo hi | grep hi
+echo $?
+# output: hi
+#         0
+
+
+echo hello > /tmp/ms_test.txt | cat
+# output: (empty) — cat gets no stdin; file is created with "hello"
+
+cat < /tmp/ms_test.txt | grep hello
+# output: hello
+
+cat < /tmp/ms_test.txt | grep hello > /tmp/ms_out.txt
+# output: (empty — result goes to file)
+# cat /tmp/ms_out.txt → hello
+
+
+echo oui | grep nope
+echo $?
+# output: (empty)
+#         1
+
+true | grep anything
+echo $?
+# output: (empty)
+#         1
+
+echo "" | grep ""
+# output: (empty line)
+
+echo "" | cat
+# output: (empty line)
+
+
+notacmd | grep hi
+echo $?
+# output: minishell: notacmd: command not found
+#         1  (grep gets empty stdin, exits 1 — right side status wins)
+
+echo hi | notacmd
+echo $?
+# output: minishell: notacmd: command not found
+#         127
+
+
+false
+echo $? | cat
+# output: 1   ← $? expands to 1 before fork; if your shell prints 0 here, expansion is late

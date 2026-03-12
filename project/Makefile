@@ -13,7 +13,8 @@
 NAME := minishell
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -fsanitize=address,undefined -g -Iinclude -Ilibft -I/usr/local/opt/readline/include
+CFLAGS := -Wall -Wextra -Werror -g -Iinclude -Ilibft -I/usr/local/opt/readline/include
+# Asan: -fsanitize=address,undefined
 
 # Directories
 SRC_DIR := src
@@ -37,11 +38,12 @@ FILES := main.c							\
 		env_lst_utils.c					\
 		env_lst_utils_2.c           	\
 		is_builtin.c					\
+		heredocs_1.c					\
+		heredocs_2.c					\
+		heredocs_3.c					\
 		executor.c						\
 		executor_command_logic.c		\
-		executor_handle_redirections_1.c	\
-		executor_handle_redirections_2.c	\
-		executor_handle_redirections_3.c	\
+		executor_handle_redirections.c	\
 		executor_exec_ext_cmd.c			\
 		executor_expander.c				\
 		executor_expander_2.c			\
@@ -58,10 +60,12 @@ FILES := main.c							\
 		ft_pwd.c						\
 		ft_cd.c							\
 		ft_export.c						\
+		ft_export_2.c					\
 		ft_unset.c						\
 		env_lst_utils_3.c				\
 		signals.c						\
-		signals_2.c
+		signals_2.c						\
+		cleanup.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
