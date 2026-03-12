@@ -15,7 +15,8 @@
 static void	sigint_interactive(int sig)
 {
 	g_signal = sig;
-	write(STDOUT_FILENO, "\n", 1);
+	if (write(STDOUT_FILENO, "\n", 1) == -1)
+		perror("write");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

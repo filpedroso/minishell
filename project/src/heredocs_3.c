@@ -74,6 +74,8 @@ void	write_to_file(int fd, char *line)
 		write(fd, "\n", 1);
 		return ;
 	}
-	write(fd, line, ft_strlen(line));
-	write(fd, "\n", 1);
+	if (write(fd, line, ft_strlen(line)) == -1)
+		perror("write");
+	if (write(fd, "\n", 1) == -1)
+		perror("write");
 }

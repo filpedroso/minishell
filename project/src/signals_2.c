@@ -15,7 +15,8 @@
 static void	sigint_heredoc(int sig)
 {
 	g_signal = sig;
-	write(STDOUT_FILENO, "\n", 1);
+	if (write(STDOUT_FILENO, "\n", 1) == -1)
+		perror("write");
 	close(STDIN_FILENO);
 }
 

@@ -23,13 +23,20 @@ int	ft_echo(char **argv)
 	n_flag = has_n_flag(argv, &i);
 	while (argv[i])
 	{
-		ft_putstr_fd(argv[i], 1);
+		if (write(1, argv[i], ft_strlen(argv[i])) == -1)
+			return (perror("write"), 1);
 		if (argv[i + 1])
-			ft_putchar_fd(' ', 1);
+		{
+			if (write(1, " ", 1) == -1)
+				return (perror("write"), 1);
+		}
 		i++;
 	}
 	if (!n_flag)
-		ft_putchar_fd('\n', 1);
+	{
+		if (write(1, "\n", 1) == -1)
+			return (perror("write"), 1);
+	}
 	return (0);
 }
 

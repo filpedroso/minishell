@@ -24,7 +24,8 @@ char	*get_input_line(t_sh *sh)
 	}
 	if (!input)
 	{
-		write(STDOUT_FILENO, "exit\n", 5);
+		if (write(STDOUT_FILENO, "exit\n", 5) == -1)
+			perror("write");
 		return (NULL);
 	}
 	if (*input)
