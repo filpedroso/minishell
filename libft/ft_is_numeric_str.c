@@ -18,7 +18,10 @@ int	ft_is_numeric_str(const char *str)
 
 	if (!str || !*str)
 		return (0);
-	i = 0;
+	if (str[0] == '-')
+		i = 1;
+	else
+		i = 0;
 	while(str[i])
 	{
 		if (!ft_isdigit(str[i]))
