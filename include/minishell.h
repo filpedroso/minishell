@@ -213,6 +213,7 @@ typedef struct s_sh
 	t_token_lst					*tokens;
 	t_ast						ast;
 	int							last_exit_st;
+	t_str_lst					*heredoc_files;
 }								t_sh;
 
 extern volatile sig_atomic_t	g_signal;
@@ -274,7 +275,7 @@ int								is_operator(char c);
 void							execute_tree(t_sh *sh, t_ast_node *node);
 int								command_logic(t_sh *sh, t_ast_node *node);
 int								handle_redirections(t_cmd *cmd);
-int								collect_all_heredocs(t_ast_node *node);
+int								collect_all_heredocs(t_sh *sh, t_ast_node *node);
 char	*create_temp_file(char *delim, char *delim_mask, t_env_vars env_vars);
 char							*expand_line(char *line, t_env_vars env_vars);
 int								exec_ext_cmd(t_sh *sh, t_ast_node *node);
@@ -331,6 +332,7 @@ void							destroy_exec_args(t_exec_args *ex);
 void							free_word(t_word word);
 void							free_str_lst(t_str_lst *lst);
 void	free_temp_files(t_str_lst **list);
+void	unlink_heredoc_files(t_str_lst **list);
 
 // signals
 void							set_signals_interactive(void);

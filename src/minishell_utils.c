@@ -24,3 +24,21 @@ int	is_operator(char c)
 {
 	return (c == '|' || c == '>' || c == '<');
 }
+
+void	free_temp_files(t_str_lst **list)
+{
+	t_str_lst	*current;
+	t_str_lst	*next;
+
+	if (!list || !*list)
+		return ;
+	current = *list;
+	while (current)
+	{
+		next = current->next;
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	*list = NULL;
+}

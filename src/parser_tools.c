@@ -79,22 +79,3 @@ void	destroy_cmd_node(t_ast_node *cmd_node)
 		cmd_node = NULL;
 	}
 }
-
-void	free_temp_files(t_str_lst **list)
-{
-	t_str_lst	*current;
-	t_str_lst	*next;
-
-	if (!list || !*list)
-		return ;
-	current = *list;
-	while (current)
-	{
-		next = current->next;
-		unlink(current->value);
-		free(current->value);
-		free(current);
-		current = next;
-	}
-	*list = NULL;
-}

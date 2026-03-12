@@ -14,6 +14,7 @@
 
 static void	save_std_in_out(int *stdin_bkp, int *stdout_bkp);
 static void	restore_std_in_out(int stdin_bkp, int stdout_backup);
+static int	redir_fail(int stdin_bkp, int stdout_bkp, t_ast_node *node);
 
 int	command_logic(t_sh *sh, t_ast_node *node)
 {
@@ -26,11 +27,11 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 	exit_status = 0;
 	save_std_in_out(&stdin_bkp, &stdout_bkp);
 	if (handle_redirections(node->cmd) < 0)
+		return (redir_fail(stdin_bkp, stdout_bkp, node));
+	if (!node->cmd->words || node->cmd->words_count == 0)
 	{
-		close(stdin_bkp);
-		close(stdout_bkp);
-		destroy_cmd_node(node);
-		return (1);
+		restore_std_in_out(stdin_bkp, stdout_bkp);
+		return (0);
 	}
 	if (node->cmd->type == EXT)
 		exit_status = exec_ext_cmd(sh, node);
@@ -38,6 +39,14 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 		exit_status = exec_builtin(sh, node);
 	restore_std_in_out(stdin_bkp, stdout_bkp);
 	return (exit_status);
+}
+
+static int	redir_fail(int stdin_bkp, int stdout_bkp, t_ast_node *node)
+{
+	close(stdin_bkp);
+	close(stdout_bkp);
+	destroy_cmd_node(node);
+	return (1);
 }
 
 static void	save_std_in_out(int *stdin_bkp, int *stdout_bkp)

@@ -12,23 +12,24 @@
 
 #include "minishell.h"
 
-static int	collect_cmd_heredocs(t_cmd *cmd);
-static int	append_filepath(char *filepath, t_str_lst **temp_files_list);
+static int	collect_cmd_heredocs(t_sh *sh, t_cmd *cmd);
+static int	append_filepath(char *filepath, t_str_lst **list);
+static int	register_heredoc(t_sh *sh, char *filepath);
 
-int	collect_all_heredocs(t_ast_node *node)
+int	collect_all_heredocs(t_sh *sh, t_ast_node *node)
 {
 	if (!node)
 		return (0);
 	if (node->type == NODE_PIPE)
 	{
-		if (collect_all_heredocs(node->left) < 0)
+		if (collect_all_heredocs(sh, node->left) < 0)
 			return (-1);
-		return (collect_all_heredocs(node->right));
+		return (collect_all_heredocs(sh, node->right));
 	}
-	return (collect_cmd_heredocs(node->cmd));
+	return (collect_cmd_heredocs(sh, node->cmd));
 }
 
-static int	collect_cmd_heredocs(t_cmd *cmd)
+static int	collect_cmd_heredocs(t_sh *sh, t_cmd *cmd)
 {
 	int		i;
 	char	*filepath;
@@ -46,38 +47,68 @@ static int	collect_cmd_heredocs(t_cmd *cmd)
 				cmd->env_vars);
 		if (!filepath)
 			return (-1);
-		if (append_filepath(filepath, &cmd->temp_files_list) < 0)
+		if (append_filepath(filepath, &cmd->temp_files_list) < 0
+			|| register_heredoc(sh, filepath) < 0)
 		{
 			unlink(filepath);
-			free(filepath);
 			return (-1);
 		}
 	}
 	return (0);
 }
 
-static int	append_filepath(char *filepath, t_str_lst **temp_files_list)
+static int	register_heredoc(t_sh *sh, char *filepath)
 {
-	t_str_lst	*new_file_node;
+	char	*dup;
 
-	new_file_node = malloc(sizeof(t_str_lst));
-	if (!new_file_node)
+	dup = ft_strdup(filepath);
+	if (!dup)
+		return (-1);
+	if (append_filepath(dup, &sh->heredoc_files) < 0)
 	{
-		perror("malloc");
+		free(dup);
 		return (-1);
 	}
-	new_file_node->value = filepath;
-	new_file_node->next = NULL;
-	if (!*temp_files_list)
-		*temp_files_list = new_file_node;
-	else
-	{
-		t_str_lst	*last;
-
-		last = *temp_files_list;
-		while (last->next)
-			last = last->next;
-		last->next = new_file_node;
-	}
 	return (0);
+}
+
+static int	append_filepath(char *filepath, t_str_lst **list)
+{
+	t_str_lst	*new_node;
+	t_str_lst	*last;
+
+	new_node = malloc(sizeof(t_str_lst));
+	if (!new_node)
+		return (-1);
+	new_node->value = filepath;
+	new_node->next = NULL;
+	if (!*list)
+	{
+		*list = new_node;
+		return (0);
+	}
+	last = *list;
+	while (last->next)
+		last = last->next;
+	last->next = new_node;
+	return (0);
+}
+
+void	unlink_heredoc_files(t_str_lst **list)
+{
+	t_str_lst	*current;
+	t_str_lst	*next;
+
+	if (!list || !*list)
+		return ;
+	current = *list;
+	while (current)
+	{
+		next = current->next;
+		unlink(current->value);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	*list = NULL;
 }
