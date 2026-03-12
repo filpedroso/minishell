@@ -21,6 +21,7 @@ t_token_lst	*alloc_null_tok(void)
 		return (NULL);
 	token->segment = NULL;
 	token->seg_mask = NULL;
+	token->type = TOK_EOF;
 	token->next = NULL;
 	token->previous = NULL;
 	return (token);

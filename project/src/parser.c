@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 22:17:15 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:58 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/12 17:46:48 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 	t_ast		ast;
 	t_token_lst	*last_tok;
 
+	if (!tok_lst || tok_lst->type == TOK_EOF)
+	{
+		ast.parse_status = PARSE_OK;
+		ast.ast_root = NULL;
+		return (ast);
+	}
 	last_tok = tok_lstlast(tok_lst);
 	if (!check_pipe_syntax(tok_lst, last_tok))
 	{
