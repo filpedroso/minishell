@@ -70,7 +70,10 @@ static int	wait_and_return_exit_st(pid_t left_pid, pid_t right_pid)
 	if (WIFEXITED(right_status))
 		return (WEXITSTATUS(right_status));
 	if (WIFSIGNALED(right_status))
+	{
+		write(STDOUT_FILENO, "\n", 1);
 		return (128 + WTERMSIG(right_status));
+	}
 	return (1);
 }
 

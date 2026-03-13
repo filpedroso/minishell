@@ -41,7 +41,7 @@ int	exec_ext_cmd(t_sh *sh, t_ast_node *node)
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));
 	if (WIFSIGNALED(exit_status))
-		return (128 + WTERMSIG(exit_status));
+		return (write(STDOUT_FILENO, "\n", 1), 128 + WTERMSIG(exit_status));
 	return (1);
 }
 
