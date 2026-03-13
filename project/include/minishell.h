@@ -35,6 +35,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <termios.h>
 
 void							rl_replace_line(const char *text,
 									int clear_undo);
@@ -84,18 +85,6 @@ typedef enum e_lexer_state
 	STATE_TOK_END,
 	STATE_TOK_END_NO_EAT
 }								t_lexer_state;
-
-typedef enum e_builtin_type
-{
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT,
-	NOT_BUILTIN
-}								t_builtin_type;
 
 typedef enum e_redirection_type
 {
