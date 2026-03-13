@@ -49,20 +49,20 @@ static int	get_argv_and_exec_ext_cmd(t_sh *sh, t_ast_node *node)
 {
 	t_exec_args	ex;
 
-	ex.path = get_cmd_path(node->cmd);
-	if (!ex.path)
-		return (bad_cmd(node->cmd));
 	ex.envp = get_current_envs(node->cmd->env_vars);
 	if (!ex.envp)
-	{
-		free(ex.path);
 		return (perror("Get current envs"), 1);
-	}
 	ex.argv = produce_final_argv(sh, node->cmd, ex.envp);
 	if (!ex.argv)
 	{
 		destroy_exec_args(&ex);
 		return (perror("Produce final argv"), 1);
+	}
+	ex.path = get_cmd_path(ex.argv[0], node->cmd);
+	if (!ex.path)
+	{
+		destroy_exec_args(&ex);
+		return (bad_cmd(node->cmd));
 	}
 	execve(ex.path, ex.argv, ex.envp);
 	destroy_exec_args(&ex);

@@ -289,7 +289,7 @@ int								collect_all_heredocs(t_sh *sh,
 char							*create_temp_file(char *delim, char *delim_mask,
 									t_env_vars env_vars);
 int								exec_ext_cmd(t_sh *sh, t_ast_node *node);
-char							*get_cmd_path(t_cmd *cmd);
+char							*get_cmd_path(char *argv_zero, t_cmd *cmd);
 char							*find_in_path(const char *cmd_str,
 									char *path_env);
 

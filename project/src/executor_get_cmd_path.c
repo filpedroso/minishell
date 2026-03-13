@@ -13,26 +13,21 @@
 #include "minishell.h"
 
 static bool	is_explicit_path(char *cmd_arg);
-static char	*search_in_path_var(t_cmd *cmd);
+static char	*search_in_path_var(char *argv_zero, t_cmd *cmd);
 static char	*get_path_env(char **env_vars);
 
-char	*get_cmd_path(t_cmd *cmd)
+char	*get_cmd_path(char *argv_zero, t_cmd *cmd)
 {
-	char	*cmd_str_name_ptr;
-
-	if (!cmd->words)
+	if (!cmd->words || !argv_zero || !*argv_zero)
 		return (NULL);
-	cmd_str_name_ptr = cmd->words[0].token_word_ptr;
-	if (!cmd_str_name_ptr)
-		return (NULL);
-	if (is_explicit_path(cmd_str_name_ptr))
+	if (is_explicit_path(argv_zero))
 	{
-		if (access(cmd_str_name_ptr, X_OK) == 0)
-			return (ft_strdup(cmd_str_name_ptr));
+		if (access(argv_zero, X_OK) == 0)
+			return (ft_strdup(argv_zero));
 		else
 			return (NULL);
 	}
-	return (search_in_path_var(cmd));
+	return (search_in_path_var(argv_zero, cmd));
 }
 
 static bool	is_explicit_path(char *cmd_arg)
@@ -43,7 +38,7 @@ static bool	is_explicit_path(char *cmd_arg)
 		return (false);
 }
 
-static char	*search_in_path_var(t_cmd *cmd)
+static char	*search_in_path_var(char *argv_zero, t_cmd *cmd)
 {
 	char	*path_env_var;
 	char	**current_env_vars;
@@ -56,7 +51,7 @@ static char	*search_in_path_var(t_cmd *cmd)
 	free_str_arr(current_env_vars);
 	if (!path_env_var)
 		return (NULL);
-	path = find_in_path(cmd->words[0].token_word_ptr, path_env_var);
+	path = find_in_path(argv_zero, path_env_var);
 	free(path_env_var);
 	if (!path)
 		return (NULL);
