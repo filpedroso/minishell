@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:39 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/12 18:31:39 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 13:39:40 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 
 static int	init_shell(t_sh *shell, char **envp)
 {
+	rl_outstream = stderr;
 	shell->last_exit_st = 0;
 	shell->heredoc_files = NULL;
 	if (init_env_list_struct(envp, &shell->env_vars) == ERROR)

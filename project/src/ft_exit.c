@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 20:48:44 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/24 20:48:44 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 12:41:01 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_exit(t_sh *sh, char **argv)
 {
 	int	code;
 
-	ft_putstr_fd("exit", 1);
+	ft_putstr_fd("exit\n", 1);
 	if (!argv[1])
 		exit(sh->last_exit_st);
 	if (!ft_is_numeric_str(argv[1]))
