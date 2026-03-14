@@ -94,4 +94,9 @@ fclean: clean
 
 re: fclean all
 
+val: all
+	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes \
+		--suppressions=readline.supp --track-origins=yes --trace-children-skip=''*/bin/*,*/sbin/*'' \
+		--track-fds=yes --keep-debuginfo=yes --tool=memcheck ./minishell
+
 .PHONY: all clean fclean re
