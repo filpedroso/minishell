@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 20:06:36 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/15 13:56:02 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:26:10 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 	return (exit_status);
 }
 
-static int	redir_fail(int stdin_bkp, int stdout_bkp, t_ast_node *node)
+static int	redir_fail(t_sh *sh, int stdin_bkp, int stdout_bkp)
 {
-	(void)node;
-	close(stdin_bkp);
-	close(stdout_bkp);
+	restore_std_in_out_if_parent(sh, stdin_bkp, stdout_bkp);
 	return (1);
 }
 
