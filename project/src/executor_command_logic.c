@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 20:06:36 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 20:46:42 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 22:38:48 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 	if (!node || !node->cmd)
 		return (0);
 	exit_status = 0;
-	if (node->cmd->type == BUILTIN)
-		save_std_in_out(&stdin_bkp, &stdout_bkp);
+	save_std_in_out(&stdin_bkp, &stdout_bkp);
 	if (handle_redirections(node->cmd) < 0)
 		return (redir_fail(stdin_bkp, stdout_bkp, node));
 	if (!node->cmd->words || node->cmd->words_count == 0)
@@ -38,8 +37,7 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 		exit_status = exec_ext_cmd(sh, node);
 	else
 		exit_status = exec_builtin(sh, node);
-	if (node->cmd->type == BUILTIN)
-		restore_std_in_out(stdin_bkp, stdout_bkp);
+	restore_std_in_out(stdin_bkp, stdout_bkp);
 	return (exit_status);
 }
 
