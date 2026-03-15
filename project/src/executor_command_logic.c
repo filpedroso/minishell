@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 20:06:36 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/15 14:26:10 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:35:05 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	save_std_in_out_if_parent(t_sh *sh, int *stdin_bkp, int *stdout_bkp);
 static void	restore_std_in_out_if_parent(t_sh *sh, int stdin_bkp, int stdout_backup);
-static int	redir_fail(int stdin_bkp, int stdout_bkp, t_ast_node *node);
+static int	redir_fail(t_sh *sh, int stdin_bkp, int stdout_bkp);
 
 int	command_logic(t_sh *sh, t_ast_node *node)
 {
@@ -26,7 +26,7 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 		return (0);
 	save_std_in_out_if_parent(sh, &stdin_bkp, &stdout_bkp);
 	if (handle_redirections(node->cmd) < 0)
-		return (redir_fail(stdin_bkp, stdout_bkp, node));
+		return (redir_fail(sh, stdin_bkp, stdout_bkp));
 	if (!node->cmd->words || node->cmd->words_count == 0)
 	{
 		restore_std_in_out_if_parent(sh, stdin_bkp, stdout_bkp);
