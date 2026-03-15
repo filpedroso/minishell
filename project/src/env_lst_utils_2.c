@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 18:51:15 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:48 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 17:42:13 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_var_lst	*alloc_t_var_list_node(void)
 	node->var_name = NULL;
 	node->value = NULL;
 	node->next = NULL;
+	node->is_set = true;
 	return (node);
 }
 

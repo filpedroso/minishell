@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 19:14:13 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:51 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 17:23:18 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ static char	**arr_from_var_lst(t_var_lst *var_lst)
 	i = 0;
 	while (var_lst)
 	{
-		str_arr[i] = var_str_from_list_node(var_lst);
+		if (var_lst->is_set == false)
+			str_arr[i] = ft_strdup(var_lst->var_name);
+		else
+			str_arr[i] = var_str_from_list_node(var_lst);
 		if (!str_arr[i])
 		{
 			free_str_arr(str_arr);

@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 22:00:00 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/15 14:53:15 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:10:34 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	process_export_arg(t_sh *sh, char *arg)
 	}
 	eq_pos = ft_strchr(arg, '=');
 	if (!eq_pos)
-		return (set_env_var(&sh->env_vars.persistent_envs_ptr, arg, ""));
+		return (special_value_not_set(&sh->env_vars.persistent_envs_ptr, arg));
 	name = ft_substr(arg, 0, eq_pos - arg);
 	if (!name)
 		return (1);

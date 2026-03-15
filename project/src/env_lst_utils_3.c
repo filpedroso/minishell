@@ -6,14 +6,13 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 22:00:00 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 23:11:48 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:23:56 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int			change_node_value(t_var_lst *node, const char *new_value);
-static t_var_lst	*new_env_node(const char *name, const char *value);
+static int	change_node_value(t_var_lst *node, const char *new_value);
 
 t_var_lst	*find_env_var(t_var_lst *lst, const char *name)
 {
@@ -54,7 +53,7 @@ int	set_env_var(t_var_lst **lst, const char *name, const char *value)
 	return (0);
 }
 
-static t_var_lst	*new_env_node(const char *name, const char *value)
+t_var_lst	*new_env_node(const char *name, const char *value)
 {
 	t_var_lst	*node;
 
@@ -74,15 +73,19 @@ static t_var_lst	*new_env_node(const char *name, const char *value)
 		free(node);
 		return (NULL);
 	}
+	node->is_set = true;
 	return (node);
 }
 
 static int	change_node_value(t_var_lst *node, const char *new_value)
 {
+	if (!new_value || !node)
+		return (1);
 	free(node->value);
 	node->value = ft_strdup(new_value);
 	if (!node->value)
 		return (1);
+	node->is_set = true;
 	return (0);
 }
 

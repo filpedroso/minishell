@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 18:34:38 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/10 00:34:48 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 17:09:09 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_var_lst	*env_node_from_str(char *str)
 		free(node);
 		return (NULL);
 	}
+	node->is_set = true;
 	return (node);
 }
 

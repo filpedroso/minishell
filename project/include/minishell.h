@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:17 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/15 15:41:50 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:24:07 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ typedef struct s_var_lst
 {
 	char						*var_name;
 	char						*value;
+	bool						is_set;
 	struct s_var_lst			*next;
 }								t_var_lst;
 
@@ -301,6 +302,7 @@ int								set_env_var(t_var_lst **lst, const char *name,
 									const char *value);
 void							remove_env_var(t_var_lst **lst,
 									const char *name);
+t_var_lst	*new_env_node(const char *name, const char *value);
 
 // executor expansion
 t_str_lst						*expand_all_words(t_sh *sh, t_cmd *cmd,
@@ -328,6 +330,7 @@ int								ft_export(t_sh *sh, char **argv);
 int								ft_unset(t_sh *sh, char **argv);
 bool							is_valid_identifier(const char *str);
 bool							is_exit_builtin(t_ast_node *node);
+int	special_value_not_set(t_var_lst **lst, const char *name);
 
 // Cleanup General
 void							cycle_cleanup(char *input, t_token_lst *tok_lst,
