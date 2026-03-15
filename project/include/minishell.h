@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:17 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 19:33:32 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 23:00:14 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ int								collect_all_heredocs(t_sh *sh,
 									t_ast_node *node);
 char							*create_temp_file(char *delim, char *delim_mask,
 									t_env_vars env_vars);
-int								exec_ext_cmd(t_sh *sh, t_ast_node *node);
+int	exec_ext_cmd(t_sh *sh, t_ast_node *node, int stdin_bkp, int stdout_bkp);
 char							*get_cmd_path(char *argv_zero, t_cmd *cmd);
 char							*find_in_path(const char *cmd_str,
 									char *path_env);
@@ -337,6 +337,7 @@ void							free_word(t_word word);
 void							free_str_lst(t_str_lst *lst);
 void							free_temp_files(t_str_lst **list);
 void							unlink_heredoc_files(t_str_lst **list);
+void							close_fds(int fd1, int fd2);
 
 // signals
 void							set_signals_interactive(void);

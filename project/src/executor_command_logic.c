@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 20:06:36 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 22:38:48 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 22:56:07 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	command_logic(t_sh *sh, t_ast_node *node)
 		return (0);
 	}
 	if (node->cmd->type == EXT)
-		exit_status = exec_ext_cmd(sh, node);
+		exit_status = exec_ext_cmd(sh, node, stdin_bkp, stdout_bkp);
 	else
 		exit_status = exec_builtin(sh, node);
 	restore_std_in_out(stdin_bkp, stdout_bkp);

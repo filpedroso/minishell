@@ -66,6 +66,7 @@ FILES := main.c							\
 		signals.c						\
 		signals_2.c						\
 		cleanup.c						\
+		executor_tools.c				\
 		cycle_tools.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
