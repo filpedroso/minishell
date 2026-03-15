@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:39 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 18:09:19 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 13:43:55 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static int	init_shell(t_sh *shell, char **envp)
 {
 	shell->last_exit_st = 0;
 	shell->heredoc_files = NULL;
+	shell->in_child = false;
 	if (init_env_list_struct(envp, &shell->env_vars) == ERROR)
 		return (ERROR);
 	set_signals_interactive();

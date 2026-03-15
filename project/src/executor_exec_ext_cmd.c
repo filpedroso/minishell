@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 20:15:43 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 22:56:51 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:04:15 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	exec_ext_cmd(t_sh *sh, t_ast_node *node, int stdin_bkp, int stdout_bkp)
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));
 	if (WIFSIGNALED(exit_status))
-		return (write(STDOUT_FILENO, "\n", 1), 128 + WTERMSIG(exit_status));
+		return (128 + WTERMSIG(exit_status));
 	return (1);
 }
 

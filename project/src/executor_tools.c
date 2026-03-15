@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 22:57:57 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 22:59:01 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:06:10 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	close_fds(int fd1, int fd2)
 {
-	close(fd1);
-	close(fd2);
+	if (fd1 >= 0)
+		close(fd1);
+	if (fd2 >= 0)
+		close(fd2);
 }

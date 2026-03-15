@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 16:51:07 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 19:37:08 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 13:45:23 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static pid_t	exec_piped_left_node(t_sh *sh, int pip[2], t_ast_node *node)
 	left_pid = fork();
 	if (left_pid == CHILD)
 	{
+		sh->in_child = true;
 		set_signals_default();
 		close(pip[READ]);
 		dup2(pip[WRITE], STDOUT_FILENO);
@@ -98,6 +99,7 @@ static pid_t	exec_piped_right_node(t_sh *sh, int pip[2], t_ast_node *node)
 	right_pid = fork();
 	if (right_pid == CHILD)
 	{
+		sh->in_child = true;
 		set_signals_default();
 		dup2(pip[READ], STDIN_FILENO);
 		close(pip[READ]);
