@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_handle_redirections_1.c                   :+:      :+:    :+:   */
+/*   executor_handle_redirections.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 18:33:42 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 12:12:00 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	set_stdin_redir(t_redirection redirection);
-static void	set_stdout_redir(t_redirection redirection);
-static void	set_append_redir(t_redirection redirection);
-static void	set_heredoc_stdin(char *filepath);
+static int	set_stdin_redir(t_redirection redirection);
+static int	set_stdout_redir(t_redirection redirection);
+static int	set_append_redir(t_redirection redirection);
+static int	set_heredoc_stdin(char *filepath);
 
 int	handle_redirections(t_cmd *cmd)
 {
-	t_redirection_type	redir_type;
-	int					i;
-	t_str_lst			*hdoc_file;
+	int			i;
+	int			status;
+	t_str_lst	*hdoc_file;
 
 	if (!cmd || !cmd->redirections || cmd->redirections_count == 0)
 		return (0);
@@ -29,23 +29,24 @@ int	handle_redirections(t_cmd *cmd)
 	i = -1;
 	while (++i < cmd->redirections_count)
 	{
-		redir_type = cmd->redirections[i].type;
-		if (redir_type == REDIR_IN)
-			set_stdin_redir(cmd->redirections[i]);
-		else if (redir_type == REDIR_OUT)
-			set_stdout_redir(cmd->redirections[i]);
-		else if (redir_type == REDIR_APPEND)
-			set_append_redir(cmd->redirections[i]);
-		else if (redir_type == REDIR_HEREDOC && hdoc_file)
+		if (cmd->redirections[i].type == REDIR_IN)
+			status = set_stdin_redir(cmd->redirections[i]);
+		else if (cmd->redirections[i].type == REDIR_OUT)
+			status = set_stdout_redir(cmd->redirections[i]);
+		else if (cmd->redirections[i].type == REDIR_APPEND)
+			status = set_append_redir(cmd->redirections[i]);
+		else if (cmd->redirections[i].type == REDIR_HEREDOC && hdoc_file)
 		{
-			set_heredoc_stdin(hdoc_file->value);
+			status = set_heredoc_stdin(hdoc_file->value);
 			hdoc_file = hdoc_file->next;
 		}
+		if (status == STATUS_ERR)
+			return (-1);
 	}
 	return (0);
 }
 
-static void	set_append_redir(t_redirection redirection)
+static int	set_append_redir(t_redirection redirection)
 {
 	int	fd;
 
@@ -54,17 +55,18 @@ static void	set_append_redir(t_redirection redirection)
 	if (fd < 0)
 	{
 		perror("Open append redir file");
-		return ;
+		return (STATUS_ERR);
 	}
 	dup2(fd, STDOUT_FILENO);
 	if (close(fd) < 0)
 	{
 		perror("Close");
-		return ;
+		return (STATUS_ERR);
 	}
+	return ((STATUS_OK));
 }
 
-static void	set_stdout_redir(t_redirection redirection)
+static int	set_stdout_redir(t_redirection redirection)
 {
 	int	fd;
 
@@ -73,17 +75,18 @@ static void	set_stdout_redir(t_redirection redirection)
 	if (fd < 0)
 	{
 		perror("Open stdout redir file");
-		return ;
+		return (STATUS_ERR);
 	}
 	dup2(fd, STDOUT_FILENO);
 	if (close(fd) < 0)
 	{
 		perror("Close");
-		return ;
+		return (STATUS_ERR);
 	}
+	return ((STATUS_OK));
 }
 
-static void	set_stdin_redir(t_redirection redirection)
+static int	set_stdin_redir(t_redirection redirection)
 {
 	int	fd;
 
@@ -91,17 +94,18 @@ static void	set_stdin_redir(t_redirection redirection)
 	if (fd < 0)
 	{
 		perror("Open stdin redir file");
-		return ;
+		return (STATUS_ERR);
 	}
 	dup2(fd, STDIN_FILENO);
 	if (close(fd) < 0)
 	{
 		perror("Close");
-		return ;
+		return (STATUS_ERR);
 	}
+	return ((STATUS_OK));
 }
 
-static void	set_heredoc_stdin(char *filepath)
+static int	set_heredoc_stdin(char *filepath)
 {
 	int	fd;
 
@@ -109,9 +113,13 @@ static void	set_heredoc_stdin(char *filepath)
 	if (fd < 0)
 	{
 		perror("heredoc temp file");
-		return ;
+		return (STATUS_ERR);
 	}
 	dup2(fd, STDIN_FILENO);
 	if (close(fd) < 0)
+	{
 		perror("Close");
+		return (STATUS_ERR);
+	}
+	return ((STATUS_OK));
 }

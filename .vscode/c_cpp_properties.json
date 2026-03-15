@@ -7,7 +7,8 @@
                 "${workspaceFolder}/project/include",
                 "${workspaceFolder}/project/libft",
                 "/usr/local/opt/readline/include",
-                "/opt/homebrew/opt/readline/include"
+                "/opt/homebrew/opt/readline/include",
+                "/usr/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
