@@ -50,7 +50,8 @@ MANDATORY = \
 	ft_lstiter.c \
 	ft_lstmap.c \
 	ft_realloc.c \
-	ft_is_numeric_str.c
+	ft_is_numeric_str.c \
+	get_next_line.c
 
 
 ###	Rules	#################################
