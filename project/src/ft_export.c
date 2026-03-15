@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 22:00:00 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/25 22:56:13 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:53:15 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_export(t_sh *sh, char **argv)
 	while (argv[i])
 	{
 		if (process_export_arg(sh, argv[i]) != 0)
-			ret = 1;
+			ret = 2;
 		i++;
 	}
 	return (ret);
