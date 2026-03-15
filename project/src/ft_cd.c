@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 21:59:25 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/25 22:56:13 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 23:35:10 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,15 @@ static char	*get_cd_target(t_sh *sh, char **argv)
 	if (argv[1])
 	{
 		if (ft_strncmp(argv[1], "-", 2) == 0)
-			return (find_env_var(sh->env_vars.persistent_envs_ptr,
-					"OLDPWD")->value);
+		{
+			home_node = find_env_var(sh->env_vars.persistent_envs_ptr, "OLDPWD");
+			if (!home_node || !home_node->value)
+			{
+				ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+				return (NULL);
+			}
+			return (home_node->value);
+		}
 		return (argv[1]);
 	}
 	home_node = find_env_var(sh->env_vars.persistent_envs_ptr, "HOME");

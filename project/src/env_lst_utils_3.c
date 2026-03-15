@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 22:00:00 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/25 22:56:13 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 23:11:48 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_var_lst	*find_env_var(t_var_lst *lst, const char *name)
 {
 	size_t	name_len;
 
-	if (!name)
+	if (!name || !*name)
 		return (NULL);
 	name_len = ft_strlen(name);
 	while (lst)
