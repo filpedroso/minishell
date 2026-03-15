@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 10:47:45 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 19:39:55 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 15:58:54 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static t_cycle_result	one_shell_cycle(t_sh *sh);
 static void				executor(t_sh *sh);
+static bool				free_input_if_unterm_quote(char *input);
 
 
 int	minishell_routine(t_sh *shell)
@@ -41,6 +42,8 @@ static t_cycle_result	one_shell_cycle(t_sh *sh)
 	input = get_input_line(sh);
 	if (!input)
 		return (CYCLE_EXIT);
+	if (free_input_if_unterm_quote(input))
+		return (CYCLE_CONTINUE);
 	input_base = input;
 	sh->tokens = lexer(&input);
 	if (!sh->tokens)
@@ -69,4 +72,28 @@ static void	executor(t_sh *sh)
 		execute_tree(sh, sh->ast.ast_root);
 	if (is_tty == 0)
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &saved_termios);
+}
+
+static bool free_input_if_unterm_quote(char *input)
+{
+	char	quote;
+	int		i;
+
+	quote = 0;
+	i = 0;
+	while (input[i])
+	{
+		if (!quote && (input[i] == '\'' || input[i] == '"'))
+			quote = input[i];
+		else if (quote && input[i] == quote)
+			quote = 0;
+		i++;
+	}
+	if (quote)
+	{
+		ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
+		free(input);
+		return (true);
+	}
+	return (false);
 }
