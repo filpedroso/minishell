@@ -65,7 +65,8 @@ FILES := main.c							\
 		env_lst_utils_3.c				\
 		signals.c						\
 		signals_2.c						\
-		cleanup.c
+		cleanup.c						\
+		cycle_tools.c
 
 SRC := $(addprefix $(SRC_DIR)/,$(FILES))
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))

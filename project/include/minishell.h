@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:17 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/12 18:31:17 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 19:33:32 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,9 @@ extern volatile sig_atomic_t	g_signal;
 //	main minishell
 int								minishell_routine(t_sh *shell);
 char							*get_input_line(t_sh *sh);
+t_cycle_result					cycle_lexer_err(char *input);
+t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens, t_ast ast);
+
 
 //	lexer
 t_token_lst						*lexer(char **input);

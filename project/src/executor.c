@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 16:51:07 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/28 21:12:25 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 19:37:08 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,19 @@ static int		wait_and_return_exit_st(pid_t left_pid, pid_t right_pid);
 
 void	execute_tree(t_sh *sh, t_ast_node *node)
 {
-	int				exit_status;
-	struct termios	saved_termios;
+	int	exit_status;
 
 	if (!node)
 		return ;
 	exit_status = 0;
-	tcgetattr(STDIN_FILENO, &saved_termios); // save before anything runs
 	if (node->type == NODE_PIPE)
 		exit_status = recursive_pipe_logic(sh, node);
 	else if (is_exit_builtin(node))
 		exit_status = exec_builtin(sh, node);
 	else
 		exit_status = command_logic(sh, node);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &saved_termios); // restore always
 	sh->last_exit_st = exit_status;
 }
-
 
 static int	recursive_pipe_logic(t_sh *sh, t_ast_node *node)
 {

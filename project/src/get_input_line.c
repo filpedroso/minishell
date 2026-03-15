@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 19:04:18 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/14 13:35:03 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:26:48 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ char	*get_input_line(t_sh *sh)
 {
 	char	*input;
 
-	if (isatty(STDIN_FILENO))
-		input = readline("$ ");
-	else
-		input = readline("");
+	input = readline(">");
 	if (g_signal == SIGINT)
 	{
 		g_signal = 0;
