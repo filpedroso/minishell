@@ -6,13 +6,13 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 22:17:15 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/12 17:46:48 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 15:42:01 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool			check_pipe_syntax(t_token_lst *first, t_token_lst *last);
+static bool			check_syntax(t_token_lst *first, t_token_lst *last);
 static t_ast_node	*parse_tokens_into_ast(t_token_lst *start, t_token_lst *end,
 						t_parse_status *status);
 static void			add_env_vars_refs_to_tree(t_ast_node *tree_node,
@@ -31,7 +31,7 @@ t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 		return (ast);
 	}
 	last_tok = tok_lstlast(tok_lst);
-	if (!check_pipe_syntax(tok_lst, last_tok))
+	if (!check_syntax(tok_lst, last_tok))
 	{
 		ft_putstr_fd("Parse error\n", 2);
 		ast.parse_status = PARSE_ERROR;
@@ -46,7 +46,7 @@ t_ast	make_ast(t_token_lst *tok_lst, t_env_vars env_vars)
 	return (ast);
 }
 
-static bool	check_pipe_syntax(t_token_lst *first, t_token_lst *last)
+static bool	check_syntax(t_token_lst *first, t_token_lst *last)
 {
 	if (!first || !last)
 		return (false);
@@ -58,6 +58,8 @@ static bool	check_pipe_syntax(t_token_lst *first, t_token_lst *last)
 			return (false);
 		first = first->next;
 	}
+	if (!check_forbidden_chars(first))
+		return (false);
 	return (true);
 }
 

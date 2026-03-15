@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:17 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/15 13:43:24 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/15 15:41:50 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ t_token_lst						*tok_lstlast(t_token_lst *lst);
 bool							is_tok_redirection(t_token_type tok_type);
 void							destroy_ast(t_ast_node *node);
 void							destroy_cmd_node(t_ast_node *cmd_node);
+bool	check_forbidden_chars(t_token_lst *tokens);
 
 // minishell_utils
 bool							is_builtin(t_word *words, int words_amount);

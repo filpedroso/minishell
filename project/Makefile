@@ -35,8 +35,9 @@ FILES := main.c							\
 		parser_2.c						\
 		parser_3.c						\
 		parser_tools.c					\
+		parser_check_syntax.c			\
 		env_lst_utils.c					\
-		env_lst_utils_2.c           	\
+		env_lst_utils_2.c				\
 		is_builtin.c					\
 		heredocs_1.c					\
 		heredocs_2.c					\
