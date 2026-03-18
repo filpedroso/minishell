@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-static char *read_not_at_tty(void);
-
+static char	*read_not_at_tty(void);
 
 char	*get_input_line(t_sh *sh)
 {
@@ -42,7 +41,7 @@ char	*get_input_line(t_sh *sh)
 	return (input);
 }
 
-static char *read_not_at_tty(void)
+static char	*read_not_at_tty(void)
 {
 	char	*input;
 	ssize_t	read;

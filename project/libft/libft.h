@@ -17,13 +17,13 @@
 # endif
 
 # include <ctype.h>
+# include <fcntl.h>
 # include <limits.h>
+# include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <fcntl.h>
-# include <stddef.h>
 
 typedef struct s_list
 {
@@ -81,7 +81,6 @@ void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 int					ft_is_numeric_str(const char *str);
 
-char	*get_next_line(int fd);
-
+char				*get_next_line(int fd);
 
 #endif

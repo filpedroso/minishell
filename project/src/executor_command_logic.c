@@ -12,8 +12,10 @@
 
 #include "minishell.h"
 
-static void	save_std_in_out_if_parent(t_sh *sh, int *stdin_bkp, int *stdout_bkp);
-static void	restore_std_in_out_if_parent(t_sh *sh, int stdin_bkp, int stdout_backup);
+static void	save_std_in_out_if_parent(t_sh *sh, int *stdin_bkp,
+				int *stdout_bkp);
+static void	restore_std_in_out_if_parent(t_sh *sh, int stdin_bkp,
+				int stdout_backup);
 static int	redir_fail(t_sh *sh, int stdin_bkp, int stdout_bkp);
 
 int	command_logic(t_sh *sh, t_ast_node *node)
@@ -60,7 +62,8 @@ static void	save_std_in_out_if_parent(t_sh *sh, int *stdin_bkp, int *stdout_bkp)
 	}
 }
 
-static void	restore_std_in_out_if_parent(t_sh *sh, int stdin_bkp, int stdout_backup)
+static void	restore_std_in_out_if_parent(t_sh *sh, int stdin_bkp,
+		int stdout_backup)
 {
 	if (!sh->in_child)
 	{

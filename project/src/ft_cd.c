@@ -46,7 +46,8 @@ static char	*get_cd_target(t_sh *sh, char **argv)
 	{
 		if (ft_strncmp(argv[1], "-", 2) == 0)
 		{
-			home_node = find_env_var(sh->env_vars.persistent_envs_ptr, "OLDPWD");
+			home_node = find_env_var(sh->env_vars.persistent_envs_ptr,
+					"OLDPWD");
 			if (!home_node || !home_node->value)
 			{
 				ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);

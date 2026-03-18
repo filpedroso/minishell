@@ -34,8 +34,8 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include <unistd.h>
-#include <termios.h>
 
 void							rl_replace_line(const char *text,
 									int clear_undo);
@@ -218,8 +218,8 @@ extern volatile sig_atomic_t	g_signal;
 int								minishell_routine(t_sh *shell);
 char							*get_input_line(t_sh *sh);
 t_cycle_result					cycle_lexer_err(char *input);
-t_cycle_result	cycle_parser_err(char *input, t_token_lst *tokens, t_ast ast);
-
+t_cycle_result					cycle_parser_err(char *input,
+									t_token_lst *tokens, t_ast ast);
 
 //	lexer
 t_token_lst						*lexer(char **input);
@@ -254,7 +254,7 @@ t_token_lst						*tok_lstlast(t_token_lst *lst);
 bool							is_tok_redirection(t_token_type tok_type);
 void							destroy_ast(t_ast_node *node);
 void							destroy_cmd_node(t_ast_node *cmd_node);
-bool	check_forbidden_chars(t_token_lst *tokens);
+bool							check_forbidden_chars(t_token_lst *tokens);
 
 // minishell_utils
 bool							is_builtin(t_word *words, int words_amount);
@@ -283,7 +283,8 @@ int								collect_all_heredocs(t_sh *sh,
 									t_ast_node *node);
 char							*create_temp_file(char *delim, char *delim_mask,
 									t_env_vars env_vars);
-int	exec_ext_cmd(t_sh *sh, t_ast_node *node, int stdin_bkp, int stdout_bkp);
+int								exec_ext_cmd(t_sh *sh, t_ast_node *node,
+									int stdin_bkp, int stdout_bkp);
 char							*get_cmd_path(char *argv_zero, t_cmd *cmd);
 char							*find_in_path(const char *cmd_str,
 									char *path_env);
@@ -302,7 +303,8 @@ int								set_env_var(t_var_lst **lst, const char *name,
 									const char *value);
 void							remove_env_var(t_var_lst **lst,
 									const char *name);
-t_var_lst	*new_env_node(const char *name, const char *value);
+t_var_lst						*new_env_node(const char *name,
+									const char *value);
 
 // executor expansion
 t_str_lst						*expand_all_words(t_sh *sh, t_cmd *cmd,
@@ -330,7 +332,8 @@ int								ft_export(t_sh *sh, char **argv);
 int								ft_unset(t_sh *sh, char **argv);
 bool							is_valid_identifier(const char *str);
 bool							is_exit_builtin(t_ast_node *node);
-int	special_value_not_set(t_var_lst **lst, const char *name);
+int								special_value_not_set(t_var_lst **lst,
+									const char *name);
 
 // Cleanup General
 void							cycle_cleanup(char *input, t_token_lst *tok_lst,

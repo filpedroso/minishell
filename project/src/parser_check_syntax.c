@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-static bool has_forbidden_chars(char *seg, char *mask);
-
+static bool	has_forbidden_chars(char *seg, char *mask);
 
 bool	check_forbidden_chars(t_token_lst *tokens)
 {
@@ -22,7 +21,7 @@ bool	check_forbidden_chars(t_token_lst *tokens)
 	if (!tokens)
 		return (false);
 	cur = tokens;
-	while(cur)
+	while (cur)
 	{
 		if (cur->type == TOK_WORD)
 		{
@@ -34,9 +33,9 @@ bool	check_forbidden_chars(t_token_lst *tokens)
 	return (true);
 }
 
-static bool has_forbidden_chars(char *seg, char *mask)
+static bool	has_forbidden_chars(char *seg, char *mask)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (seg[i])
