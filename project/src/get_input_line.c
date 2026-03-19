@@ -19,7 +19,7 @@ char	*get_input_line(t_sh *sh)
 	char	*input;
 
 	if (isatty(STDIN_FILENO))
-		input = readline("$ ");
+		input = readline("minisheron_$ ");
 	else
 		input = read_not_at_tty();
 	if (g_signal == SIGINT)
