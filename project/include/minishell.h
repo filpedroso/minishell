@@ -58,6 +58,13 @@ void							rl_replace_line(const char *text,
 # define N_BUILTINS 7
 # define N_REDIR_CASES 6
 
+# define IGNORE_START "\001"
+# define IGNORE_END "\002"
+# define RESET 		IGNORE_START "\033[0m" IGNORE_END
+# define YELLOW		IGNORE_START "\033[93m" IGNORE_END
+# define PINK		IGNORE_START "\033[95m" IGNORE_END
+
+
 /* ************************************************************************** */
 /* ***************************    types     ********************************* */
 /* ************************************************************************** */
