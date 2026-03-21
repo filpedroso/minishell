@@ -6,13 +6,13 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 20:48:44 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/21 10:19:20 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/21 14:40:43 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void exit_cleanup(t_sh *sh, char **argv, char **envp);
+static void	exit_cleanup(t_sh *sh, char **argv, char **envp);
 
 int	ft_exit(t_sh *sh, char **argv, char **envp)
 {
@@ -37,7 +37,7 @@ int	ft_exit(t_sh *sh, char **argv, char **envp)
 	exit((unsigned char)code);
 }
 
-static void exit_cleanup(t_sh *sh, char **argv, char **envp)
+static void	exit_cleanup(t_sh *sh, char **argv, char **envp)
 {
 	free_str_arr(argv);
 	free_str_arr(envp);
