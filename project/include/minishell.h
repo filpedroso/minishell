@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:17 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/15 18:24:07 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/21 10:16:39 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ typedef struct s_ast
 
 typedef struct s_sh
 {
+	char						*input_base;
 	t_env_vars					env_vars;
 	t_token_lst					*tokens;
 	t_ast						ast;
@@ -328,7 +329,7 @@ char							*join_and_free_left(char *left,
 // builtins
 int								exec_builtin(t_sh *sh, t_ast_node *node);
 int								ft_echo(char **argv);
-int								ft_exit(t_sh *sh, char **argv);
+int								ft_exit(t_sh *sh, char **argv, char **envp);
 int								ft_pwd(void);
 int								ft_env(char **envp);
 int								ft_cd(t_sh *sh, char **argv);

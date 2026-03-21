@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 10:47:45 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/03/15 15:58:54 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/21 10:02:25 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	minishell_routine(t_sh *shell)
 static t_cycle_result	one_shell_cycle(t_sh *sh)
 {
 	char	*input;
-	char	*input_base;
 
 	set_signals_interactive();
 	input = get_input_line(sh);
@@ -43,13 +42,13 @@ static t_cycle_result	one_shell_cycle(t_sh *sh)
 		return (CYCLE_EXIT);
 	if (free_input_if_unterm_quote(input))
 		return (CYCLE_CONTINUE);
-	input_base = input;
+	sh->input_base = input;
 	sh->tokens = lexer(&input);
 	if (!sh->tokens)
-		return (cycle_lexer_err(input_base));
+		return (cycle_lexer_err(sh->input_base));
 	sh->ast = make_ast(sh->tokens, sh->env_vars);
 	if (sh->ast.parse_status != PARSE_OK)
-		return (cycle_parser_err(input_base, sh->tokens, sh->ast));
+		return (cycle_parser_err(sh->input_base, sh->tokens, sh->ast));
 	executor(sh);
 	if (g_signal == SIGINT)
 	{
@@ -57,7 +56,7 @@ static t_cycle_result	one_shell_cycle(t_sh *sh)
 		sh->last_exit_st = 130;
 	}
 	unlink_heredoc_files(&sh->heredoc_files);
-	cycle_cleanup(input_base, sh->tokens, sh->ast.ast_root);
+	cycle_cleanup(sh->input_base, sh->tokens, sh->ast.ast_root);
 	return (CYCLE_CONTINUE);
 }
 

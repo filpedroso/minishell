@@ -6,7 +6,7 @@
 /*   By: fpedroso <fpedroso@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 20:17:35 by fpedroso          #+#    #+#             */
-/*   Updated: 2026/02/23 21:31:37 by fpedroso         ###   ########.fr       */
+/*   Updated: 2026/03/21 10:15:52 by fpedroso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	builtin_dispatcher(t_sh *sh, t_cmd *cmd, t_exec_args *ex)
 	if (ft_strncmp(cmd_name, "echo", 4) == 0)
 		return (ft_echo(ex->argv));
 	else if (ft_strncmp(cmd_name, "exit", 4) == 0)
-		return (ft_exit(sh, ex->argv));
+		return (ft_exit(sh, ex->argv, ex->envp));
 	else if (ft_strncmp(cmd_name, "pwd", 3) == 0)
 		return (ft_pwd());
 	else if (ft_strncmp(cmd_name, "env", 3) == 0)
