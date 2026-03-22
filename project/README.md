@@ -70,6 +70,7 @@ Artificial Intelligence tools were used during the development of this project f
 
 ## Technical Choices
 
-Clean architecture and its principles regarding variable and function naming, single resposability, clear and 
-simple contracts
-Canonical and idiomatic C for establishing ownership models and error handling
+- Clean architecture and its principles regarding variable and function naming, single resposability, clear and simple contracts
+- Canonical and idiomatic C for establishing ownership models and error handling
+- Lexer implemented with a state machine
+- Recursive descendant parser and execution pipeline, for creating and executing an Abstract Syntax Tree (AST)
